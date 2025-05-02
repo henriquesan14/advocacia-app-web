@@ -1,0 +1,7 @@
+input#nome {
+    text-transform: uppercase;
+}
+
+input#nome::placeholder {
+    text-transform: none;
+}

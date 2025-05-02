@@ -1,0 +1,535 @@
+<h2 class="card-header text-center">Processos</h2>
+<div class="container">
+    <btn-novo hasRole="CADASTRAR_PROCESSO" title="Novo Processo" (clickEvent)="novoProcesso()"></btn-novo>
+
+    <nz-collapse hasRole="LISTAR_PROCESSO" class="mt-1">
+        <nz-collapse-panel [nzHeader]="'Filtros de busca'" [nzActive]="hasCollapsed">
+
+            <form nz-form [formGroup]="filtroForm" (submit)="filter()">
+                <div nz-row [nzGutter]="16">
+                    <div nz-col [nzSpan]="6">
+                        <nz-form-item>
+                            <nz-form-label for="nroProcesso">Nº Processo</nz-form-label>
+                            <nz-form-control>
+                                <input id="nroProcesso" name="nroProcesso" formControlName="nroProcesso"
+                                    placeholder="N. Processo" class="form-control" nz-input
+                                    mask="0000000.00.0000.0.00.0000" maxlength="100" type="text" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col [nzSpan]="6">
+                        <nz-form-item>
+                            <nz-form-label for="nome">Nome</nz-form-label>
+                            <nz-form-control>
+                                <input nz-input id="nome" name="nome" formControlName="nome" placeholder="Nome" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col [nzSpan]="6">
+                        <nz-form-item>
+                            <nz-form-label for="cpfCnpj">CPF/CNPJ</nz-form-label>
+                            <nz-form-control>
+                                <input nz-input id="cpfCnpj" name="cpfCnpj" placeholder="CPF/CNPJ"
+                                    formControlName="cpfCnpj" [mask]="mask" (ngModelChange)="onInputChange()" />
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col [nzSpan]="6">
+                        <nz-form-item>
+                            <nz-form-label for="situacaoProcessoId">Situação</nz-form-label>
+                            <nz-form-control>
+                                <nz-select id="situacaoProcessoId" formControlName="situacaoProcessoId" nzAllowClear
+                                    >
+                                    <nz-option [nzValue]="''" nzLabel="Todos"></nz-option>
+                                    @for(situacao of situacoes; track $index){
+                                        <nz-option [nzValue]="situacao.id"
+                                        [nzLabel]="situacao.descricao"></nz-option>
+                                    }
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col [nzSpan]="6">
+                        <nz-form-item>
+                            <nz-form-label for="competenciaId">Competência</nz-form-label>
+                            <nz-form-control>
+                                <nz-select id="competenciaId" formControlName="competenciaId"
+                                    >
+                                    <nz-option [nzValue]="''" nzLabel="Todos"></nz-option>
+                                    @for(competencia of competencias; track $index){
+                                        <nz-option [nzValue]="competencia.id"
+                                        [nzLabel]="competencia.nome"></nz-option>
+                                    }
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col [nzSpan]="6">
+                        <nz-form-item>
+                            <nz-form-label for="comarcaId">Comarca</nz-form-label>
+                            <nz-form-control>
+                                <nz-select id="comarcaId" formControlName="comarcaId"
+                                    >
+                                    <nz-option [nzValue]="''" nzLabel="Todos"></nz-option>
+                                    @for(comarca of comarcas; track $index){
+                                        <nz-option [nzValue]="comarca.id"
+                                        [nzLabel]="comarca.nome"></nz-option>
+                                    }
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col [nzSpan]="6">
+                        <nz-form-item>
+                            <nz-form-label for="responsavelId">Responsável</nz-form-label>
+                            <nz-form-control>
+                                <nz-select id="responsavelId" formControlName="responsavelId"
+                                    >
+                                    <nz-option [nzValue]="''" nzLabel="Todos"></nz-option>
+                                    @for(responsavel of responsaveis; track $index){
+                                        <nz-option [nzValue]="responsavel.id"
+                                        [nzLabel]="responsavel.nome"></nz-option>
+                                    }
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+
+                    <div nz-col [nzSpan]="6">
+                        <nz-form-item>
+                            <nz-form-label for="donoId">Dono</nz-form-label>
+                            <nz-form-control>
+                                <nz-select id="donoId" formControlName="donoId">
+                                    <nz-option [nzValue]="''" nzLabel="Todos"></nz-option>
+                                    @for(dono of donos; track $index){
+                                        <nz-option [nzValue]="dono.id"
+                                        [nzLabel]="dono.nome"></nz-option>
+                                    }
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </div>
+                </div>
+
+                <div nz-row class="mt-3">
+                    <div nz-col [nzSpan]="12">
+                        <btn-pesquisar class="me-1"></btn-pesquisar>
+                        <btn-limpar (clickEvent)="limpar()"></btn-limpar>
+                    </div>
+                </div>
+            </form>
+
+        </nz-collapse-panel>
+    </nz-collapse>
+
+    @if(processoFieldConfigs && processoFieldConfigs.length > 0){
+    <button (click)="openConfiguracaoFields()" class="mt-1" nz-button nzType="default" hasRole="EDITAR_PROCESSO_FIELD_CONFIG">
+        <fa-icon [icon]="faCogs"></fa-icon>
+        Configuração de campos
+    </button>
+    <div class="mb-2 mt-1">
+        <span>{{responsePageProcessos.totalCount}} processos encontrados.</span>
+    </div>
+
+    <nz-table [nzScroll]="{ y: '600px' }" [nzData]="responsePageProcessos.items"
+        [nzTotal]="responsePageProcessos.totalCount" [nzPageSize]="responsePageProcessos.pageSize"
+        [nzPageIndex]="responsePageProcessos.currentPage" (nzPageIndexChange)="onPageChange($event)"
+        [nzShowSizeChanger]="true" (nzPageSizeChange)="onPageSizeChange($event)" [nzFrontPagination]="false">
+        <thead>
+            <tr>
+                <th></th>
+                @if(includesField('NroProcesso')){
+                <th>N. Processo</th>
+                }
+                @if(includesField('Autores')){
+                <th>Autores</th>
+                }
+                @if(includesField('Reus')){
+                <th>Réus</th>
+                }
+                @if(includesField('TipoAcao')){
+                <th>Tipo Ação</th>
+                }
+                @if(includesField('Vara')){
+                <th>Vara</th>
+                }
+                @if(includesField('Comarca')){
+                <th>Comarca</th>
+                }
+                @if(includesField('Competencia')){
+                <th>Competência</th>
+                }
+                @if(includesField('Situacao')){
+                <th>Situação</th>
+                }
+                @if(includesField('Dono')){
+                <th>Dono</th>
+                }
+                @if(includesField('Sistema')){
+                <th>Sistema</th>
+                }
+                @if(includesField('ResponsavelProcesso')){
+                <th>Responsável</th>
+                }
+                @if(includesField('SegredoJustica')){
+                <th>Segredo Justiça</th>
+                }
+                @if(includesField('DataDistribuicao')){
+                <th>Data Distruibuição</th>
+                }
+                @if(includesField('UpdatedAt')){
+                <th>Última data</th>
+                }
+
+                <th>Dias</th>
+
+                @if(includesField('Observacao')){
+                <th>Obs.</th>
+                }
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (processo of responsePageProcessos.items; track processo.id) {
+            <tr>
+                <td>
+                    @if(getDias(processo.dataUltimoHistorico || processo.createdAt) > 20){
+                    <fa-icon nzType="danger" class="text-danger" [icon]="faExclamationTriangle"></fa-icon>
+                    }
+                    @else if(getDias(processo.dataUltimoHistorico || processo.createdAt) >= 10 &&
+                    getDias(processo.dataUltimoHistorico || processo.createdAt) <= 20){ <fa-icon class="text-warning"
+                        [icon]="faExclamationCircle"></fa-icon>
+                        }
+                </td>
+                <td>
+                    {{ processo.nroProcesso | nroProcesso }}
+                </td>
+                @if(includesField('Autores')){
+                <td [ngClass]="{'font-weight-bold': processo.autores[0].isCliente}">
+                    <span class="icon-text-container">
+                        @if(processo.autores[0].isCliente){
+                        <icon-cliente></icon-cliente>
+                        }
+                        {{ processo.autores[0].nome }}
+                        @if(processo.autores.length > 1){
+                        e Outros
+                        }
+                    </span>
+                </td>
+                }
+
+                @if(includesField('Reus')){
+                <td [ngClass]="{'font-weight-bold': processo.reus[0].isCliente}">
+                    <span class="icon-text-container">
+                        @if(processo.reus[0].isCliente){
+                        <icon-cliente></icon-cliente>
+                        }
+                        {{ processo.reus[0].nome }}
+                        @if(processo.reus.length > 1){
+                        e Outros
+                        }
+                    </span>
+                </td>
+                }
+
+                @if(includesField('TipoAcao')){
+                <td>
+                    {{ processo.tipoAcao }}
+                </td>
+                }
+
+                @if(includesField('Vara')){
+                <td>
+                    {{ processo.vara }}
+                </td>
+                }
+
+                @if(includesField('Comarca')){
+                <td>
+                    {{ processo.comarca.nome }}
+                </td>
+                }
+
+                @if(includesField('Competencia')){
+                <td>
+                    {{ processo.competencia.nome }}
+                </td>
+                }
+                @if(includesField('Situacao')){
+                <td>
+                    {{ processo.situacao.descricao }}
+                </td>
+                }
+
+                @if(includesField('Dono')){
+                <td>
+                    {{ processo.dono.nome }}
+                </td>
+                }
+
+                @if(includesField('Sistema')){
+                <td>
+                    {{ processo.sistema.nome }}
+                </td>
+                }
+
+                @if(includesField('ResponsavelProcesso')){
+                <td>
+                    {{processo.responsavelProcesso.nome}}
+                </td>
+                }
+
+                @if(includesField('SegredoJustica')){
+                <td>
+                    {{processo.segredoJustica ? 'Sim' : 'Não'}}
+                </td>
+                }
+
+                @if(includesField('DataDistribuicao')){
+                <td>
+                    {{ processo.dataDistribuicao | date: 'dd/MM/yyyy' }}
+                </td>
+                }
+
+                @if(includesField('UpdatedAt')){
+                <td>
+                    {{ processo.updatedAt || processo.createdAt| date: 'dd/MM/yyyy' }}
+                </td>
+                }
+                <td>
+                    {{ getDias(processo.dataUltimoHistorico || processo.createdAt) }}
+                </td>
+
+                @if(includesField('Observacao')){
+                <td>{{processo.observacao}}</td>
+                }
+
+                <td style="white-space:nowrap;">
+                    <button hasRole="LISTAR_PROCESSO" nz-tooltip="Visualizar" class="me-1"
+                        (click)="visualizarProcesso(processo.id)" nz-button nzType="primary" nzSize="small">
+                        <fa-icon [icon]="faEye"></fa-icon>
+                    </button>
+                    <button hasRole="EDITAR_PROCESSO" nz-tooltip="Reiniciar contador" class="me-1" nz-button
+                        nzType="default" nzSize="small">
+                        <fa-icon [icon]="faRefresh"></fa-icon>
+                    </button>
+                    <button hasRole="EXCLUIR_PROCESSO" nz-tooltip="Excluir" nz-button nzDanger nzSize="small">
+                        <fa-icon [icon]="faTrash"></fa-icon>
+                    </button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </nz-table>
+    }@else{
+    <p>Não há processos</p>
+    }
+
+    <div hasRole="LISTAR_PROCESSO" class="mb-2">
+        <nz-collapse hasRole="LISTAR_PROCESSO" class="mt-1">
+            <nz-collapse-panel [nzHeader]="'Processos Sob Aprovação'" [nzActive]="processosSobAprovadoCollapsed">
+                <div>
+                    <div class="mb-2 mt-1">
+                        <span>{{processosSobAprovacao.length}} processos encontrados.</span>
+                    </div>
+                    <ng-template>
+                        @if(processoFieldConfigs && processoFieldConfigs.length > 0){
+                        <nz-table [nzScroll]="{ y: '600px' }" [nzData]="processosSobAprovacao"
+                        [nzTotal]="processosSobAprovacao.length" 
+                        >
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    @if(includesField('NroProcesso')){
+                                    <th>N. Processo</th>
+                                    }
+                                    @if(includesField('Autores')){
+                                    <th>Autores</th>
+                                    }
+                                    @if(includesField('Reus')){
+                                    <th>Réus</th>
+                                    }
+                                    @if(includesField('TipoAcao')){
+                                    <th>Tipo Ação</th>
+                                    }
+                                    @if(includesField('Vara')){
+                                    <th>Vara</th>
+                                    }
+                                    @if(includesField('Comarca')){
+                                    <th>Comarca</th>
+                                    }
+                                    @if(includesField('Competencia')){
+                                    <th>Competência</th>
+                                    }
+                                    @if(includesField('Situacao')){
+                                    <th>Situação</th>
+                                    }
+                                    @if(includesField('Dono')){
+                                    <th>Dono</th>
+                                    }
+                                    @if(includesField('Sistema')){
+                                    <th>Sistema</th>
+                                    }
+                                    @if(includesField('ResponsavelProcesso')){
+                                    <th>Responsável</th>
+                                    }
+                                    @if(includesField('SegredoJustica')){
+                                    <th>Segredo Justiça</th>
+                                    }
+                                    @if(includesField('DataDistribuicao')){
+                                    <th>Data Distruibuição</th>
+                                    }
+                                    @if(includesField('UpdatedAt')){
+                                    <th>Última data</th>
+                                    }
+
+                                    <th>Dias</th>
+
+                                    @if(includesField('Observacao')){
+                                    <th>Obs.</th>
+                                    }
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (processo of processosSobAprovacao; track processo.id) {
+                                <tr>
+                                    <td>
+                                        @if(getDias(processo.dataUltimoHistorico || processo.createdAt) > 20){
+                                        <fa-icon class="text-danger" [icon]="faExclamationTriangle"></fa-icon>
+                                        }
+                                        @else if(getDias(processo.dataUltimoHistorico || processo.createdAt) >= 10 &&
+                                        getDias(processo.dataUltimoHistorico || processo.createdAt) <= 20){ <fa-icon
+                                            class="text-warning" [icon]="faExclamationCircle"></fa-icon>
+                                            }
+                                    </td>
+                                    <td>
+                                        {{ processo.nroProcesso | nroProcesso }}
+                                    </td>
+                                    @if(includesField('Autores')){
+                                    <td [ngClass]="{'font-weight-bold': processo.autores[0].isCliente}">
+                                        {{ processo.autores[0].nome }}
+                                        @if(processo.autores.length > 1){
+                                        e Outros
+                                        }
+                                    </td>
+                                    }
+
+                                    @if(includesField('Reus')){
+                                    <td [ngClass]="{'font-weight-bold': processo.reus[0].isCliente}">
+                                        {{ processo.reus[0].nome }}
+                                        @if(processo.reus.length > 1){
+                                        e Outros
+                                        }
+                                    </td>
+                                    }
+
+                                    @if(includesField('TipoAcao')){
+                                    <td>
+                                        {{ processo.tipoAcao }}
+                                    </td>
+                                    }
+
+                                    @if(includesField('Vara')){
+                                    <td>
+                                        {{ processo.vara }}
+                                    </td>
+                                    }
+
+                                    @if(includesField('Comarca')){
+                                    <td>
+                                        {{ processo.comarca.nome }}
+                                    </td>
+                                    }
+
+                                    @if(includesField('Competencia')){
+                                    <td>
+                                        {{ processo.competencia.nome }}
+                                    </td>
+                                    }
+                                    @if(includesField('Situacao')){
+                                    <td>
+                                        {{ processo.situacao.descricao }}
+                                    </td>
+                                    }
+
+                                    @if(includesField('Dono')){
+                                    <td>
+                                        {{ processo.dono.nome }}
+                                    </td>
+                                    }
+
+                                    @if(includesField('Sistema')){
+                                    <td>
+                                        {{ processo.sistema.nome }}
+                                    </td>
+                                    }
+
+                                    @if(includesField('ResponsavelProcesso')){
+                                    <td>
+                                        {{processo.responsavelProcesso.nome}}
+                                    </td>
+                                    }
+
+                                    @if(includesField('SegredoJustica')){
+                                    <td>
+                                        {{processo.segredoJustica ? 'Sim' : 'Não'}}
+                                    </td>
+                                    }
+
+                                    @if(includesField('DataDistribuicao')){
+                                    <td>
+                                        {{ processo.dataDistribuicao | date: 'dd/MM/yyyy' }}
+                                    </td>
+                                    }
+
+                                    @if(includesField('UpdatedAt')){
+                                    <td>
+                                        {{ processo.updatedAt || processo.createdAt| date: 'dd/MM/yyyy' }}
+                                    </td>
+                                    }
+                                    <td>
+                                        {{ getDias(processo.dataUltimoHistorico || processo.createdAt) }}
+                                    </td>
+
+                                    @if(includesField('Observacao')){
+                                    <td>{{processo.observacao}}</td>
+                                    }
+
+                                    <td style="white-space:nowrap;">
+                                        <button nz-tooltip="Visualizar" (click)="visualizarProcesso(processo.id)"
+                                            nz-button nzType="primary" class="me-1">
+                                            <fa-icon [icon]="faEye"></fa-icon>
+                                        </button>
+                                        <button hasRole="APROVAR_PROCESSO" type="button" nz-tooltip="Aprovar"
+                                            (click)="aprovarProcesso(processo.id)" nz-button nzType="default"
+                                            class="me-1">
+                                            <fa-icon [icon]="faCheck"></fa-icon>
+                                        </button>
+                                        <button hasRole="APROVAR_PROCESSO" nz-tooltip="Recusar" nz-button
+                                            nzType="primary" nzDanger>
+                                            <fa-icon [icon]="faTimes"></fa-icon>
+                                        </button>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </nz-table>
+
+                        }@else {
+                        <p>Não há processos</p>
+                        }
+
+                    </ng-template>
+                </div>
+            </nz-collapse-panel>
+        </nz-collapse>
+    </div>
+</div>
+<ngx-spinner type="ball-clip-rotate-multiple"></ngx-spinner>

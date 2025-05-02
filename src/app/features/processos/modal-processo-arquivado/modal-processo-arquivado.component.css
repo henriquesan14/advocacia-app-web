@@ -1,0 +1,14 @@
+.modal-body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.icon-exclamation{
+    display: block;
+    text-align: center;
+    font-size: 80px;
+}
+

@@ -1,0 +1,79 @@
+.card-historico{
+    display: flex;
+    padding: 10px;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    
+}
+
+.favoravel{
+    border-left: 15px solid rgb(154, 226, 192);
+}
+
+.nao-favoravel{
+    border-left: 15px solid rgb(248, 118, 118);
+}
+
+.sem-sentenca{
+    border-left: 15px solid rgb(165, 195, 223);
+}
+
+.parcialmente-favoravel{
+    border-left: 15px solid rgb(240, 235, 172);
+}
+
+.left img{
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+}
+
+.right{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+}
+
+.header h5{
+    margin-bottom: 0;
+}
+
+.content {
+    display: flex;
+    
+    padding: 5px 5px 5px 10px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.content-editar{
+    display: flex;
+    flex-direction: column;
+    padding: 5px 5px 5px 10px;
+    border-radius: 8px;
+}
+
+.content-editar button {
+    align-self: self-start;
+}
+
+.content-editar input {
+    background-color: #fff;
+}
+
+.footer span{
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.footer span:hover{
+    background-color: #eef1f3;
+}

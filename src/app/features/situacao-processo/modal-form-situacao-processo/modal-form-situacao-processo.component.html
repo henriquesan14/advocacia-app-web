@@ -1,0 +1,23 @@
+<form nz-form [formGroup]="form" (ngSubmit)="submit()" nzLayout="vertical">
+    <!-- Campo Descrição -->
+    <nz-form-item>
+      <nz-form-label [nzRequired]="true" nzFor="descricao">Descrição</nz-form-label>
+      <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
+        <input nz-input formControlName="descricao" id="descricao" maxlength="100" placeholder="Descrição" />
+      </nz-form-control>
+    </nz-form-item>
+  
+    <!-- Botão -->
+    <nz-form-item>
+      <nz-form-control>
+        @if (situacao) {
+          <btn-cadastrar hasRole="EDITAR_SITUACAO" [title]="'Atualizar'"></btn-cadastrar>
+        } @else {
+          <btn-cadastrar hasRole="CADASTRAR_SITUACAO" [title]="'Cadastrar'"></btn-cadastrar>
+        }
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  
+  <ngx-spinner type="ball-clip-rotate-multiple"></ngx-spinner>
+  

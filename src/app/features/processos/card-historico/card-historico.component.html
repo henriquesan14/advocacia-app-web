@@ -1,0 +1,101 @@
+<div class="card-historico mb-3" [ngClass]="getStatusClass(historico.resultadoSentenca)">
+    <div class="left">
+      <img class="me-2" [src]="avatar" alt="">
+    </div>
+  
+    <div class="right">
+      <div class="header mb-2">
+        <h4 class="me-2">{{ historico.createdByUser.nome }}</h4>
+        <span>{{ horaFormatada }}</span>
+      </div>
+  
+      @if (editar) {
+        <form nz-form [formGroup]="formHistorico" (ngSubmit)="onSubmit()" class="content-editar mb-1">
+          <nz-form-item>
+            <nz-form-control [nzSpan]="24">
+              <textarea
+                formControlName="descricao"
+                nz-input
+                rows="3"
+                placeholder="Escreva uma descrição...">
+              </textarea>
+            </nz-form-control>
+          </nz-form-item>
+  
+          <div>
+            <button nz-button [nzType]="'primary'" nzSize="small" htmlType="submit" [disabled]="!formHistorico.valid" class="me-1 mt-2">
+              <fa-icon class="me-1" [icon]="faCheck"></fa-icon>
+              Salvar
+            </button>
+            <button nz-button nzType="default" nzDanger nzSize="small" type="button" (click)="cancelar()" class="mt-2">
+              <fa-icon class="me-1" [icon]="faTimesCircle"></fa-icon>
+              Cancelar
+            </button>
+          </div>
+        </form>
+      } @else {
+        <div class="content mb-1">
+          <p>{{ historico.descricao }}</p>
+        </div>
+      }
+  
+      <div class="footer mt-1">
+        <div nz-row [nzGutter]="16">
+  
+          <!-- Ações -->
+          <div nz-col [nzSpan]="8" hasRole="CADASTRAR_PROCESSO">
+            @if (historico.id) {
+              <span (click)="editarHistorico()" class="me-2">
+                <fa-icon class="text-info" [icon]="faPencil"></fa-icon>
+                Editar
+              </span>
+            }
+            <span (click)="deleteHistorico(historico.id)">
+              <fa-icon class="text-danger" [icon]="faTrash"></fa-icon>
+              Excluir
+            </span>
+          </div>
+  
+          <!-- Grau -->
+          <div nz-col [nzSpan]="8">
+            <nz-form-item>
+              <nz-form-label>Grau</nz-form-label>
+              <nz-form-control>
+                <nz-radio-group [(ngModel)]="historico.grau" [nzDisabled]="!editar" name="grau{{historico.id}}">
+                  <label nz-radio [nzValue]="1">1</label>
+                  <label nz-radio [nzValue]="2">2</label>
+                  <label nz-radio [nzValue]="3">3</label>
+                </nz-radio-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+  
+          <!-- Sentença -->
+          @if (historico.resultadoSentenca) {
+            <div nz-col [nzSpan]="8">
+              <nz-form-item>
+                <nz-form-label>Sentença</nz-form-label>
+                <nz-form-control>
+                  <nz-select
+                    [(ngModel)]="historico.resultadoSentenca"
+                    [nzDisabled]="!editar"
+                    [nzSize]="'small'"
+                    [nzAllowClear]="true"
+                    nzPlaceHolder="Selecione uma sentença"
+                    name="resultadoSentenca{{historico.id}}"
+                    id="resultadoSentenca{{historico.id}}">
+  
+                    <nz-option [nzValue]="null" nzLabel="Sem sentença"></nz-option>
+                    <nz-option nzValue="FAVORAVEL" nzLabel="Favorável"></nz-option>
+                    <nz-option nzValue="NAO_FAVORAVEL" nzLabel="Não Favorável"></nz-option>
+                    <nz-option nzValue="PARCIALMENTE_FAVORAVEL" nzLabel="Parcialmente Favorável"></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,7 @@
+<div>
+    <label class="toggle-label mb-1">{{label}}</label>
+    <div [ngStyle]="{ 'background-color': checked ? '#1890ff' : '#ccc' }" class="toggle" (click)="changeToggle()">
+        <input type="checkbox" class="toggle-input" [(ngModel)]="checked">
+        <div class="toggle-slider"></div>
+    </div>
+</div>

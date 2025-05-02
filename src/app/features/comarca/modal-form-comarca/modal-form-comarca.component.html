@@ -1,0 +1,34 @@
+<form nz-form [formGroup]="form" (ngSubmit)="submit()" nzLayout="vertical">
+    <!-- Nome -->
+    <nz-form-item>
+        <nz-form-label [nzRequired]="true" nzFor="nome">Nome</nz-form-label>
+        <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
+            <input nz-input formControlName="nome" id="nome" maxlength="100" placeholder="Nome" />
+        </nz-form-control>
+    </nz-form-item>
+
+    <!-- Estado -->
+    <nz-form-item>
+        <nz-form-label [nzRequired]="true" nzFor="estadoId">Estado</nz-form-label>
+        <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
+            <nz-select formControlName="estadoId" id="estadoId" placeholder="Selecione um estado">
+                <nz-option nzDisabled [nzValue]="''" [nzLabel]="'Selecione um estado'"></nz-option>
+                @for(estado of estados; track $index){
+                <nz-option [nzValue]="estado.id" [nzLabel]="estado.nome"></nz-option>
+                }
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+
+    <!-- Botões -->
+    <nz-form-item>
+        <nz-form-control>
+            @if(comarca){
+            <btn-cadastrar hasRole="EDITAR_COMARCA" [title]="'Atualizar'"></btn-cadastrar>
+            }@else {
+            <btn-cadastrar hasRole="CADASTRAR_COMARCA" [title]="'Cadastrar'"></btn-cadastrar>
+            }
+        </nz-form-control>
+    </nz-form-item>
+</form>
+<ngx-spinner type="ball-clip-rotate-multiple"></ngx-spinner>

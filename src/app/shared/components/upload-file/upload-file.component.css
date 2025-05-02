@@ -1,0 +1,28 @@
+.upload-area {
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .upload-area:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .upload-text {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #2f353a;
+    font-weight: 500;
+  }
+  
+  .file-input {
+    display: none;
+  }
+
+  fa-icon{
+    font-size: 50px;
+  }

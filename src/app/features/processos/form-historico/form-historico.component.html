@@ -1,0 +1,67 @@
+<div class="form-historico mb-3">
+    <div class="left">
+      <app-avatar-usuario></app-avatar-usuario>
+    </div>
+  
+    <div class="right">
+      <form nz-form [formGroup]="formHistorico" (ngSubmit)="onSubmit()" class="content mb-1">
+        
+        <!-- Descrição -->
+        <nz-form-item>
+          <nz-form-control [nzSpan]="24">
+            <textarea
+              formControlName="descricao"
+              nz-input
+              rows="3"
+              placeholder="Escreva uma descrição...">
+            </textarea>
+          </nz-form-control>
+        </nz-form-item>
+  
+        <div nz-row [nzGutter]="16" class="mt-2">
+          
+          <!-- Botão Salvar -->
+          <div nz-col [nzSpan]="4">
+            <button nz-button [nzType]="'primary'" [disabled]="!formHistorico.valid" htmlType="submit">
+              <fa-icon class="me-1" [icon]="faCheck"></fa-icon>
+              Salvar
+            </button>
+          </div>
+  
+          <!-- Grau (Radio Buttons) -->
+          <div nz-col [nzSpan]="10">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="4">Grau</nz-form-label>
+              <nz-form-control [nzSpan]="20">
+                <nz-radio-group formControlName="grau">
+                  <label nz-radio [nzValue]="1">1</label>
+                  <label nz-radio [nzValue]="2">2</label>
+                  <label nz-radio [nzValue]="3">3</label>
+                </nz-radio-group>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+  
+          <!-- Resultado Sentença (Select) -->
+          <div nz-col [nzSpan]="10">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="6">Sentença</nz-form-label>
+              <nz-form-control [nzSpan]="18">
+                <nz-select
+                  formControlName="resultadoSentenca"
+                  nzAllowClear
+                  nzPlaceHolder="Selecione uma sentença"
+                  nzSize="small">
+                  <nz-option [nzValue]="null" nzLabel="Sem sentença"></nz-option>
+                  <nz-option nzValue="FAVORAVEL" nzLabel="Favorável"></nz-option>
+                  <nz-option nzValue="NAO_FAVORAVEL" nzLabel="Não Favorável"></nz-option>
+                  <nz-option nzValue="PARCIALMENTE_FAVORAVEL" nzLabel="Parcialmente Favorável"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+  
+        </div>
+      </form>
+    </div>
+  </div>

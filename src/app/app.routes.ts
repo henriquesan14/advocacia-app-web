@@ -1,3 +1,28 @@
 import { Routes } from '@angular/router';
+import { AuthLayoutComponent } from './core/layouts/auth-layout/auth-layout.component';
+import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.component';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  {
+    path: '',
+    component: AuthLayoutComponent,
+    children: [
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
+      { path: '', loadChildren: () => import('./features/auth/auth.routes').then(m => m.AUTH_ROUTES) },
+    ],
+    canActivate: [],
+  },
+  {
+    path: '',
+    component: MainLayoutComponent,
+    children: [
+      { path: '', redirectTo: 'processos', pathMatch: 'full' },
+      { path: 'processos', loadChildren: () => import('./features/processos/processos.routes').then(m => m.PROCESSOS_ROUTES) },
+    ],
+    canActivate: [],
+  },
+  {
+    path: '**',
+    redirectTo: '/login'
+  },
+];

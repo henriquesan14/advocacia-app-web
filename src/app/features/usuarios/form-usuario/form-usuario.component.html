@@ -1,0 +1,153 @@
+<form nz-form [formGroup]="form" (ngSubmit)="submit()">
+
+    <div class="mb-2 box-avatar">
+      <!-- Avatar -->
+      <img
+        ngbTooltip="Selecione uma imagem"
+        #avatarImage
+        id="avatar"
+        [src]="avatarSelecionado"
+        alt="Editar Avatar"
+        (click)="fileInput.click()"
+      />
+  
+      <!-- Input de arquivo oculto -->
+      <input
+        type="file"
+        id="fileInput"
+        #fileInput
+        style="display: none;"
+        (change)="onFileSelected($event)"
+        accept="image/*"
+      />
+  
+    @if(avatar && (avatar.urlLocal || avatar.url)){
+        <button nz-button nzType="default" nzDanger (click)="deleteAvatar()" type="button" class="mt-2">
+            <fa-icon [icon]="faTrash"></fa-icon>
+            Remover
+          </button>
+    }
+    </div>
+  
+    <h4 class="mb-3">Dados Pessoais</h4>
+  
+    <div nz-row [nzGutter]="16" class="mb-1">
+      <div nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24" nzRequired>Nome</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <input nz-input maxlength="100" formControlName="nome" id="nome" placeholder="Nome" />
+           @if(isInvalidAndTouched('nome')){
+            <div class="text-danger">O campo é obrigatório</div>
+           } 
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+  
+      <div nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24" nzRequired>Email</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <input nz-input maxlength="100" formControlName="email" id="email" placeholder="Email" autocomplete="true" />
+            @if(isInvalidAndTouched('email') && getError('email', 'required')){
+                <div class="text-danger">O campo é obrigatório</div>
+            }
+            @if(isInvalidAndTouched('email') && getError('email', 'email')){
+                <div class="text-danger">O campo tem ser um email válido</div>
+            }
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  
+    <div nz-row [nzGutter]="16" class="mb-1">
+      <div nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24">{{usuarioId ? 'Nova senha' : 'Senha*'}}</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <input nz-input type="password" maxlength="100" formControlName="senha" id="senha" placeholder="Senha" autocomplete="off" />
+            @if(isInvalidAndTouched('senha') && getError('senha', 'required')){
+                <div class="text-danger">O campo é obrigatório</div>
+            }
+            @if(isInvalidAndTouched('senha') && getError('senha', 'minlength')){
+                <div class="text-danger">O campo tem que ter 6 caracteres</div>
+            }  
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+  
+      <div nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24" nzRequired>Confirmação de Senha</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <input nz-input type="password" maxlength="100" formControlName="confirmSenha" id="confirmSenha" placeholder="Confirmação de senha" autocomplete="off" />
+            @if(isInvalidAndTouched('confirmSenha') && getError('confirmSenha', 'required')){
+                <div class="text-danger">O campo é obrigatório</div>
+            }
+            @if(isInvalidAndTouched('confirmSenha') && getError('confirmSenha', 'notMatch')){
+                <div class="text-danger">As senhas não conferem</div>
+            }
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  
+    <div nz-row [nzGutter]="16" class="mb-1">
+      <div nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24">CPF/CNPJ</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <input nz-input [mask]="mask" (ngModelChange)="onInputChange()" maxlength="100" formControlName="documento" id="documento" placeholder="CPF/CNPJ" />
+            @if(isInvalidAndTouched('documento') && getError('documento', 'minlength')){
+                <div class="text-danger">O campo precisa ter no mínimo 11 caracteres</div>
+            }
+            @if(isInvalidAndTouched('documento') && getError('documento', 'mask')){
+                <div class="text-danger">CPF/CNPJ inválido</div>
+            }
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+  
+      <div nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24" nzRequired>Telefone</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <input nz-input mask="(00) 00000-0000" maxlength="100" formControlName="telefone" id="telefone" placeholder="Telefone" />
+            @if(isInvalidAndTouched('telefone')){
+                <div class="text-danger">O campo é obrigatório</div>
+            }
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+  
+      <div nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24" nzRequired>Grupo</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <nz-select formControlName="grupoId" id="grupoId" placeholder="Selecione um grupo">
+                <nz-option nzDisabled [nzValue]="''" [nzLabel]="'Selecione um grupo'"></nz-option>
+                @for(grupo of grupos; track $index){
+                    <nz-option [nzValue]="grupo.id" [nzLabel]="grupo.nome"></nz-option>
+                }
+            </nz-select>
+            @if(isInvalidAndTouched('grupoId')){
+                <div class="text-danger">O campo é obrigatório</div>
+            }
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  
+    <div nz-row class="mt-3">
+      <div nz-col [nzSpan]="24">
+        @if(usuarioId){
+            <btn-cadastrar hasRole="EDITAR_USUARIO" [title]="'Atualizar'"></btn-cadastrar>
+        }@else {
+            <btn-cadastrar hasRole="CADASTRAR_USUARIO" [title]="'Cadastrar'"></btn-cadastrar>
+        }
+      </div>
+    </div>
+  </form>
+  
+  <ngx-spinner type="ball-clip-rotate-multiple"></ngx-spinner>
+  

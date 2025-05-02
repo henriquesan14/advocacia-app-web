@@ -1,0 +1,30 @@
+.form-historico{
+    display: flex;
+    padding: 10px;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+.left{
+    display: flex;
+    align-items: start;
+}
+
+.right{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    padding: 5px 5px 5px 10px;
+    border-radius: 8px;
+}
+
+.content button {
+    align-self: self-start;
+}

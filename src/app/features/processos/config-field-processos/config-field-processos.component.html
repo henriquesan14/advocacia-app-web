@@ -1,0 +1,28 @@
+<form nz-form [formGroup]="formFields" nzLayout="vertical" (submit)="submit()">
+    <div class="mb-1">
+      <button nzSize="small" nz-button nzType="primary" (click)="selecionarTudo()" type="button" class="me-1">
+        Selecionar todos
+      </button>
+      <button nzSize="small" nz-button nzType="default" (click)="desmarcarTudo()" type="button">
+        Desmarcar todos
+      </button>
+    </div>
+  
+    @for(field of data.fields; track field.id) {
+      @if (!disableFields(field.fieldName)) {
+        <nz-form-item>
+          <nz-form-control>
+            <label nz-checkbox [formControlName]="field.id">
+              {{ field.fieldName }}
+            </label>
+          </nz-form-control>
+        </nz-form-item>
+      }
+    }
+  
+    <div class="mt-2">
+      <btn-cadastrar title="Atualizar"></btn-cadastrar>
+    </div>
+  </form>
+  
+  <ngx-spinner type="ball-clip-rotate-multiple"></ngx-spinner>

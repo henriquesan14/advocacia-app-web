@@ -1,0 +1,35 @@
+<div class="container-login">
+    <div class="box-login">
+        <div class="box-left">
+            <img id="logo" src="/images/logo.png" alt="">
+            <h2>Sociedade de Advogados</h2>
+        </div>
+        <div class="box-right">
+            <h2>Insira suas credenciais</h2>
+            <form nz-form [formGroup]="loginForm" (submit)="onSubmit()">
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="O login é obrigatório">
+                      <nz-input-group nzPrefixIcon="user">
+                        <input autocomplete="login" type="text" nz-input formControlName="login" placeholder="Email/CPF" />
+                      </nz-input-group>
+                    </nz-form-control>
+                  </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-control nzErrorTip="A senha é obrigatória">
+                    <nz-input-group nzPrefixIcon="lock">
+                        <input autocomplete="current-password" type="password" nz-input formControlName="senha" placeholder="Senha" />
+                    </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button nz-button type="submit">Entrar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<ngx-spinner type="ball-clip-rotate-multiple"></ngx-spinner>

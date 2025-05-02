@@ -1,0 +1,97 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="row g-3">
+        <div class="col-sm-12">
+            <nz-form-item>
+                <nz-form-label [nzRequired]="true" nzFor="descricao">Descrição</nz-form-label>
+                <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
+                    <textarea nz-input formControlName="descricao" id="descricao" rows="7" maxlength="600"
+                        placeholder="Descrição"></textarea>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-sm-2 align-self-center">
+            <app-toggle-button [checked]="diaInteiro" label="Dia Inteiro" (toggleEvent)="toggleDiaInteiro($event)">
+            </app-toggle-button>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-sm-2 align-self-center">
+            <app-toggle-button [checked]="presencial" label="Presencial" (toggleEvent)="togglePresencial($event)">
+            </app-toggle-button>
+        </div>
+    </div>
+
+    <!-- Linha para Local e Responsável -->
+    <div nz-row [nzGutter]="16" class="mb-2">
+        <div nz-col [nzSpan]="12" [nzSm]="12" [nzMd]="12" [nzLg]="12">
+            <nz-form-item>
+                <nz-form-label [nzRequired]="true" nzFor="local">Local</nz-form-label>
+                <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
+                    <input nz-input type="text" maxlength="100" id="local" formControlName="local" />
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="12" [nzSm]="12" [nzMd]="12" [nzLg]="12">
+            <nz-form-item>
+                <nz-form-label [nzRequired]="true" nzFor="responsavelId">Responsável</nz-form-label>
+                <nz-form-control>
+                    <input nz-input [formControl]="responsavelNomeControl" [nzAutocomplete]="autoResponsavel"
+                      (input)="onChangeResponsavel($event)" placeholder="Selecione o responsável do processo"/>
+                    <nz-autocomplete #autoResponsavel (selectionChange)="selecionarResponsavel($event)">
+                      @for(responsavel of filteredResponsaveis; track $index) {
+                      <nz-auto-option [nzValue]="responsavel.nome">{{ responsavel.nome }}</nz-auto-option>
+                      }
+                    </nz-autocomplete>
+                    @if(responsavelNomeControl.invalid && responsavelNomeControl.touched){
+                    <div>
+                      @if(responsavelNomeControl.hasError('required')){
+                      <span class="text-danger">
+                        O campo é obrigatório.
+                      </span>
+                      }
+                    </div>
+                    }
+                  </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+
+    <!-- Linha para Data da Diligência e Hora da Diligência -->
+    <div class="row" nz-row [nzGutter]="16">
+        <div nz-col [nzSpan]="12" [nzSm]="12" [nzMd]="12" [nzLg]="12">
+            <nz-form-item>
+                <nz-form-label nzRequired>Data da diligência</nz-form-label>
+                <nz-form-control>
+                    <nz-date-picker formControlName="dataDiligencia" nzFormat="dd/MM/yyyy"
+                        nzPlaceHolder="Selecione a data">
+                    </nz-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+
+        @if(!diaInteiro){
+            <div nz-col [nzSpan]="12" [nzSm]="12" [nzMd]="12" [nzLg]="12">
+                <nz-form-item>
+                    <nz-form-label nzRequired>Hora da diligência</nz-form-label>
+                    <nz-form-control>
+                        <nz-time-picker formControlName="horaDiligencia" nzFormat="HH:mm" [nzUse12Hours]="false">
+                        </nz-time-picker>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        }
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-sm-12">
+            <btn-cadastrar [title]="diligenciaId ? 'Atualizar' : 'Cadastrar'"></btn-cadastrar>
+        </div>
+    </div>
+</form>
+
+<ngx-spinner type="ball-clip-rotate-multiple"></ngx-spinner>

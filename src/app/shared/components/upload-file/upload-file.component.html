@@ -1,0 +1,5 @@
+<div class="upload-area" (drop)="onDrop($event)" (dragover)="onDragOver($event)" (click)="fileInput.click()">
+    <fa-icon [icon]="faUploadAlt"></fa-icon>
+    <p class="upload-text">Arraste e solte arquivos aqui ou clique para selecionar</p>
+    <input #fileInput type="file" multiple  class="file-input" (change)="onFileSelected($event)" />
+</div>
