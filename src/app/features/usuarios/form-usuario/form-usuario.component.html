@@ -63,7 +63,7 @@
     <div nz-row [nzGutter]="16" class="mb-1">
       <div nz-col [nzSpan]="12">
         <nz-form-item>
-          <nz-form-label [nzSpan]="24">{{usuarioId ? 'Nova senha' : 'Senha*'}}</nz-form-label>
+          <nz-form-label [nzSpan]="24" [nzRequired]="!usuarioId">{{usuarioId ? 'Nova senha' : 'Senha'}}</nz-form-label>
           <nz-form-control [nzSpan]="24">
             <input nz-input type="password" maxlength="100" formControlName="senha" id="senha" placeholder="Senha" autocomplete="off" />
             @if(isInvalidAndTouched('senha') && getError('senha', 'required')){
