@@ -1,0 +1,38 @@
+<div class="container">
+    <btn-novo hasRole="CADASTRAR_PROCESSO" title="Nova audiência"
+      (clickEvent)="openModalFormAudiencia()"></btn-novo>
+    <h3 class="mb-3 mt-2">Audiências</h3>
+
+    <nz-table [nzData]="audiencias" [nzShowPagination]="false" nzBordered
+      nzSize="middle" class="mb-3">
+      <thead>
+        <tr>
+          <th>Descrição</th>
+          <th>Presencial</th>
+          <th>Local</th>
+          <th>Data/Hora</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(audiencia of audiencias; track $index){
+        <tr>
+          <td>{{ getTextoReduzido(audiencia.descricao) }}</td>
+          <td>{{ audiencia.presencial ? 'Sim' : 'Não' }}</td>
+          <td>{{ audiencia.local || 'N/A' }}</td>
+          <td>{{ audiencia.dataAudiencia | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+          <td>
+            <button nz-button nzType="default" nzDanger nzSize="small" (click)="deleteAudiencia($index)"
+              nz-tooltip="Excluir">
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </nz-table>
+
+    <ng-template #emptyState>
+      <div class="text-muted mt-3">Não há nenhuma audiência</div>
+    </ng-template>
+  </div>

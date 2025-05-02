@@ -1,0 +1,48 @@
+<div class="container">
+    <btn-novo hasRole="CADASTRAR_PARTE" (clickEvent)="openModalFormParte()" title="Nova parte"></btn-novo>
+    <div class="col-sm-12 mb-2" hasRole="CADASTRAR_PROCESSO">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="24">Selecione Réus</nz-form-label>
+        <nz-form-control [nzSpan]="24">
+          <input nz-input [nzAutocomplete]="autoReus" [formControl]="reuNomeControl"
+            (input)="onChangeReu($event)" placeholder="Selecione os réus" />
+
+          <nz-autocomplete #autoReus (selectionChange)="addReu($event)">
+            @for(reu of reus; track $index) {
+            <nz-auto-option [nzValue]="reu.nome">
+              @if(reu.isCliente){
+              <icon-cliente></icon-cliente>
+              }
+              {{ reu.nome }}
+            </nz-auto-option>
+            }
+          </nz-autocomplete>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <h4>Réus</h4>
+    <div class="table-responsive">
+      <nz-table [nzData]="reusSelecionados" [nzBordered]="true" [nzSize]="'small'"
+        [nzShowPagination]="false">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(reu of reusSelecionados; track $index){
+          <tr>
+            <td>{{ reu.nome }}</td>
+            <td>
+              <button nzSize="small" (click)="deleteReu($index)" nz-tooltip nzTooltipTitle="Excluir"
+                nzTooltipPlacement="top" nz-button nzType="default" nzDanger>
+                <span nz-icon nzType="delete"></span>
+              </button>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </nz-table>
+    </div>
+  </div>

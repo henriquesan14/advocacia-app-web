@@ -1,0 +1,51 @@
+<div class="container">
+    <h3>Documentos</h3>
+  
+    <div class="row" hasRole="CADASTRAR_PROCESSO">
+      <div class="col-12">
+        <app-upload-file (filesDropped)="onFilesDropped($event)"></app-upload-file>
+      </div>
+    </div>
+  
+    <nz-table
+      [nzData]="documentos"
+      [nzShowPagination]="false"
+      nzBordered
+      nzSize="middle"
+      class="mt-3"
+    >
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Tipo</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(documento of documentos; track $index){
+          <tr>
+            <td>
+              <a [href]="documento.urlLocal" target="_blank">{{ documento.nome }}</a>
+            </td>
+            <td>{{ documento.tipo }}</td>
+            <td>
+              <button
+                nz-button
+                nzType="default"
+                nzDanger
+                nzSize="small"
+                (click)="deleteDocumento($index)"
+                nz-tooltip="Excluir"
+              >
+                <fa-icon [icon]="faTrash"></fa-icon>
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </nz-table>
+  
+    <ng-template #emptyState>
+      <div class="text-muted mt-3">Não há nenhum documento</div>
+    </ng-template>
+  </div>    

@@ -1,0 +1,221 @@
+<div nz-row [nzGutter]="8" class="mb-1">
+  <div nz-col>
+    <btn-novo (click)="openModalFormDono()" hasRole="CADASTRAR_PROCESSO" title="Novo dono"></btn-novo>
+  </div>
+  <div nz-col>
+    <btn-novo (click)="openModalFormResponsavel()" hasRole="CADASTRAR_USUARIO" title="Novo responsável"></btn-novo>
+  </div>
+  <div nz-col>
+    <btn-novo (click)="openModalFormComarca()" hasRole="CADASTRAR_PROCESSO" title="Nova comarca"></btn-novo>
+  </div>
+  <div nz-col>
+    <btn-novo (click)="openModalFormCompetencia()" hasRole="CADASTRAR_PROCESSO" title="Nova competência"></btn-novo>
+  </div>
+  <div nz-col>
+    <btn-novo (click)="openModalFormSistema()" hasRole="CADASTRAR_PROCESSO" title="Novo sistema"></btn-novo>
+  </div>
+  <div nz-col>
+    <btn-novo (click)="openModalFormSituacao()" hasRole="CADASTRAR_PROCESSO" title="Nova situação"></btn-novo>
+  </div>
+</div>
+<form [formGroup]="formProcesso" nz-form [nzLayout]="'vertical'">
+    <h3>Dados do Processo</h3>
+
+    <!-- Dono do processo -->
+    <div nz-row [nzGutter]="16">
+      <div nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24" nzRequired >Dono do Processo</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <input nz-input [formControl]="donoNomeControl" [nzAutocomplete]="autoDono"
+              (input)="onChangeDono($event)" placeholder="Selecione o dono do processo" />
+            <nz-autocomplete #autoDono (selectionChange)="selecionarDono($event)">
+              @for(dono of donos; track $index) {
+              <nz-auto-option [nzValue]="dono">{{ dono.nome }}</nz-auto-option>
+              }
+            </nz-autocomplete>
+            @if(donoNomeControl.invalid && donoNomeControl.touched){
+            <div>
+              @if(donoNomeControl.hasError('required')){
+              <span class="text-danger">
+                O campo é obrigatório.
+              </span>
+              }
+            </div>
+            }
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col [nzSpan]="12">
+        <!-- Responsável -->
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24" nzRequired="">Responsável pelo Processo</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <input nz-input [formControl]="responsavelNomeControl" [nzAutocomplete]="autoResponsavel"
+              (input)="onChangeResponsavel($event)" placeholder="Selecione o responsável do processo"/>
+            <nz-autocomplete #autoResponsavel (selectionChange)="selecionarResponsavel($event)">
+              @for(responsavel of responsaveis; track $index) {
+              <nz-auto-option [nzValue]="responsavel">{{ responsavel.nome }}</nz-auto-option>
+              }
+            </nz-autocomplete>
+            @if(responsavelNomeControl.invalid && responsavelNomeControl.touched){
+            <div>
+              @if(responsavelNomeControl.hasError('required')){
+              <span class="text-danger">
+                O campo é obrigatório.
+              </span>
+              }
+            </div>
+            }
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+
+    <!-- Linha 1 -->
+    <div nz-row [nzGutter]="16">
+      <div nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label nzRequired="">Tipo de Ação</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="tipoAcao" placeholder="Tipo de Ação" />
+            @if(isInvalidAndTouched('tipoAcao')) {
+            <div class="text-danger">O campo é obrigatório</div>
+            }
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label nzRequired>Nº Processo</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="nroProcesso" mask="0000000.00.0000.0.00.0000"
+              placeholder="Nº Processo" />
+            @if(isInvalidAndTouched('nroProcesso')) {
+            @if(getError('nroProcesso', 'required')) {
+            <div class="text-danger">O campo é obrigatório</div>
+            }
+            @if(getError('nroProcesso', 'mask')) {
+            <div class="text-danger">Número processo inválido</div>
+            }
+            @if(getError('nroProcesso', 'existingProcess')) {
+            <div class="text-danger">Já existe processo com este número</div>
+            }
+            }
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label>Vara*</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="vara" placeholder="Vara" />
+            @if(isInvalidAndTouched('vara')) {
+            <div class="text-danger">O campo é obrigatório</div>
+            }
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <!-- Linha 2 -->
+    <div nz-row [nzGutter]="16">
+      <div nz-col [nzSpan]="8">
+        <!-- Comarca -->
+        <nz-form-item>
+          <nz-form-label [nzSpan]="24" nzRequired>Comarca</nz-form-label>
+          <nz-form-control [nzSpan]="24">
+            <input nz-input [formControl]="comarcaNomeControl" [nzAutocomplete]="autoComarca"
+              (input)="onChangeComarca($event)" placeholder="Selecione a comarca" />
+            <nz-autocomplete #autoComarca (selectionChange)="selecionarComarca($event)">
+              @for(comarca of comarcas; track $index) {
+              <nz-auto-option [nzValue]="comarca">{{ comarca.nome }}</nz-auto-option>
+              }
+            </nz-autocomplete>
+            @if(comarcaNomeControl.invalid && comarcaNomeControl.touched){
+            <div>
+              @if(comarcaNomeControl.hasError('required')){
+              <span class="text-danger">
+                O campo é obrigatório.
+              </span>
+              }
+            </div>
+            }
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label nzRequired="">Competência</nz-form-label>
+          <nz-form-control>
+            <nz-select formControlName="competenciaId" nzPlaceHolder="Selecione uma competência">
+              @for(competencia of competencias; track competencia.id) {
+              <nz-option [nzValue]="competencia.id" [nzLabel]="competencia.nome"></nz-option>
+              }
+            </nz-select>
+            @if(isInvalidAndTouched('competenciaId')) {
+            <div class="text-danger">O campo é obrigatório</div>
+            }
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label nzRequired>Sistema</nz-form-label>
+          <nz-form-control>
+            <nz-select formControlName="sistemaId" nzPlaceHolder="Selecione um sistema">
+              @for(sistema of sistemas; track sistema.id) {
+              <nz-option [nzValue]="sistema.id" [nzLabel]="sistema.nome"></nz-option>
+              }
+            </nz-select>
+            @if(isInvalidAndTouched('sistemaId')) {
+            <div class="text-danger">O campo é obrigatório</div>
+            }
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <!-- Linha 3 -->
+    <div nz-row [nzGutter]="16">
+      <div nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label nzRequired>Situação Atual</nz-form-label>
+          <nz-form-control>
+            <nz-select formControlName="situacaoProcessoId" nzPlaceHolder="Selecione uma situação">
+              @for(situacao of situacoes; track situacao.id) {
+              <nz-option [nzValue]="situacao.id" [nzLabel]="situacao.descricao"></nz-option>
+              }
+            </nz-select>
+            @if(isInvalidAndTouched('situacaoProcessoId')) {
+            <div class="text-danger">O campo é obrigatório</div>
+            }
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col [nzSpan]="8">
+        <nz-form-item>
+          <nz-form-label>Data de Distribuição</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="dataDistribuicao" type="date" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <!-- Observação -->
+    <nz-form-item>
+      <nz-form-label>Observação</nz-form-label>
+      <nz-form-control>
+        <textarea nz-input formControlName="observacao" rows="5"
+          placeholder="Digite observações..."></textarea>
+      </nz-form-control>
+    </nz-form-item>
+  </form>

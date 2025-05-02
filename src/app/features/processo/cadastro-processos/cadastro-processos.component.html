@@ -1,0 +1,49 @@
+<h2>Cadastro de Processos</h2>
+<div class="container">
+  <main>
+    <div class="row g-5">
+      <div class="col-md-12">
+        <form class="needs-validation" [formGroup]="formProcesso">
+          <nz-tabset [(nzSelectedIndex)]="tabActive">
+            <nz-tab [nzTitle]="'Processo'">
+              <tab-processo [formProcesso]="formProcesso"></tab-processo>
+            </nz-tab>
+
+            <nz-tab nzTitle="Autores">
+              <tab-autores (autoresChange)="onAutoresChange($event)"></tab-autores>
+            </nz-tab>
+
+            <nz-tab nzTitle="Réus">
+              <tab-reus (reusChange)="onReusChange($event)"></tab-reus>
+            </nz-tab>
+
+            <nz-tab nzTitle="Históricos">
+              <tab-historicos (historicosChange)="onHistoricosChange($event)"></tab-historicos>
+            </nz-tab>
+
+            <nz-tab nzTitle="Diligências">
+              <tab-diligencias (diligenciasChange)="onDiligenciasChange($event)"></tab-diligencias>
+            </nz-tab>
+
+            <nz-tab nzTitle="Audiências">
+              <tab-audiencias (audienciasChange)="onAudienciasChange($event)"></tab-audiencias>
+            </nz-tab>
+
+            <nz-tab nzTitle="Documentos">
+              <tab-documentos (documentosChange)="onDocumentosChange($event)"></tab-documentos>          
+            </nz-tab>
+
+          </nz-tabset>
+
+          <div class="container mt-2">
+            <btn-cadastrar class="me-1" hasRole="CADASTRAR_PROCESSO" (clickEvent)="onSubmit()"></btn-cadastrar>
+            <btn-voltar></btn-voltar>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<ngx-spinner type="ball-clip-rotate-multiple"></ngx-spinner>

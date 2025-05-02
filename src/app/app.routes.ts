@@ -17,7 +17,7 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: '', redirectTo: 'processos', pathMatch: 'full' },
-      { path: 'processos', loadChildren: () => import('./features/processos/processos.routes').then(m => m.PROCESSOS_ROUTES) },
+      { path: 'processos', loadChildren: () => import('./features/processo/processos.routes').then(m => m.PROCESSOS_ROUTES) },
     ],
     canActivate: [],
   },

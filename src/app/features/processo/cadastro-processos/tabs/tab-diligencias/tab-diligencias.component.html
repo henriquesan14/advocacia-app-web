@@ -1,0 +1,40 @@
+<div class="container">
+    <btn-novo hasRole="CADASTRAR_PROCESSO" title="Nova diligência"
+      (clickEvent)="openModalFormDiligencia()"></btn-novo>
+    <h3 class="mb-3 mt-2">Diligências</h3>
+
+    <nz-table [nzData]="diligencias" [nzShowPagination]="false" nzBordered
+      nzSize="middle" class="mb-3">
+      <thead>
+        <tr>
+          <th>Descrição</th>
+          <th>Responsável</th>
+          <th>Presencial</th>
+          <th>Local</th>
+          <th>Data/Hora</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (diligencia of diligencias; track $index) {
+        <tr>
+          <td>{{ getTextoReduzido(diligencia.descricao) }}</td>
+          <td>{{ diligencia.responsavel.nome }}</td>
+          <td>{{ diligencia.presencial ? 'Sim' : 'Não' }}</td>
+          <td>{{ diligencia.local || 'N/A' }}</td>
+          <td>{{ diligencia.dataDiligencia | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+          <td>
+            <button nz-button nzType="default" nzDanger nzSize="small" (click)="deleteDiligencia($index)"
+              nz-tooltip="Excluir">
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </nz-table>
+
+    <ng-template #emptyState>
+      <div class="text-muted mt-3">Não há nenhuma diligência</div>
+    </ng-template>
+  </div>
