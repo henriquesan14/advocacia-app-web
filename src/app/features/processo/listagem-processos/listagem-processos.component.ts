@@ -40,13 +40,14 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { ConfigFieldProcessosComponent } from '../config-field-processos/config-field-processos.component';
+import { CardProcessoComponent } from '../card-processo/card-processo.component';
 
 @Component({
   selector: 'app-listagem-processos',
   standalone: true,
   imports: [ CommonModule , ReactiveFormsModule, FontAwesomeModule, NzToolTipModule, FormsModule,
     NgxMaskDirective, NroProcessoPipe, BtnPesquisarComponent, BtnLimparComponent, BtnNovoComponent, HasRoleDirective,
-  NgxSpinnerModule, IconClienteComponent, NzCollapseModule, NzTableModule, NzButtonModule, NzFormModule, NzInputModule, NzSelectModule, NzModalModule, ],
+  NgxSpinnerModule, IconClienteComponent, NzCollapseModule, NzTableModule, NzButtonModule, NzFormModule, NzInputModule, NzSelectModule, NzModalModule, CardProcessoComponent],
   templateUrl: './listagem-processos.component.html',
   styleUrl: './listagem-processos.component.css'
 })

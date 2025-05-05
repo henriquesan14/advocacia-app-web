@@ -1,0 +1,47 @@
+<div class="processo-card">
+    <div class="header">
+      <div>
+        <strong>{{ processo.nroProcesso | nroProcesso }}</strong>
+      </div>
+      <div class="dias" [ngClass]="{
+        'text-danger': getDias(processo.dataUltimoHistorico || processo.createdAt) > 20,
+        'text-warning': getDias(processo.dataUltimoHistorico || processo.createdAt) >= 10
+      }">
+        {{ getDias(processo.dataUltimoHistorico || processo.createdAt) }} dias
+      </div>
+    </div>
+  
+    <div class="info">
+      <div *ngIf="processo.autores?.length">
+        <strong>Autor:</strong>
+        <span [ngClass]="{'font-weight-bold': processo.autores[0].isCliente}">
+          <icon-cliente *ngIf="processo.autores[0].isCliente"></icon-cliente>
+          {{ processo.autores[0].nome }} 
+          <span *ngIf="processo.autores.length > 1">e Outros</span>
+        </span>
+      </div>
+      <div *ngIf="processo.reus?.length">
+        <strong class="me-1">Réu:</strong>
+        <span [ngClass]="{'font-weight-bold': processo.reus[0].isCliente}">
+          <icon-cliente *ngIf="processo.reus[0].isCliente"></icon-cliente>
+          {{ processo.reus[0].nome }} 
+          <span *ngIf="processo.reus.length > 1">e Outros</span>
+        </span>
+      </div>
+      <div>
+        <strong>Situação:</strong> {{ processo.situacao?.descricao }}
+      </div>
+    </div>
+  
+    <div class="actions">
+      <button hasRole="LISTAR_PROCESSO" nz-button nzType="primary" nzSize="small" (click)="onVisualizar()">
+        <fa-icon [icon]="faEye"></fa-icon>
+      </button>
+      <button hasRole="EDITAR_PROCESSO" nz-button nzSize="small" (click)="onReiniciar()">
+        <fa-icon [icon]="faRefresh"></fa-icon>
+      </button>
+      <button hasRole="EXCLUIR_PROCESSO" nz-button nzDanger nzSize="small" (click)="onExcluir()">
+        <fa-icon [icon]="faTrash"></fa-icon>
+      </button>
+    </div>
+  </div>
