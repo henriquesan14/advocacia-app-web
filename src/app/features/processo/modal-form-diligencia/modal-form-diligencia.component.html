@@ -89,7 +89,7 @@
 
     <div class="row mt-3">
         <div class="col-sm-12">
-            <btn-cadastrar [title]="diligenciaId ? 'Atualizar' : 'Cadastrar'"></btn-cadastrar>
+            <btn-cadastrar [title]="data.diligencia && data.diligencia.id ? 'Atualizar' : 'Cadastrar'"></btn-cadastrar>
         </div>
     </div>
 </form>

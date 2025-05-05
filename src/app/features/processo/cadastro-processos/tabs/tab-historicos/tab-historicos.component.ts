@@ -31,7 +31,7 @@ export class TabHistoricosComponent {
     this.historicosChange.emit(this.historicos);
   }
 
-  deleteHistorico(historicoId: number, index: number) {
+  deleteHistorico(historicoId: string, index: number) {
     if (this.processoId) {
       this.historicoService.deleteHistorico(historicoId).subscribe({
         next: () => {

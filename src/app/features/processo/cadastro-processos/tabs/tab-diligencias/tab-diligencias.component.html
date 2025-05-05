@@ -24,7 +24,13 @@
           <td>{{ diligencia.local || 'N/A' }}</td>
           <td>{{ diligencia.dataDiligencia | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
           <td>
-            <button nz-button nzType="default" nzDanger nzSize="small" (click)="deleteDiligencia($index)"
+            @if(diligencia.id){
+              <button type="button" (click)="openModalFormDiligencia(diligencia)" nz-button nzType="primary" nzSize="small"
+              nz-tooltip="Editar" class="me-1">
+              <fa-icon [icon]="faPencil"></fa-icon>
+            </button>
+            }
+            <button nz-button nzType="default" nzDanger nzSize="small" (click)="deleteDiligencia(diligencia.id, $index)"
               nz-tooltip="Excluir">
               <fa-icon [icon]="faTrash"></fa-icon>
             </button>

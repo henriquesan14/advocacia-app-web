@@ -20,7 +20,7 @@ export class DiligenciaService {
     return this.http.post<Diligencia>(`${this.API}/diligencia`, diligencia);
   }
 
-  deleteDiligencia(id: number){
+  deleteDiligencia(id: string){
     return this.http.delete(`${this.API}/diligencia/${id}`);
   }
 

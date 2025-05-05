@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormUtils } from '../../../shared/utils/form.utils';
 import { BtnCadastrarComponent } from '../../../shared/components/btn-cadastrar/btn-cadastrar.component';
@@ -11,7 +11,7 @@ import { Usuario } from '../../../core/models/usuario.interface';
 import { UsuariosService } from '../../../shared/services/usuarios.service';
 import { ToggleButtonComponent } from '../../../shared/components/toogle-button/toggle-button.component';
 import { DateUtils } from '../../../shared/utils/date.utils';
-import { NzModalRef } from 'ng-zorro-antd/modal';
+import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
@@ -44,11 +44,9 @@ export class ModalFormAudienciaComponent implements OnInit, OnDestroy {
   filteredResponsaveis: Usuario[] = [];
 
   @Output() submitEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Input({required: true}) processoId!: number;
-  @Input() audienciaId!: number;
 
   constructor(private formBuilder: FormBuilder, private audienciaService: AudienciaService, private toastr: ToastrService,
-     private spinner: NgxSpinnerService, private usuarioService: UsuariosService, private modalRef: NzModalRef){}
+     private spinner: NgxSpinnerService, private usuarioService: UsuariosService, private modalRef: NzModalRef, @Inject(NZ_MODAL_DATA) public data: { processoId: string, audiencia: Audiencia }){}
 
   ngOnInit(): void {
     this.formAudiencia = this.formBuilder.group({
@@ -61,7 +59,7 @@ export class ModalFormAudienciaComponent implements OnInit, OnDestroy {
       responsavelNome: [null],
     })
     this.getResponsaveis(null);
-    if(this.audienciaId){
+    if(this.data.audiencia){
       this.getAudiencia();
     }
   }
@@ -72,20 +70,16 @@ export class ModalFormAudienciaComponent implements OnInit, OnDestroy {
   }
 
   getAudiencia(){
-    this.audienciaService.getById(this.audienciaId)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (res: Audiencia) => {
-        // DateUtils.setDataHora(res.dataAudiencia, this.dp, this.formAudiencia, 'dataAudiencia', 'horaAudiencia');
-        this.formAudiencia.get('descricao')?.setValue(res.descricao);
-        this.formAudiencia.get('local')?.setValue(res.local);
-        this.formAudiencia.get('linkAudiencia')?.setValue(res.linkAudiencia);
-        this.formAudiencia.get('responsavel')?.setValue(res.responsavel);
-        this.formAudiencia.get('responsavelId')?.setValue(res.responsavelId);
-        this.responsavelNome = res.responsavel.nome,
-        this.presencial = res.presencial;
-      }
-    })
+      const data = new Date(this.data.audiencia.dataAudiencia);
+
+      this.formAudiencia.get('dataAudiencia')?.setValue(data);
+      this.formAudiencia.get('horaAudiencia')?.setValue(data);
+      this.formAudiencia.get('descricao')?.setValue(this.data.audiencia.descricao);
+      this.formAudiencia.get('local')?.setValue(this.data.audiencia.local);
+      this.formAudiencia.get('linkAudiencia')?.setValue(this.data.audiencia.linkAudiencia);
+      this.formAudiencia.get('responsavelNome')?.setValue(this.data.audiencia.responsavel.nome);
+      this.formAudiencia.get('responsavelId')?.setValue(this.data.audiencia.responsavelId);
+      this.presencial = this.data.audiencia.presencial;
   }
 
   onChangeResponsavel(event: any) {
@@ -111,20 +105,50 @@ export class ModalFormAudienciaComponent implements OnInit, OnDestroy {
       return this.formAudiencia.get('responsavelNome') as FormControl;
     }
 
+  submit(){
+    if(this.formAudiencia.valid){
+      if(!this.data.processoId){
+        const audiencia = {
+          ...this.formAudiencia.value,
+          responsavel: {
+            nome: this.formAudiencia.get('responsavelNome')?.value,
+          },
+          presencial: this.presencial,
+          dataAudiencia: this.getDateFormatted()
+        }
+        this.submitEvent.emit(audiencia);
+        this.modalRef.close(audiencia);
+        return;
+      }
+
+      if(this.data.audiencia){
+        this.updateAudiencia();
+        return;
+      }
+
+      this.addAudiencia();
+      
+    }else{
+      FormUtils.markFormGroupTouched(this.formAudiencia);
+    }
+  }
+
   addAudiencia(){
     this.spinner.show();
-    // const formattedDate = DateUtils.getDatetimeFormatted(this.formAudiencia, 'dataAudiencia', 'horaAudiencia', false);
     const audiencia = {
       ...this.formAudiencia.value,
-      // dataAudiencia: formattedDate,
-      processoId: this.processoId,
-      presencial: this.presencial
+      processoId: this.data.processoId,
+      presencial: this.presencial,
+      responsavel: {
+        nome: this.formAudiencia.get('responsavelNome')?.value,
+      },
+      dataAudiencia: this.getDateFormatted()
     }
     this.audienciaService.addAudiencia(audiencia).subscribe({
-      next: () => {
+      next: (res) => {
         this.toastr.success('Audiência adicionado!', 'Sucesso');
-        this.submitEvent.emit(this.formAudiencia.value);
-        // this.activeModal.close();
+        audiencia.id = res.id;
+        this.modalRef.close(audiencia);
       },
       error: () => {
         this.spinner.hide();
@@ -137,19 +161,17 @@ export class ModalFormAudienciaComponent implements OnInit, OnDestroy {
 
   updateAudiencia(){
     this.spinner.show();
-    // const dateFormatted = DateUtils.getDatetimeFormatted(this.formAudiencia, 'dataAudiencia', 'horaAudiencia', false);
     const audiencia = {
       ...this.formAudiencia.value,
-      processoId: this.processoId,
-      id: this.audienciaId,
-      // dataAudiencia: dateFormatted,
-      presencial: this.presencial
+      processoId: this.data.processoId,
+      id: this.data.audiencia.id,
+      presencial: this.presencial,
+      dataAudiencia: this.getDateFormatted()
     }
     this.audienciaService.updateAudiencia(audiencia).subscribe({
       next: () => {
         this.toastr.success('Audiência atualizada!', 'Sucesso');
-        this.submitEvent.emit(this.formAudiencia.value);
-        // this.activeModal.close();
+        this.modalRef.close(audiencia);
       },
       error: () => {
         this.spinner.hide();
@@ -160,33 +182,18 @@ export class ModalFormAudienciaComponent implements OnInit, OnDestroy {
     });
   }
 
+  getDateFormatted(){
+    const data = this.formAudiencia.value.dataAudiencia;
+    const hora = this.formAudiencia.value.horaAudiencia;
 
-  submit(){
-    if(this.formAudiencia.valid){
-      // const formattedDate = DateUtils.getDatetimeFormatted(this.formAudiencia, 'dataAudiencia', 'horaAudiencia', false);
-      if(!this.processoId){
-        const audiencia = {
-          ...this.formAudiencia.value,
-          responsavel: {
-            nome: this.formAudiencia.get('responsavelNome')?.value,
-          },
-          presencial: this.presencial
-        }
-        this.submitEvent.emit(audiencia);
-        this.modalRef.close(audiencia);
-        return;
-      }
+    let dataDiligencia: string;
+    const dataObj = new Date(data);
+    const horaObj = new Date(hora);
 
-      if(this.audienciaId){
-        this.updateAudiencia();
-        return;
-      }
+    dataObj.setHours(horaObj.getHours(), horaObj.getMinutes(), 0, 0);
+    dataDiligencia = `${dataObj.getFullYear()}-${(dataObj.getMonth() + 1).toString().padStart(2, '0')}-${dataObj.getDate().toString().padStart(2, '0')}T${dataObj.getHours().toString().padStart(2, '0')}:${dataObj.getMinutes().toString().padStart(2, '0')}:00`;
 
-      this.addAudiencia();
-      
-    }else{
-      FormUtils.markFormGroupTouched(this.formAudiencia);
-    }
+    return dataDiligencia;
   }
 
   getResponsaveis(params: any){

@@ -26,7 +26,7 @@ export class CardHistoricoComponent {
   formHistorico!: FormGroup;
 
   @Input({required: true}) historico!: Historico;
-  @Output() deleteEvent: EventEmitter<number> = new EventEmitter<number>();
+  @Output() deleteEvent: EventEmitter<string> = new EventEmitter<string>();
   @Output() submitEvent: EventEmitter<Historico> = new EventEmitter<Historico>();
 
   faTrash = faTrash;
@@ -48,7 +48,7 @@ export class CardHistoricoComponent {
     });
   }
 
-  deleteHistorico(id: number){
+  deleteHistorico(id: string){
     this.deleteEvent.emit(id);
   }
 

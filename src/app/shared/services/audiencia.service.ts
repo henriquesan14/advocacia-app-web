@@ -20,7 +20,7 @@ export class AudienciaService {
     return this.http.post<Audiencia>(`${this.API}/audiencia`, audiencia);
   }
 
-  deleteAudiencia(id: number){
+  deleteAudiencia(id: string){
     return this.http.delete(`${this.API}/audiencia/${id}`);
   }
 

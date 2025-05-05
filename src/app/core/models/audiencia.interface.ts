@@ -1,7 +1,7 @@
 import { Usuario } from "./usuario.interface";
 
 export interface Audiencia {
-    id: number;
+    id: string;
     descricao: string;
     processoId: number;
     dataAudiencia: string;

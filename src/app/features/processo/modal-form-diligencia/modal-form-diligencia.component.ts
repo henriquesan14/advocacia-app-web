@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { UsuariosService } from '../../../shared/services/usuarios.service';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormUtils } from '../../../shared/utils/form.utils';
@@ -11,16 +11,14 @@ import { Diligencia } from '../../../core/models/diligencia.interface';
 import { DatePipe } from '@angular/common';
 import { ToggleButtonComponent } from '../../../shared/components/toogle-button/toggle-button.component';
 import { Subject, takeUntil } from 'rxjs';
-import { DateUtils } from '../../../shared/utils/date.utils';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzModalRef } from 'ng-zorro-antd/modal';
+import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-modal-form-diligencia',
@@ -42,14 +40,13 @@ export class ModalFormDiligenciaComponent implements OnInit, OnDestroy {
   date!: { year: number; month: number };
 
   @Output() submitEvent: EventEmitter<Diligencia> = new EventEmitter<Diligencia>();
-  @Input() processoId!: number;
-  @Input() diligenciaId!: number;
+  
   responsavelNome!: string;
   diaInteiro = false;
   presencial = false;
 
   constructor(private usuarioService: UsuariosService, private formBuilder: FormBuilder,
-    private diligenciaService: DiligenciaService, private toastr: ToastrService, private spinner: NgxSpinnerService, private datePipe: DatePipe, private modalRef: NzModalRef) { }
+    private diligenciaService: DiligenciaService, private toastr: ToastrService, private spinner: NgxSpinnerService, private modalRef: NzModalRef, @Inject(NZ_MODAL_DATA) public data: { processoId: string, diligencia: Diligencia }) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -61,7 +58,7 @@ export class ModalFormDiligenciaComponent implements OnInit, OnDestroy {
       local: [null, Validators.required],
     });
 
-    if (this.diligenciaId) {
+    if (this.data.diligencia) {
       this.getDiligencia();
     }
     this.getResponsaveis();
@@ -96,20 +93,18 @@ export class ModalFormDiligenciaComponent implements OnInit, OnDestroy {
   }
 
   getDiligencia() {
-    this.diligenciaService.getById(this.diligenciaId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (res: Diligencia) => {
-          this.form.get('descricao')?.setValue(res.descricao);
-          this.form.get('local')?.setValue(res.local);
-          this.form.get('responsavelId')?.setValue(res.responsavelId);
-          this.form.get('responsavel')?.setValue(res.responsavel);
-          // DateUtils.setDataHora(res.dataDiligencia, this.dp, this.form, 'dataDiligencia', 'horaDiligencia');
-          this.responsavelNome = res.responsavel.nome;
-          this.presencial = res.presencial;
-          this.diaInteiro = res.diaInteiro;
-        }
-      })
+        this.form.get('descricao')?.setValue(this.data.diligencia.descricao);
+        this.form.get('local')?.setValue(this.data.diligencia.local);
+        this.form.get('responsavelId')?.setValue(this.data.diligencia.responsavelId);
+        this.form.get('responsavelNome')?.setValue(this.data.diligencia.responsavel.nome);
+
+        const data = new Date(this.data.diligencia.dataDiligencia);
+
+        this.form.get('dataDiligencia')?.setValue(data);
+        this.form.get('horaDiligencia')?.setValue(data);
+        
+        this.presencial = this.data.diligencia.presencial;
+        this.diaInteiro = this.data.diligencia.diaInteiro;
   }
 
 
@@ -124,76 +119,23 @@ export class ModalFormDiligenciaComponent implements OnInit, OnDestroy {
       })
   }
 
-  addDiligencia() {
-    this.spinner.show();
-    // const dateFormatted = DateUtils.getDatetimeFormatted(this.form, 'dataDiligencia', 'horaDiligencia', this.diaInteiro);
-    const diligencia = {
-      ...this.form.value,
-      processoId: this.processoId,
-      // dataDiligencia: dateFormatted,
-      diaInteiro: this.diaInteiro,
-      presencial: this.presencial
-    }
-
-    this.diligenciaService.addDiligencia(diligencia).subscribe({
-      next: () => {
-        this.toastr.success('Diligência adicionada!', 'Sucesso');
-        this.submitEvent.emit(this.form.value);
-        // this.activeModal.close();
-      },
-      error: () => {
-        this.spinner.hide();
-      },
-      complete: () => {
-        this.spinner.hide();
-      }
-    });
-  }
-
-  updateDiligencia() {
-    this.spinner.show();
-    // const dateFormatted = DateUtils.getDatetimeFormatted(this.form, 'dataDiligencia', 'horaDiligencia', this.diaInteiro);
-    const diligencia = {
-      ...this.form.value,
-      processoId: this.processoId,
-      id: this.diligenciaId,
-      // dataDiligencia: dateFormatted,
-      diaInteiro: this.diaInteiro,
-      presencial: this.presencial
-    }
-
-    this.diligenciaService.updateDiligencia(diligencia).subscribe({
-      next: () => {
-        this.toastr.success('Diligência atualizada!', 'Sucesso');
-        this.submitEvent.emit(this.form.value);
-        // this.activeModal.close();
-      },
-      error: () => {
-        this.spinner.hide();
-      },
-      complete: () => {
-        this.spinner.hide();
-      }
-    });
-  }
-
   submit() {
     if (this.form.valid) {
-      // const formattedDate = DateUtils.getDatetimeFormatted(this.form, 'dataDiligencia', 'horaDiligencia', this.diaInteiro);
-      if (!this.processoId) {
+      if (!this.data.processoId) {
         const diligencia = {
           ...this.form.value,
           responsavel: {
             nome: this.form.get('responsavelNome')?.value
           },
+          dataDiligencia: this.getDateFormatted(),
           diaInteiro: this.diaInteiro,
-          presencial: this.presencial
+          presencial: this.presencial,
         }
         this.modalRef.close(diligencia);
         return;
       }
 
-      if (this.diligenciaId) {
+      if (this.data.diligencia) {
         this.updateDiligencia();
         return;
       }
@@ -205,8 +147,87 @@ export class ModalFormDiligenciaComponent implements OnInit, OnDestroy {
     }
   }
 
+
+  addDiligencia() {
+    this.spinner.show();
+    const diligencia = {
+      ...this.form.value,
+      processoId: this.data.processoId,
+      diaInteiro: this.diaInteiro,
+      presencial: this.presencial,
+      dataDiligencia: this.getDateFormatted(),
+      responsavel: {
+        nome: this.form.get('responsavelNome')?.value
+      },
+    }
+
+    this.diligenciaService.addDiligencia(diligencia).subscribe({
+      next: (res) => {
+        this.toastr.success('Diligência adicionada!', 'Sucesso');
+        diligencia.id = res.id;
+        this.submitEvent.emit(diligencia);
+        this.modalRef.close(diligencia);
+      },
+      error: () => {
+        this.spinner.hide();
+      },
+      complete: () => {
+        this.spinner.hide();
+      }
+    });
+  }
+
+  getDateFormatted(){
+    const data = this.form.value.dataDiligencia;
+    const hora = this.form.value.horaDiligencia;
+
+    let dataDiligencia: string;
+
+    if (!this.diaInteiro && hora) {
+      const dataObj = new Date(data);
+      const horaObj = new Date(hora);
+
+      dataObj.setHours(horaObj.getHours(), horaObj.getMinutes(), 0, 0);
+      dataDiligencia = `${dataObj.getFullYear()}-${(dataObj.getMonth() + 1).toString().padStart(2, '0')}-${dataObj.getDate().toString().padStart(2, '0')}T${dataObj.getHours().toString().padStart(2, '0')}:${dataObj.getMinutes().toString().padStart(2, '0')}:00`;
+    } else {
+      const dataObj = new Date(data);
+      dataObj.setHours(0, 0, 0, 0);
+
+      dataDiligencia = `${dataObj.getFullYear()}-${(dataObj.getMonth() + 1).toString().padStart(2, '0')}-${dataObj.getDate().toString().padStart(2, '0')}T00:00:00`;
+    }
+
+    return dataDiligencia;
+  }
+
+  updateDiligencia() {
+    this.spinner.show();
+    const diligencia = {
+      ...this.form.value,
+      processoId: this.data.processoId,
+      id: this.data.diligencia.id,
+      dataDiligencia: this.getDateFormatted(),
+      diaInteiro: this.diaInteiro,
+      presencial: this.presencial,
+      responsavel: {
+        nome: this.form.get('responsavelNome')?.value
+      },
+    }
+
+    this.diligenciaService.updateDiligencia(diligencia).subscribe({
+      next: () => {
+        this.toastr.success('Diligência atualizada!', 'Sucesso');
+        this.modalRef.close(diligencia);
+      },
+      error: () => {
+        this.spinner.hide();
+      },
+      complete: () => {
+        this.spinner.hide();
+      }
+    });
+  }
+
   responsavelSelecionado(responsavel: any) {
-    console.log(responsavel)
     this.form.get('responsavelNome')?.setValue(responsavel.nome);
     this.form.get('responsavelId')?.setValue(responsavel.id);
   }

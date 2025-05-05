@@ -1,9 +1,9 @@
 export interface Documento {
-    id?: number;
+    id?: string;
     tipo: string;
     nome: string;
     url?: string;
-    processoId?: number
+    processoId?: string
     createdAt?: string
     createdByUserId?: number
     file: File

@@ -20,7 +20,7 @@ export class HistoricoService {
     return this.http.post<Historico>(`${this.API}/historico`, historico);
   }
 
-  deleteHistorico(id: number){
+  deleteHistorico(id: string){
     return this.http.delete(`${this.API}/historico/${id}`);
   }
 

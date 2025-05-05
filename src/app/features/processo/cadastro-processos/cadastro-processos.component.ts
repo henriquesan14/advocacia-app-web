@@ -93,7 +93,6 @@ export class CadastroProcessosComponent implements OnInit {
     this.spinner.show();
     this.processoService.getProcessoById(id).subscribe({
       next: (processo) => {
-        console.log(processo)
         this.formProcesso.patchValue({
           donoId: processo.dono?.id,
           donoNome: processo.dono?.nome,
@@ -152,7 +151,6 @@ export class CadastroProcessosComponent implements OnInit {
   }
 
   async onSubmit() {
-    console.log(this.formProcesso.value)
     if (this.formProcesso.valid) {
       if (this.formProcesso.get('situacaoProcessoId')?.value == 1) {
         const modalRef = this.modalService.create({

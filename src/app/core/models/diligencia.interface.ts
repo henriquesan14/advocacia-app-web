@@ -1,7 +1,7 @@
 import { Usuario } from "./usuario.interface";
 
 export interface Diligencia {
-    id: number;
+    id: string;
     descricao: string;
     responsavel: Usuario;
     responsavelId: number;

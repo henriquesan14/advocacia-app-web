@@ -1,7 +1,7 @@
 import { Usuario } from "./usuario.interface";
 
 export interface Historico {
-    id: number;
+    id: string;
     autor: string;
     dataHistorico: string;
     descricao: string;

@@ -27,15 +27,15 @@
             </nz-tab>
 
             <nz-tab nzTitle="Diligências">
-              <tab-diligencias (diligenciasChange)="onDiligenciasChange($event)"></tab-diligencias>
+              <tab-diligencias [processoId]="processoId" [diligencias]="diligencias" (diligenciasChange)="onDiligenciasChange($event)"></tab-diligencias>
             </nz-tab>
 
             <nz-tab nzTitle="Audiências">
-              <tab-audiencias (audienciasChange)="onAudienciasChange($event)"></tab-audiencias>
+              <tab-audiencias [processoId]="processoId" [audiencias]="audiencias" (audienciasChange)="onAudienciasChange($event)"></tab-audiencias>
             </nz-tab>
 
             <nz-tab nzTitle="Documentos">
-              <tab-documentos (documentosChange)="onDocumentosChange($event)"></tab-documentos>          
+              <tab-documentos [processoId]="processoId" [documentos]="documentos" (documentosChange)="onDocumentosChange($event)"></tab-documentos>          
             </nz-tab>
 
           </nz-tabset>
