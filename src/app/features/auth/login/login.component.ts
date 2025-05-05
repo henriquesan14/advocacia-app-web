@@ -36,7 +36,7 @@ export class LoginComponent {
         next: (res) => {
           this.localStorageService.setAuthStorage(res);
           this.notificationService.startConnection(res.user.id.toString());
-          this.router.navigate(['/processos']);
+          this.router.navigate(['/processos/list']);
         },
         error: () => {
           this.spinner.hide();

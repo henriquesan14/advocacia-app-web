@@ -3,7 +3,7 @@ import { ListagemProcessosComponent } from "./listagem-processos/listagem-proces
 import { CadastroProcessosComponent } from "./cadastro-processos/cadastro-processos.component";
 
 export const PROCESSOS_ROUTES: Route[] = [
-  {path: '', component: ListagemProcessosComponent},
+  {path: 'list', component: ListagemProcessosComponent},
   {path: 'cadastro', component: CadastroProcessosComponent},
   {path: ':id', component: CadastroProcessosComponent},
 ];

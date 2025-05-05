@@ -189,7 +189,7 @@ export class CadastroProcessosComponent implements OnInit {
       this.processoService.cadastrarProcesso(processo).subscribe({
         next: () => {
           this.toastr.success('Processo cadastrado!', 'Sucesso!');
-          this.router.navigateByUrl('/processos');
+          this.router.navigateByUrl('/processos/list');
         },
         error: async () => {
           await this.deleteFiles();

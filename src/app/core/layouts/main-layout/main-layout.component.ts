@@ -9,19 +9,22 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzDropdownMenuComponent, NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faFile } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
   imports: [CommonModule, RouterLink, RouterOutlet, NzIconModule, NzLayoutModule, NzMenuModule, RouterModule, NzDropdownMenuComponent, NzDropDownModule, HasRoleDirective,
-    NzSpinModule
+    NzSpinModule, FontAwesomeModule, NzIconModule
   ],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss'
 })
 export class MainLayoutComponent {
   isCollapsed = false;
+  faFile = faFile;
   private router = inject(Router);
   private localStorageService = inject(LocalstorageService);
   private authService = inject(AuthService);
@@ -30,22 +33,30 @@ export class MainLayoutComponent {
 
   menuItems = [
     {
-      title: 'Sorteio',
-      icon: 'setting',
-      permission: 'VIEW_MATCHMAKING',
+      title: 'Processos',
+      icon: 'file-add',
+      permission: 'VISUALIZAR_PROCESSO',
       children: [
-        { label: 'Novo', link: 'matchmaking/generate', permission: 'GENERATE_MATCHMAKING' },
-        { label: 'Histórico', link: 'matchmaking/list', permission: 'VIEW_MATCHMAKING' },
-        { label: 'Ranking', link: 'player/ranking', permission: 'VIEW_PLAYER' },
+        { label: 'Listar', link: 'processos/list', permission: 'CADASTRAR_PROCESSO' },
+        { label: 'Novo', link: 'processos/cadastro', permission: 'VISUALIZAR_PROCESSO' },
       ]
     },
     {
-      title: 'Controle de acesso',
-      icon: 'lock',
-      permission: 'VIEW_USER',
+      title: 'Eventos',
+      icon: 'calendar',
+      permission: 'VISUALIZAR_EVENTO',
       children: [
-        { label: 'Usuários', link: 'users/list', permission: 'VIEW_USER', },
-        { label: 'Grupos', link: 'groups/list', permission: 'VIEW_USER', },
+        { label: 'Listar', link: 'eventos/list', permission: 'CADASTRAR_EVENTO' },
+        { label: 'Novo', link: 'eventos/cadastro', permission: 'VISUALIZAR_EVENTO' },
+      ]
+    },
+    {
+      title: 'Partes',
+      icon: 'user',
+      permission: 'VISUALIZAR_PARTE',
+      children: [
+        { label: 'Listar', link: 'partes/list', permission: 'VISUALIZAR_PARTE', },
+        { label: 'Novo', link: 'partes/cadastro', permission: 'CADASTRAR_PARTE', },
       ]
     },
   ]
