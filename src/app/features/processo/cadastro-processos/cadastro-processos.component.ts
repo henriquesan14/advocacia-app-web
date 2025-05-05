@@ -1,14 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
-import { faArrowCircleLeft, faCheck, faCloudUploadAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FormUtils } from '../../../shared/utils/form.utils';
 import { Processo } from '../../../core/models/processo.interface';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { ProcessosService } from '../../../shared/services/processos.service';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { BtnCadastrarComponent } from '../../../shared/components/btn-cadastrar/btn-cadastrar.component';
 import { BtnVoltarComponent } from '../../../shared/components/btn-voltar/btn-voltar.component';
 import { DataService } from '../../../shared/services/data-service';
@@ -42,12 +41,9 @@ export class CadastroProcessosComponent implements OnInit {
   formProcesso!: FormGroup;
   modalService = inject(NzModalService);
 
+  processoId?: string;
   tabActive = 0;
   faTrash = faTrash;
-  faCheck = faCheck;
-  faArrowLeft = faArrowCircleLeft;
-  faUpload = faCloudUploadAlt;
-  faAddressCard = faAddressCard;
 
   historicos: Historico[] = [];
   diligencias: Diligencia[] = [];
@@ -57,10 +53,17 @@ export class CadastroProcessosComponent implements OnInit {
   autoresSelecionados: Parte[] = [];
 
   constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService, private processoService: ProcessosService,
-    private toastr: ToastrService, private router: Router, private dataService: DataService) {
+    private toastr: ToastrService, private router: Router, private dataService: DataService, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.queryParamMap.subscribe((params: ParamMap) => {
+      const tab = params.get('tab');
+      if (tab) {
+        this.tabActive = +tab;
+      }
+    });
+
     this.formProcesso = this.formBuilder.group({
       donoId: [null, Validators.required],
       donoNome: ['', Validators.required],
@@ -76,6 +79,51 @@ export class CadastroProcessosComponent implements OnInit {
       sistemaId: [null, Validators.required],
       dataDistribuicao: [null],
       observacao: [null]
+    });
+
+    this.activatedRoute.params.subscribe(params => {
+      if (params['id']) {
+        this.processoId = params['id'];
+        this.carregarProcesso(this.processoId!);
+      }
+    });
+  }
+
+  carregarProcesso(id: string) {
+    this.spinner.show();
+    this.processoService.getProcessoById(id).subscribe({
+      next: (processo) => {
+        console.log(processo)
+        this.formProcesso.patchValue({
+          donoId: processo.dono?.id,
+          donoNome: processo.dono?.nome,
+          responsavelId: processo.responsavelProcesso?.id,
+          responsavelNome: processo.responsavelProcesso?.nome,
+          tipoAcao: processo.tipoAcao,
+          nroProcesso: processo.nroProcesso,
+          vara: processo.vara,
+          comarcaId: processo.comarca?.id,
+          comarcaNome: processo.comarca?.nome,
+          situacaoProcessoId: processo.situacao?.id,
+          competenciaId: processo.competencia?.id,
+          sistemaId: processo.sistema?.id,
+          dataDistribuicao: processo.dataDistribuicao ? new Date(processo.dataDistribuicao) : null,
+          observacao: processo.observacao
+        });
+  
+        this.autoresSelecionados = processo.autores ?? [];
+        this.reusSelecionados = processo.reus ?? [];
+        this.diligencias = processo.diligencias ?? [];
+        this.audiencias = processo.audiencias ?? [];
+        this.historicos = processo.historico ?? [];
+        this.documentos = processo.documentos ?? [];
+      },
+      error: () => {
+        this.toastr.error('Erro ao carregar processo');
+      },
+      complete: () => {
+        this.spinner.hide();
+      }
     });
   }
 
@@ -104,6 +152,7 @@ export class CadastroProcessosComponent implements OnInit {
   }
 
   async onSubmit() {
+    console.log(this.formProcesso.value)
     if (this.formProcesso.valid) {
       if (this.formProcesso.get('situacaoProcessoId')?.value == 1) {
         const modalRef = this.modalService.create({

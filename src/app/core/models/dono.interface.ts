@@ -1,5 +1,5 @@
 export interface Dono {
-    id: number;
+    id: string;
     nome: string;
     createdAt: string;
 }

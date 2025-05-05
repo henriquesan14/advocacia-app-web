@@ -171,7 +171,7 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
   }
 
   visualizarProcesso(idProcesso: number) {
-		this.router.navigateByUrl(`/app/processos/${idProcesso}`);
+		this.router.navigateByUrl(`/processos/${idProcesso}`);
 	}
 
   filter(){

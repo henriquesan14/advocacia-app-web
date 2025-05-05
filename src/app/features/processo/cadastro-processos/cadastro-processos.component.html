@@ -1,4 +1,9 @@
-<h2>Cadastro de Processos</h2>
+@if(processoId){
+  <h2>Edição de Processo</h2>
+}@else {
+  <h2>Cadastro de Processos</h2>
+}
+
 <div class="container">
   <main>
     <div class="row g-5">
@@ -10,15 +15,15 @@
             </nz-tab>
 
             <nz-tab nzTitle="Autores">
-              <tab-autores (autoresChange)="onAutoresChange($event)"></tab-autores>
+              <tab-autores [autores]="autoresSelecionados" (autoresChange)="onAutoresChange($event)"></tab-autores>
             </nz-tab>
 
             <nz-tab nzTitle="Réus">
-              <tab-reus (reusChange)="onReusChange($event)"></tab-reus>
+              <tab-reus [reus]="reusSelecionados" (reusChange)="onReusChange($event)"></tab-reus>
             </nz-tab>
 
             <nz-tab nzTitle="Históricos">
-              <tab-historicos (historicosChange)="onHistoricosChange($event)"></tab-historicos>
+              <tab-historicos [processoId]="processoId" [historicos]="historicos" (historicosChange)="onHistoricosChange($event)"></tab-historicos>
             </nz-tab>
 
             <nz-tab nzTitle="Diligências">
@@ -36,7 +41,7 @@
           </nz-tabset>
 
           <div class="container mt-2">
-            <btn-cadastrar class="me-1" hasRole="CADASTRAR_PROCESSO" (clickEvent)="onSubmit()"></btn-cadastrar>
+            <btn-cadastrar [title]="processoId ? 'Atualizar' : 'Cadastrar'" class="me-1" hasRole="CADASTRAR_PROCESSO" (clickEvent)="onSubmit()"></btn-cadastrar>
             <btn-voltar></btn-voltar>
           </div>
         </form>

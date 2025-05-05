@@ -29,11 +29,12 @@ import { ModalFormComarcaComponent } from '../../../../comarca/modal-form-comarc
 import { FormUsuarioComponent } from '../../../../usuarios/form-usuario/form-usuario.component';
 import { ModalFormDonoComponent } from '../../../../dono/modal-form-dono/modal-form-dono.component';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 @Component({
   selector: 'tab-processo',
   standalone: true,
-  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NzAutocompleteModule, NgxMaskDirective, BtnNovoComponent],
+  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NzAutocompleteModule, NgxMaskDirective, BtnNovoComponent, NzDatePickerModule],
   templateUrl: './tab-processo.component.html',
   styleUrl: './tab-processo.component.scss'
 })
@@ -51,9 +52,9 @@ export class TabProcessoComponent implements OnInit, OnDestroy {
 
   modalService = inject(NzModalService);
 
-  constructor(private formBuilder: FormBuilder, private usuarioService: UsuariosService, private donoService: DonoService,
+  constructor( private usuarioService: UsuariosService, private donoService: DonoService,
     private comarcaService: ComarcaService, private sistemaService: SistemaService, private situacaoProcessoService: SituacaoProcessoService,
-    private competenciaService: CompetenciaService, private processoService: ProcessosService
+    private competenciaService: CompetenciaService
   ) { }
 
   ngOnInit(): void {

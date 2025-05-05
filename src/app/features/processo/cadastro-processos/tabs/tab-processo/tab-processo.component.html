@@ -204,7 +204,7 @@
         <nz-form-item>
           <nz-form-label>Data de Distribuição</nz-form-label>
           <nz-form-control>
-            <input nz-input formControlName="dataDistribuicao" type="date" />
+            <nz-date-picker formControlName="dataDistribuicao" [nzFormat]="'dd/MM/yyyy'"></nz-date-picker>
           </nz-form-control>
         </nz-form-item>
       </div>

@@ -13,11 +13,12 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzInputModule } from 'ng-zorro-antd/input';
 
 @Component({
   selector: 'app-card-historico',
   standalone: true,
-  imports: [ FontAwesomeModule, ReactiveFormsModule, FormsModule, CommonModule, HasRoleDirective, NzFormModule, NzButtonModule, NzRadioModule, NzSelectModule, NzGridModule],
+  imports: [ FontAwesomeModule, ReactiveFormsModule, FormsModule, CommonModule, HasRoleDirective, NzFormModule, NzInputModule, NzButtonModule, NzRadioModule, NzSelectModule, NzGridModule],
   templateUrl: './card-historico.component.html',
   styleUrl: './card-historico.component.css'
 })
@@ -26,7 +27,7 @@ export class CardHistoricoComponent {
 
   @Input({required: true}) historico!: Historico;
   @Output() deleteEvent: EventEmitter<number> = new EventEmitter<number>();
-  @Output() submitEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() submitEvent: EventEmitter<Historico> = new EventEmitter<Historico>();
 
   faTrash = faTrash;
   faPencil = faPencil;
@@ -62,18 +63,19 @@ export class CardHistoricoComponent {
     this.editar = false;
   }
 
-  onSubmit(){
-    if(this.historico.id){
-      const historico = {
-        ...this.formHistorico.value,
-        id: this.historico.id,
-        grau: this.historico.grau,
-        resultadoSentenca: this.historico.resultadoSentenca
-      }
-      this.historicoService.updateHistorico(historico).subscribe({
+  onSubmit() {
+    if (this.historico.id) {
+      const historicoAtualizado = {
+        ...this.historico, // copia tudo
+        descricao: this.formHistorico.value.descricao,
+        resultadoSentenca: this.historico.resultadoSentenca,
+        grau: this.historico.grau
+      };
+  
+      this.historicoService.updateHistorico(historicoAtualizado).subscribe({
         next: () => {
           this.toastr.success('Histórico atualizado!', 'Sucesso');
-          this.submitEvent.emit(this.formHistorico.value);
+          this.submitEvent.emit(historicoAtualizado); // <--- envia objeto completo
           this.editar = false;
           this.formHistorico.reset();
         }

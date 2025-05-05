@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { BtnNovoComponent } from '../../../../../shared/components/btn-novo/btn-novo.component';
 import { IconClienteComponent } from '../../../../../shared/components/icon-cliente/icon-cliente.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -11,11 +11,13 @@ import { FormPartesComponent } from '../../../../parte/form-partes/form-partes.c
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { PartesService } from '../../../../../shared/services/partes.service';
 import { Subject, takeUntil } from 'rxjs';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'tab-reus',
   standalone: true,
-  imports: [BtnNovoComponent, IconClienteComponent, ReactiveFormsModule, NzFormModule, NzInputModule, NzAutocompleteModule, NzTableModule],
+  imports: [BtnNovoComponent, IconClienteComponent, ReactiveFormsModule, NzFormModule, NzInputModule, NzAutocompleteModule, NzTableModule, NzButtonModule, NzIconModule],
   templateUrl: './tab-reus.component.html',
   styleUrl: './tab-reus.component.scss'
 })
@@ -24,13 +26,19 @@ export class TabReusComponent implements OnInit, OnDestroy {
   reuNomeControl = new FormControl('');
 
   reusSelecionados: Parte[] = [];
-  reus: Parte[] = [];
+  @Input() reus: Parte[] = [];
 
   @Output() reusChange = new EventEmitter<Parte[]>();
 
   modalService = inject(NzModalService);
 
   constructor(private parteService: PartesService) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['reus']) {
+      this.reusSelecionados = [...this.reus];
+    }
+  }
 
   ngOnInit(): void {
     var params = { pageSize: 99 };

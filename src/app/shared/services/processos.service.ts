@@ -40,7 +40,7 @@ export class ProcessosService {
     return this.http.get<ResponsePage<Processo>>(`${this.API}/processo/meusProcessos`, {params});
   }
 
-  getProcessoById(idProcesso: number): Observable<Processo>{
+  getProcessoById(idProcesso: string): Observable<Processo>{
     return this.http.get<Processo>(`${this.API}/processo/${idProcesso}`);
   }
 

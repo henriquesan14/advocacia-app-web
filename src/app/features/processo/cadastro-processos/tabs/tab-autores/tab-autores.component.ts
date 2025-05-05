@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { BtnNovoComponent } from '../../../../../shared/components/btn-novo/btn-novo.component';
 import { IconClienteComponent } from '../../../../../shared/components/icon-cliente/icon-cliente.component';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -11,11 +11,13 @@ import { PartesService } from '../../../../../shared/services/partes.service';
 import { Parte } from '../../../../../core/models/parte.interface';
 import { FormPartesComponent } from '../../../../parte/form-partes/form-partes.component';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'tab-autores',
   standalone: true,
-  imports: [BtnNovoComponent, IconClienteComponent, NzFormModule, NzInputModule, NzAutocompleteModule, NzTableModule, ReactiveFormsModule],
+  imports: [BtnNovoComponent, IconClienteComponent, NzFormModule, NzInputModule, NzAutocompleteModule, NzTableModule, ReactiveFormsModule, NzButtonModule, NzIconModule],
   templateUrl: './tab-autores.component.html',
   styleUrl: './tab-autores.component.scss'
 })
@@ -24,13 +26,19 @@ export class TabAutoresComponent implements OnInit, OnDestroy {
   autorNomeControl = new FormControl('');
 
   autoresSelecionados: Parte[] = [];
-  autores: Parte[] = [];
+  @Input() autores: Parte[] = [];
 
   @Output() autoresChange = new EventEmitter<Parte[]>();
 
   modalService = inject(NzModalService);
 
   constructor(private parteService: PartesService) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['autores']) {
+      this.autoresSelecionados = [...this.autores];
+    }
+  }
 
   ngOnInit(): void {
     var params = { pageSize: 99 };

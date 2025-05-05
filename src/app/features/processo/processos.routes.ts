@@ -5,4 +5,5 @@ import { CadastroProcessosComponent } from "./cadastro-processos/cadastro-proces
 export const PROCESSOS_ROUTES: Route[] = [
   {path: '', component: ListagemProcessosComponent},
   {path: 'cadastro', component: CadastroProcessosComponent},
+  {path: ':id', component: CadastroProcessosComponent},
 ];

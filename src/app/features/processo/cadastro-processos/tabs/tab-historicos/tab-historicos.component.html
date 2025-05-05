@@ -1,9 +1,9 @@
 <div class="container">
     <app-form-historico hasRole="CADASTRAR_PROCESSO"
-      (submitEvent)="addHistorico($event)"></app-form-historico>
+     [processoId]="processoId" (submitEvent)="addHistorico($event)"></app-form-historico>
     <h3 class="mt-2">Histórico</h3>
     @for(historico of historicos; track $index){
-    <app-card-historico (deleteEvent)="deleteHistorico($event)"
+    <app-card-historico (submitEvent)="atualizarHistorico($event)" (deleteEvent)="deleteHistorico(historico.id, $event)"
       [historico]="historico"></app-card-historico>
     }@empty {
     <span>Não há nenhum histórico</span>

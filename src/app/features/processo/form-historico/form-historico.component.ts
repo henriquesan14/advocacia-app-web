@@ -30,7 +30,7 @@ export class FormHistoricoComponent implements OnInit{
      private datePipe: DatePipe, private localStorageService: LocalstorageService){}
 
   @Output() submitEvent: EventEmitter<Historico> = new EventEmitter<Historico>();
-  @Input() processoId!: number;
+  @Input() processoId?: string;
 
   ngOnInit(): void {
     this.formHistorico = this.formBuilder.group({
@@ -42,22 +42,25 @@ export class FormHistoricoComponent implements OnInit{
 
   onSubmit(){
     const grau = this.formHistorico.get('grau')?.value;
+    const user = this.localStorageService.getAuthStorage().user;
+    const formattedDate = this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss');
     if(this.processoId){
       const historico = {
         ...this.formHistorico.value,
-        processoId: this.processoId
+        processoId: this.processoId,
+        createdAt: formattedDate,
+        createdByUser: user
       }
       this.historicoService.addHistorico(historico).subscribe({
-        next: () => {
+        next: (res) => {
           this.toastr.success('Histórico adicionado!', 'Sucesso');
-          this.submitEvent.emit(this.formHistorico.value);
+          historico.id = res.id;
+          this.submitEvent.emit(historico);
           this.formHistorico.reset();
           this.formHistorico.get('grau')?.setValue(grau);
         }
       });
     }else{
-      const user = this.localStorageService.getAuthStorage().user;
-      const formattedDate = this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss');
       const historico = {
         ...this.formHistorico.value,
         createdAt: formattedDate,
