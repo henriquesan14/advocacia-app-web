@@ -1,0 +1,71 @@
+.card-evento{
+    display: flex;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    flex-wrap: wrap;
+    max-width: 100%;
+    overflow: hidden;
+    word-wrap: break-word;
+}
+
+.card-evento:hover {
+    background-color: #e9ecef;
+    cursor: pointer;
+}
+
+.left{
+    background-color: #e6e5e5;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-right: 10px;
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    justify-self: stretch;
+}
+
+.left, .right {
+    padding: 10px;
+}
+
+.end{
+    display: flex;
+    align-items: end;
+}
+
+.data{
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.hora{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.titulo {
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+@media (max-width: 970px) {
+    .card-compromisso {
+        flex-direction: column;
+    }
+    .left, .right {
+        margin-right: 0;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+    
+}

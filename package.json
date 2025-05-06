@@ -24,6 +24,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@microsoft/signalr": "^7.0.14",
+    "html2canvas": "^1.4.1",
     "ng-zorro-antd": "^18.2.1",
     "ngx-mask": "^19.0.6",
     "ngx-spinner": "^18.0.0",

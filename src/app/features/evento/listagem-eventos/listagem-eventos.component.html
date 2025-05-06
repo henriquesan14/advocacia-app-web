@@ -1,0 +1,71 @@
+<nz-card>
+    <div class="text-center">
+      <h2>Agenda</h2>
+    </div>
+  
+    <div class="mb-3 d-flex justify-content-between flex-wrap">
+      <btn-novo class="me-1" hasRole="CADASTRAR_EVENTO" (clickEvent)="novoEvento()" title="Nova agenda"></btn-novo>
+  
+      <button nz-button nzType="default" nzShape="round" (click)="captureScreen()">
+        <fa-icon [icon]="faCamera" class="me-1"></fa-icon> Capturar Tela
+      </button>
+    </div>
+  
+    <form nz-form [formGroup]="formAgenda" (ngSubmit)="submit()" nzLayout="vertical">
+      <div nz-row [nzGutter]="16">
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label>Data da agenda</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker formControlName="dataEvento" nzFormat="dd/MM/yyyy"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label for="tipo">Tipo</nz-form-label>
+            <nz-form-control>
+              <nz-select formControlName="tipo" id="tipo">
+                <nz-option [nzValue]="''" nzLabel="Todos"></nz-option>
+                <nz-option nzValue="AUDIENCIA" nzLabel="Audiência"></nz-option>
+                <nz-option nzValue="DILIGENCIA" nzLabel="Diligência"></nz-option>
+                <nz-option nzValue="PRAZO" nzLabel="Prazo"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+  
+      <div class="mb-2 d-flex gap-2">
+        <btn-pesquisar class="me-1" ></btn-pesquisar>
+        <btn-limpar (clickEvent)="reset()"></btn-limpar>
+      </div>
+    </form>
+  
+    <div class="mb-2 mt-1">
+      <span>{{ responsePageEventos.totalCount }} agendas encontradas.</span>
+    </div>
+  
+    @if(responsePageEventos.items.length > 0){
+        <ul #content class="eventos list-group">
+            @for(evento of responsePageEventos.items; track evento.id){
+                <app-card-evento [evento]="evento"></app-card-evento>
+            }
+        </ul>
+    }
+
+    <div class="d-flex justify-content-between align-items-center p-2">
+      <nz-pagination
+        [nzTotal]="responsePageEventos.totalCount"
+        [(nzPageIndex)]="responsePageEventos.currentPage"
+        [nzPageSize]="responsePageEventos.pageSize"
+        (nzPageIndexChange)="onPageChange($event)"
+        (nzPageSizeChange)="onPageSizeChange($event)"
+        [nzShowSizeChanger]="true"
+        [nzPageSizeOptions]="[2,5,10,20]">
+      </nz-pagination>
+    </div>
+  </nz-card>
+  
+  <ngx-spinner type="ball-clip-rotate-multiple"></ngx-spinner>
+  
