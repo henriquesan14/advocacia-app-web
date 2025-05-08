@@ -4,19 +4,9 @@
       <nz-form-item>
         <nz-form-label [nzSpan]="24">Selecione Réus</nz-form-label>
         <nz-form-control [nzSpan]="24">
-          <input nz-input [nzAutocomplete]="autoReus" [formControl]="reuNomeControl"
-            (input)="onChangeReu($event)" placeholder="Selecione os réus" />
-
-          <nz-autocomplete #autoReus (selectionChange)="addReu($event)">
-            @for(reu of reus; track $index) {
-            <nz-auto-option [nzValue]="reu.nome">
-              @if(reu.isCliente){
-              <icon-cliente></icon-cliente>
-              }
-              {{ reu.nome }}
-            </nz-auto-option>
-            }
-          </nz-autocomplete>
+          <select-autocomplete [shouldReset]="true" id="autor" [title]="'Selecione os réus'" [filterBy]="'nome'"
+          (selectedEvent)="reuSelected($event)" (changeEvent)="onChangeReu($event)" [items]="reus"
+          [icon]="faAddressCard" [checkBy]="'isCliente'"></select-autocomplete>
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -33,7 +23,12 @@
         <tbody>
           @for(reu of reusSelecionados; track $index){
           <tr>
-            <td>{{ reu.nome }}</td>
+            <td>
+              @if(reu.isCliente){
+                <icon-cliente></icon-cliente>
+              }
+              {{ reu.nome }}
+            </td>
             <td>
               <button nz-button nzType="default" nzDanger nzSize="small" (click)="deleteReu(reu, $index)"
                 nz-tooltip="Excluir">

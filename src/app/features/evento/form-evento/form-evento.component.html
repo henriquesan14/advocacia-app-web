@@ -1,163 +1,164 @@
 <form [formGroup]="formEvento" (ngSubmit)="submit()" nz-form nzLayout="vertical">
-    @if(evento.processo){
-        <ng-container>
-            <div nz-row class="box-processo" [nzGutter]="16">
-              <div nz-col [nzSpan]="8">
-                <b>Autor:</b> {{ evento.processo.autores[0].nome }}
-                @if(evento.processo.autores.length > 1){
-                  e Outros 
-                }
-                @if(evento.processo.autores[0].isCliente){
-                  <icon-cliente></icon-cliente>
-                }
-              </div>
-              <div nz-col [nzSpan]="8">
-                <b>Réu:</b> {{ evento.processo.reus[0].nome }}
-                @if(evento.processo.reus.length > 1){
-                    e Outros 
-                }
-                @if(evento.processo.reus[0].isCliente){
-                    <icon-cliente></icon-cliente>
-                }
-              </div>
-              <div nz-col [nzSpan]="8">
-                <b>Assunto:</b> {{ evento.processo.tipoAcao }}
-              </div>
-            </div>
-          </ng-container>
-    }
-    
-  
-    <div nz-row [nzGutter]="16">
+  @if(evento?.processo){
+  <ng-container>
+    <div nz-row class="box-processo" [nzGutter]="16">
       <div nz-col [nzSpan]="8">
-        <nz-form-item>
-          <nz-form-label [nzFor]="'titulo'" nzRequired>Título</nz-form-label>
-          <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
-            <input nz-input maxlength="600" formControlName="titulo" id="titulo" placeholder="Título" />
-          </nz-form-control>
-        </nz-form-item>
+        <b>Autor:</b> {{ evento.processo.autores[0].nome }}
+        @if(evento.processo.autores.length > 1){
+        e Outros
+        }
+        @if(evento.processo.autores[0].isCliente){
+        <icon-cliente></icon-cliente>
+        }
       </div>
-  
       <div nz-col [nzSpan]="8">
-        <nz-form-item>
-          <nz-form-label [nzFor]="'tipo'" nzRequired>Tipo</nz-form-label>
-          <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
-            <nz-select formControlName="tipo" id="tipo" placeholder="Selecione um tipo">
-                <nz-option [nzValue]="''" nzDisabled nzLabel="Selecione um tipo..."></nz-option>
-              <nz-option nzValue="AUDIENCIA" nzLabel="Audiência"></nz-option>
-              <nz-option nzValue="DILIGENCIA" nzLabel="Diligência"></nz-option>
-              <nz-option nzValue="PRAZO" nzLabel="Prazo"></nz-option>
-            </nz-select>
-          </nz-form-control>
-        </nz-form-item>
+        <b>Réu:</b> {{ evento.processo.reus[0].nome }}
+        @if(evento.processo.reus.length > 1){
+        e Outros
+        }
+        @if(evento.processo.reus[0].isCliente){
+        <icon-cliente></icon-cliente>
+        }
       </div>
-  
       <div nz-col [nzSpan]="8">
-        <nz-form-item>
-          <nz-form-label nzRequired>Responsável</nz-form-label>
-          <nz-form-control>
-            <input nz-input [formControl]="responsavelNomeControl" [nzAutocomplete]="autoResponsavel"
-                   (input)="onChangeResponsavel($event)" placeholder="Selecione o responsável do processo" />
-            <nz-autocomplete #autoResponsavel (selectionChange)="selecionarResponsavel($event)">
-              @for(responsavel of filteredResponsaveis; track $index) {
-                <nz-auto-option [nzValue]="responsavel.nome">{{ responsavel.nome }}</nz-auto-option>
-              }
-            </nz-autocomplete>
-            @if(responsavelNomeControl.invalid && responsavelNomeControl.touched){
-              <div>
-                @if(responsavelNomeControl.hasError('required')) {
-                  <span class="text-danger">O campo é obrigatório.</span>
-                }
-              </div>
-            }
-          </nz-form-control>
-        </nz-form-item>
+        <b>Assunto:</b> {{ evento.processo.tipoAcao }}
       </div>
     </div>
-  
-    <div nz-row [nzGutter]="16">
-      <div nz-col [nzSpan]="8">
-        <nz-form-item>
-          <nz-form-label [nzFor]="'nroProcesso'">Nº Processo</nz-form-label>
-          <nz-form-control>
-            <input nz-input formControlName="nroProcesso" id="nroProcesso" placeholder="Processo" [readonly]="data.eventoId" />
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-  
-      <div nz-col [nzSpan]="8">
-        <nz-form-item>
-          <nz-form-label [nzFor]="'local'" nzRequired>Local</nz-form-label>
-          <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
-            <input nz-input maxlength="100" formControlName="local" id="local" placeholder="Local" />
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-      
-      @if(isAudiencia && !presencial){
-        <div nz-col [nzSpan]="8">
-            <nz-form-item>
-              <nz-form-label [nzFor]="'linkAudiencia'">Link Audiência</nz-form-label>
-              <nz-form-control>
-                <input nz-input maxlength="600" formControlName="linkAudiencia" id="linkAudiencia" placeholder="Link audiência" />
-              </nz-form-control>
-            </nz-form-item>
+  </ng-container>
+  }
+
+
+  <div nz-row [nzGutter]="16">
+    <div nz-col [nzSpan]="8">
+      <nz-form-item>
+        <nz-form-label [nzFor]="'titulo'" nzRequired>Título</nz-form-label>
+        <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
+          <input nz-input maxlength="600" formControlName="titulo" id="titulo" placeholder="Título" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzSpan]="8">
+      <nz-form-item>
+        <nz-form-label [nzFor]="'tipo'" nzRequired>Tipo</nz-form-label>
+        <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
+          <nz-select formControlName="tipo" id="tipo" placeholder="Selecione um tipo">
+            <nz-option [nzValue]="''" nzDisabled nzLabel="Selecione um tipo..."></nz-option>
+            <nz-option nzValue="AUDIENCIA" nzLabel="Audiência"></nz-option>
+            <nz-option nzValue="DILIGENCIA" nzLabel="Diligência"></nz-option>
+            <nz-option nzValue="PRAZO" nzLabel="Prazo"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzSpan]="8">
+      <nz-form-item>
+        <nz-form-label nzRequired>Responsável</nz-form-label>
+        <nz-form-control>
+          <select-autocomplete [shouldReset]="false" [title]="'Selecione a responsável do processo'" [filterBy]="'nome'"
+            (selectedEvent)="responsavelSelected($event)" (changeEvent)="onChangeResponsavel($event)"
+            (deselectEvent)="responsavelDeselected()" [items]="responsaveis"></select-autocomplete>
+          @if(responsavelControl.invalid && responsavelControl.touched){
+          <div>
+            <span class="text-danger">
+              O campo é obrigatório.
+            </span>
           </div>
-      }
+          }
+        </nz-form-control>
+      </nz-form-item>
     </div>
-    
-    @if(!isAudiencia){
-        <div nz-row>
-            <div nz-col [nzSpan]="6">
-              <app-toggle-button [checked]="diaInteiro" label="Dia Inteiro" (toggleEvent)="toggleDiaInteiro($event)"></app-toggle-button>
-            </div>
-        </div>
+  </div>
+
+  <div nz-row [nzGutter]="16">
+    <div nz-col [nzSpan]="8">
+      <nz-form-item>
+        <nz-form-label [nzFor]="'nroProcesso'">Nº Processo</nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="nroProcesso" id="nroProcesso" placeholder="Processo"
+            [readonly]="data.eventoId" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col [nzSpan]="8">
+      <nz-form-item>
+        <nz-form-label [nzFor]="'local'" nzRequired>Local</nz-form-label>
+        <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
+          <input nz-input maxlength="100" formControlName="local" id="local" placeholder="Local" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    @if(isAudiencia && !presencial){
+    <div nz-col [nzSpan]="8">
+      <nz-form-item>
+        <nz-form-label [nzFor]="'linkAudiencia'">Link Audiência</nz-form-label>
+        <nz-form-control>
+          <input nz-input maxlength="600" formControlName="linkAudiencia" id="linkAudiencia"
+            placeholder="Link audiência" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
     }
-    
-    <div nz-row>
-      <div nz-col [nzSpan]="6">
-        <app-toggle-button [checked]="presencial" label="Presencial" (toggleEvent)="togglePresencial($event)"></app-toggle-button>
-      </div>
+  </div>
+
+  @if(!isAudiencia){
+  <div nz-row>
+    <div nz-col [nzSpan]="6">
+      <app-toggle-button [checked]="diaInteiro" label="Dia Inteiro"
+        (toggleEvent)="toggleDiaInteiro($event)"></app-toggle-button>
     </div>
-  
-    <div nz-row [nzGutter]="16">
-      <div nz-col [nzSpan]="8">
-        <nz-form-item>
-          <nz-form-label>Data do evento</nz-form-label>
-          <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
-            <nz-date-picker formControlName="dataEvento" nzFormat="dd/MM/yyyy"></nz-date-picker>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-      
-      @if(!diaInteiro){
-        <div nz-col [nzSpan]="6">
-            <nz-form-item>
-              <nz-form-label>Hora Evento</nz-form-label>
-              <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
-                <nz-time-picker formControlName="horaEvento" nzFormat="HH:mm"></nz-time-picker>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-      }
+  </div>
+  }
+
+  <div nz-row>
+    <div nz-col [nzSpan]="6">
+      <app-toggle-button [checked]="presencial" label="Presencial"
+        (toggleEvent)="togglePresencial($event)"></app-toggle-button>
     </div>
-  
-    <div nz-row>
-      <div nz-col [nzSpan]="12">
-        <nz-form-item>
-          <nz-form-label for="descricao" nzRequired>Descrição</nz-form-label>
-          <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
-            <textarea nz-input formControlName="descricao" id="descricao" rows="7" maxlength="600" placeholder="Descrição"></textarea>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
+  </div>
+
+  <div nz-row [nzGutter]="16">
+    <div nz-col [nzSpan]="8">
+      <nz-form-item>
+        <nz-form-label>Data do evento</nz-form-label>
+        <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
+          <nz-date-picker formControlName="dataEvento" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
     </div>
-  
-    <div nz-row class="mt-3">
-      <div nz-col [nzSpan]="24">
-        <btn-cadastrar hasRole="EDITAR_EVENTO" [title]="data.eventoId ? 'Atualizar' : 'Cadastrar'"></btn-cadastrar>
-      </div>
+
+    @if(!diaInteiro){
+    <div nz-col [nzSpan]="6">
+      <nz-form-item>
+        <nz-form-label>Hora Evento</nz-form-label>
+        <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
+          <nz-time-picker formControlName="horaEvento" nzFormat="HH:mm"></nz-time-picker>
+        </nz-form-control>
+      </nz-form-item>
     </div>
-  </form>
-  
-  <ngx-spinner type="ball-clip-rotate-multiple"></ngx-spinner>
+    }
+  </div>
+
+  <div nz-row>
+    <div nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label for="descricao" nzRequired>Descrição</nz-form-label>
+        <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
+          <textarea nz-input formControlName="descricao" id="descricao" rows="7" maxlength="600"
+            placeholder="Descrição"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div nz-row class="mt-3">
+    <div nz-col [nzSpan]="24">
+      <btn-cadastrar hasRole="EDITAR_EVENTO" [title]="data.eventoId ? 'Atualizar' : 'Cadastrar'"></btn-cadastrar>
+    </div>
+  </div>
+</form>
+
+<ngx-spinner type="ball-clip-rotate-multiple"></ngx-spinner>

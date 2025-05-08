@@ -1,48 +1,42 @@
 <div class="container">
-    <btn-novo hasRole="CADASTRAR_PARTE" (clickEvent)="openModalFormParte()" title="Nova parte"></btn-novo>
-    <div class="col-sm-12 mb-2" hasRole="CADASTRAR_PROCESSO">
-      <nz-form-item>
-        <nz-form-label [nzSpan]="24">Selecione Autores</nz-form-label>
-        <nz-form-control [nzSpan]="24">
-          <input nz-input [nzAutocomplete]="autoAutores" [formControl]="autorNomeControl"
-            (input)="onChangeAutor($event)" placeholder="Selecione os autores" />
-
-          <nz-autocomplete #autoAutores (selectionChange)="addAutor($event)">
-            @for(autor of autores; track $index) {
-            <nz-auto-option [nzValue]="autor.nome">
-              @if(autor.isCliente){
-              <icon-cliente></icon-cliente>
-              }
-              {{ autor.nome }}
-            </nz-auto-option>
-            }
-          </nz-autocomplete>
-        </nz-form-control>
-      </nz-form-item>
-    </div>
-    <h4>Autores</h4>
-    <div class="table-responsive">
-      <nz-table [nzData]="autoresSelecionados" [nzBordered]="true" [nzSize]="'small'"
-        [nzShowPagination]="false">
-        <thead>
-          <tr>
-            <th nzWidth="50%">Nome</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for(autor of autoresSelecionados; track $index){
-          <tr>
-            <td>{{ autor.nome }}</td>
-            <td>
-              <button nz-button nzType="default" nzDanger nzSize="small" (click)="deleteAutor(autor, $index)"
-                nz-tooltip="Excluir">
-                <fa-icon [icon]="faTrash"></fa-icon>
-              </button>
-            </td>
-          </tr>
-          }
-        </tbody>
-      </nz-table>
-    </div>
+  <btn-novo hasRole="CADASTRAR_PARTE" (clickEvent)="openModalFormParte()" title="Nova parte"></btn-novo>
+  <div class="col-sm-12 mb-2" hasRole="CADASTRAR_PROCESSO">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="24">Selecione Autores</nz-form-label>
+      <nz-form-control [nzSpan]="24">
+        <select-autocomplete [shouldReset]="true" id="autor" [title]="'Selecione os autores'" [filterBy]="'nome'"
+          (selectedEvent)="autorSelected($event)" (changeEvent)="onChangeAutor($event)" [items]="autores"
+          [icon]="faAddressCard" [checkBy]="'isCliente'"></select-autocomplete>
+      </nz-form-control>
+    </nz-form-item>
   </div>
+  <h4>Autores</h4>
+  <div class="table-responsive">
+    <nz-table [nzData]="autoresSelecionados" [nzBordered]="true" [nzSize]="'small'" [nzShowPagination]="false">
+      <thead>
+        <tr>
+          <th nzWidth="50%">Nome</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(autor of autoresSelecionados; track $index){
+        <tr>
+          <td>
+            @if(autor.isCliente){
+              <icon-cliente></icon-cliente>
+            }
+            {{ autor.nome }}
+          </td>
+          <td>
+            <button nz-button nzType="default" nzDanger nzSize="small" (click)="deleteAutor(autor, $index)"
+              nz-tooltip="Excluir">
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </nz-table>
+  </div>
+</div>

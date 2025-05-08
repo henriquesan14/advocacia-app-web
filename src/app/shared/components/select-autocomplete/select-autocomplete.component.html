@@ -1,0 +1,45 @@
+<div class="autocomplete" #autoComplete>
+    <div class="input" [class.focused]="visible" (click)="toggleVisible()">
+        @if(valorInicial && !selectedItem){
+            <span >
+                {{valorInicial}}
+            </span>
+        }
+        @else if(!valorInicial && !selectedItem){
+            <span id="placeholder">
+                {{title}}
+            </span>
+        }
+        @else {
+            <span>
+                {{selectedItem ? selectedItem[filterBy] : ''}}
+            </span>
+        }
+    </div>
+    
+    
+    @if (selectedItem){
+        <button class="close" (click)="resetSelectedItem()">
+            <fa-icon [icon]="faTimesCircle"></fa-icon>
+        </button>
+    }
+    @if(visible){
+        <div class="popover">
+            <input nz-input #input type="text" [(ngModel)]="query" (keyup)="changeQuery()" (keydown)="keyDownChange($event)" 
+             placeholder="Digite algo...">
+            <div class="options" #optionsList>
+                <ul>
+                    @for(match of matches(); track $index){
+                        <li [ngClass]="{'selected': selected == $index}" (click)="selected = $index; selectItem()">
+                            @if(match[checkBy]){
+                                <fa-icon [icon]="icon"></fa-icon>
+                            }
+                            {{match[filterBy]}}
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+    
+</div>

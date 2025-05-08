@@ -1,9 +1,7 @@
 import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { BtnNovoComponent } from '../../../../../shared/components/btn-novo/btn-novo.component';
-import { IconClienteComponent } from '../../../../../shared/components/icon-cliente/icon-cliente.component';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
@@ -13,14 +11,16 @@ import { FormPartesComponent } from '../../../../parte/form-partes/form-partes.c
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
 import { ProcessosService } from '../../../../../shared/services/processos.service';
+import { SelectAutocompleteComponent } from '../../../../../shared/components/select-autocomplete/select-autocomplete.component';
+import { IconClienteComponent } from '../../../../../shared/components/icon-cliente/icon-cliente.component';
 
 @Component({
   selector: 'tab-autores',
   standalone: true,
-  imports: [BtnNovoComponent, IconClienteComponent, NzFormModule, NzInputModule, NzAutocompleteModule, NzTableModule, ReactiveFormsModule, NzButtonModule, FontAwesomeModule],
+  imports: [BtnNovoComponent, NzFormModule, NzInputModule, NzTableModule, ReactiveFormsModule, NzButtonModule, FontAwesomeModule, SelectAutocompleteComponent, IconClienteComponent],
   templateUrl: './tab-autores.component.html',
   styleUrl: './tab-autores.component.scss'
 })
@@ -29,6 +29,7 @@ export class TabAutoresComponent implements OnInit, OnDestroy {
   autorNomeControl = new FormControl('');
   
   faTrash = faTrash;
+  faAddressCard = faAddressCard;
   
   autores: Parte[] = [];
   @Input() autoresSelecionados: Parte[] = [];
@@ -57,11 +58,6 @@ export class TabAutoresComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  onChangeAutor(event: any) {
-    const nome = typeof event === 'string' ? event : event?.target?.value || '';
-    this.getAutores({ nome });
-  }
-
   getAutores(params: any) {
     params.pageSize = 99;
     this.parteService.getPartes(params)
@@ -73,10 +69,12 @@ export class TabAutoresComponent implements OnInit, OnDestroy {
       })
   }
 
-  addAutor(event: any) {
-    const nome = event.nzValue;
-    const autor = this.autores.find(a => a.nome === nome);
-    if (autor && !this.autoresSelecionados.some(a => a.nome === nome)) {
+  onChangeAutor(nome: any){
+    this.getAutores({nome});
+  }
+
+  autorSelected(autor: Parte) {
+    if (!this.autoresSelecionados.find(p => p.id === autor.id)) {
       if(this.processoId){
         const autorProcesso = {
           autorId: autor.id,

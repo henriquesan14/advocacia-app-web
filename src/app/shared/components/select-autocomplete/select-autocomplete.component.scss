@@ -1,0 +1,112 @@
+.autocomplete{
+    width: 100%;
+    position: relative;
+}
+
+.input{
+    
+    box-sizing: border-box;
+    border-radius: 2px;
+    height: 32.44px;
+    border: 1px solid #d9d9d9;
+    box-shadow: 0 0 10px #eceaea;
+    padding-left: 10px;
+    cursor: text;
+}
+
+.input span{
+    font-size: 14px;
+    position: absolute;
+    top: 6px;
+}
+
+.input #placeholder{
+    color: #888888;   
+    font-size: 14px; 
+    opacity: 1;
+}
+
+.autocomplete .input:hover {
+    border-color: #40a9ff;
+    box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.2);
+}
+
+
+.autocomplete .input.focused {
+    border-color: #40a9ff;
+    box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.2);
+}
+
+.close {
+    font-size:14px;
+    color:#e74c3c;
+    position: absolute;
+    right: 9px;
+    top: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.close i:hover{
+    color: #c0392b;
+}
+
+.popover{
+    z-index: 1;
+    min-height: 40px;
+    border: 2px solid lightgray;
+    position: absolute;
+    top:34px;
+    left: 0;
+    right: 0;
+    max-width: 100%;
+    background: #fff;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.popover input {
+    width: 98%;
+    margin-top: 5px;
+    font-size: 14px;
+    border-radius: 3px;
+    margin: 8px auto;
+}
+
+.options {
+    max-height: 150px;
+    overflow-y: scroll;
+    margin-top: 5px;
+}
+
+.options ul {
+    list-style-type: none;
+    text-align: left;
+    padding-left: 0;
+}
+
+.options ul li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.options ul li:not(.selected):hover {
+    background: #f0f0f0;
+}
+
+.options ul li.selected {
+    background: #001529;
+    color: #fff;
+    font-weight: 600;
+}
+
+
+::-webkit-scrollbar {
+width: 8px;
+}
+::-webkit-scrollbar-thumb {
+-webkit-border-radius: 10px;
+border-radius: 10px;
+background-color: #2980b9;
+}

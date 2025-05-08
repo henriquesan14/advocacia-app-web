@@ -1,6 +1,5 @@
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
@@ -15,8 +14,6 @@ import { UsuariosService } from '../../../../../shared/services/usuarios.service
 import { DonoService } from '../../../../../shared/services/dono.service';
 import { ComarcaService } from '../../../../../shared/services/comarca.service';
 import { Subject, takeUntil } from 'rxjs';
-import { existingProcessValidator } from '../../../../../shared/validators/existing-process.validator';
-import { ProcessosService } from '../../../../../shared/services/processos.service';
 import { SistemaService } from '../../../../../shared/services/sistema.service';
 import { SituacaoProcessoService } from '../../../../../shared/services/situacao-processo.service';
 import { CompetenciaService } from '../../../../../shared/services/competencia.service';
@@ -30,18 +27,19 @@ import { FormUsuarioComponent } from '../../../../usuarios/form-usuario/form-usu
 import { ModalFormDonoComponent } from '../../../../dono/modal-form-dono/modal-form-dono.component';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { SelectAutocompleteComponent } from '../../../../../shared/components/select-autocomplete/select-autocomplete.component';
 
 @Component({
   selector: 'tab-processo',
   standalone: true,
-  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NzAutocompleteModule, NgxMaskDirective, BtnNovoComponent, NzDatePickerModule],
+  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NgxMaskDirective, BtnNovoComponent, NzDatePickerModule, SelectAutocompleteComponent],
   templateUrl: './tab-processo.component.html',
   styleUrl: './tab-processo.component.scss'
 })
 export class TabProcessoComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
-  
-  @Input({required: true}) formProcesso!: FormGroup;
+
+  @Input({ required: true }) formProcesso!: FormGroup;
 
   donos: Dono[] = [];
   responsaveis: Usuario[] = [];
@@ -52,7 +50,7 @@ export class TabProcessoComponent implements OnInit, OnDestroy {
 
   modalService = inject(NzModalService);
 
-  constructor( private usuarioService: UsuariosService, private donoService: DonoService,
+  constructor(private usuarioService: UsuariosService, private donoService: DonoService,
     private comarcaService: ComarcaService, private sistemaService: SistemaService, private situacaoProcessoService: SituacaoProcessoService,
     private competenciaService: CompetenciaService
   ) { }
@@ -131,34 +129,46 @@ export class TabProcessoComponent implements OnInit, OnDestroy {
       });
   }
 
-  selecionarDono(event: any): void {
-    const dono = event.nzValue;
-    if (dono) {
-      this.formProcesso.patchValue({
-        donoId: dono.id,
-        donoNome: dono.nome
-      });
-    }
+  donoSelected(dono: Usuario) {
+    this.formProcesso.patchValue({
+      donoId: dono.id,
+      donoNome: dono.nome
+    });
   }
 
-  selecionarResponsavel(event: any): void {
-    const responsavel = event.nzValue;
-    if (responsavel) {
-      this.formProcesso.patchValue({
-        responsavelId: responsavel.id,
-        responsavelNome: responsavel.nome
-      });
-    }
+  donoDeselected() {
+    this.formProcesso.patchValue({
+      donoId: null,
+      donoNome: null
+    });
   }
 
-  selecionarComarca(event: any): void {
-    const comarca = event.nzValue;
-    if (comarca) {
-      this.formProcesso.patchValue({
-        comarcaId: comarca.id,
-        comarcaNome: comarca.nome
-      });
-    }
+  responsavelSelected(resonsavel: Usuario) {
+    this.formProcesso.patchValue({
+      responsavelId: resonsavel.id,
+      responsavelNome: resonsavel.nome
+    });
+  }
+
+  responsavelDeselected() {
+    this.formProcesso.patchValue({
+      responsavelId: null,
+      responsavelNome: null
+    });
+  }
+
+  comarcaSelected(comarca: Comarca) {
+    this.formProcesso.patchValue({
+      comarcaId: comarca.id,
+      comarcaNome: comarca.nome
+    });
+  }
+
+  comarcaDeselected() {
+    this.formProcesso.patchValue({
+      comarcaId: null,
+      comarcaNome: null
+    });
   }
 
   onChangeDono(event: any) {

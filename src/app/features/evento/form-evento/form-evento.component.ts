@@ -11,7 +11,6 @@ import { Evento } from '../../../core/models/evento.interface';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { BtnCadastrarComponent } from '../../../shared/components/btn-cadastrar/btn-cadastrar.component';
 import { ToggleButtonComponent } from '../../../shared/components/toogle-button/toggle-button.component';
@@ -20,12 +19,13 @@ import { IconClienteComponent } from '../../../shared/components/icon-cliente/ic
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { ToastrService } from 'ngx-toastr';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
+import { SelectAutocompleteComponent } from '../../../shared/components/select-autocomplete/select-autocomplete.component';
 
 @Component({
   selector: 'app-form-evento',
   standalone: true,
-  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzAutocompleteModule, NzSelectModule, BtnCadastrarComponent, NgxSpinnerModule, ToggleButtonComponent, NzDatePickerModule, NzTimePickerModule,
-    IconClienteComponent
+  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, BtnCadastrarComponent, NgxSpinnerModule, ToggleButtonComponent, NzDatePickerModule, NzTimePickerModule,
+    IconClienteComponent, SelectAutocompleteComponent
   ],
   templateUrl: './form-evento.component.html',
   styleUrl: './form-evento.component.scss'
@@ -78,8 +78,8 @@ export class FormEventoComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  get responsavelNomeControl(): FormControl {
-    return this.formEvento.get('responsavelNome') as FormControl;
+  get responsavelControl(): FormControl {
+    return this.formEvento.get('responsavelId') as FormControl;
   }
 
   onChangeResponsavel(event: any) {
@@ -89,16 +89,18 @@ export class FormEventoComponent implements OnInit, OnDestroy {
     );
   }
 
+  responsavelSelected(resonsavel: Usuario) {
+    this.formEvento.patchValue({
+      responsavelId: resonsavel.id,
+      responsavelNome: resonsavel.nome
+    });
+  }
 
-  selecionarResponsavel(event: any): void {
-    const nome = event.nzValue;
-    const responsavel = this.responsaveis.find(d => d.nome === nome);
-    if (responsavel) {
-      this.formEvento.patchValue({
-        responsavelId: responsavel.id,
-        responsavelNome: responsavel.nome
-      });
-    }
+  responsavelDeselected() {
+    this.formEvento.patchValue({
+      responsavelId: null,
+      responsavelNome: null
+    });
   }
 
   getDateFormatted() {

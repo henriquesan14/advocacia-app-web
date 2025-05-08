@@ -40,23 +40,18 @@
             <nz-form-item>
                 <nz-form-label [nzRequired]="true" nzFor="responsavelId">Responsável</nz-form-label>
                 <nz-form-control>
-                    <input nz-input [formControl]="responsavelNomeControl" [nzAutocomplete]="autoResponsavel"
-                      (input)="onChangeResponsavel($event)" placeholder="Selecione o responsável do processo"/>
-                    <nz-autocomplete #autoResponsavel (selectionChange)="selecionarResponsavel($event)">
-                      @for(responsavel of filteredResponsaveis; track $index) {
-                      <nz-auto-option [nzValue]="responsavel.nome">{{ responsavel.nome }}</nz-auto-option>
-                      }
-                    </nz-autocomplete>
-                    @if(responsavelNomeControl.invalid && responsavelNomeControl.touched){
+                    <select-autocomplete [shouldReset]="false" [title]="'Selecione a responsável do processo'"
+                        [filterBy]="'nome'" (selectedEvent)="responsavelSelected($event)"
+                        (changeEvent)="onChangeResponsavel($event)" (deselectEvent)="responsavelDeselected()"
+                        [items]="responsaveis"></select-autocomplete>
+                    @if(responsavelControl.invalid && responsavelControl.touched){
                     <div>
-                      @if(responsavelNomeControl.hasError('required')){
-                      <span class="text-danger">
-                        O campo é obrigatório.
-                      </span>
-                      }
+                        <span class="text-danger">
+                            O campo é obrigatório.
+                        </span>
                     </div>
                     }
-                  </nz-form-control>
+                </nz-form-control>
             </nz-form-item>
         </div>
     </div>
@@ -75,15 +70,15 @@
         </div>
 
         @if(!diaInteiro){
-            <div nz-col [nzSpan]="12" [nzSm]="12" [nzMd]="12" [nzLg]="12">
-                <nz-form-item>
-                    <nz-form-label nzRequired>Hora da diligência</nz-form-label>
-                    <nz-form-control>
-                        <nz-time-picker formControlName="horaDiligencia" nzFormat="HH:mm" [nzUse12Hours]="false">
-                        </nz-time-picker>
-                    </nz-form-control>
-                </nz-form-item>
-            </div>
+        <div nz-col [nzSpan]="12" [nzSm]="12" [nzMd]="12" [nzLg]="12">
+            <nz-form-item>
+                <nz-form-label nzRequired>Hora da diligência</nz-form-label>
+                <nz-form-control>
+                    <nz-time-picker formControlName="horaDiligencia" nzFormat="HH:mm" [nzUse12Hours]="false">
+                    </nz-time-picker>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
         }
     </div>
 

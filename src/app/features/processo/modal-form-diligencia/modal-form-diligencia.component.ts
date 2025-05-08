@@ -16,15 +16,15 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
-import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
+import { SelectAutocompleteComponent } from '../../../shared/components/select-autocomplete/select-autocomplete.component';
 
 @Component({
   selector: 'app-modal-form-diligencia',
   standalone: true,
   imports: [ReactiveFormsModule, BtnCadastrarComponent, NgxSpinnerModule, ToggleButtonComponent, NzFormModule, NzInputModule, NzButtonModule, NzDatePickerModule,
-    NzTimePickerModule, NzAutocompleteModule, NzGridModule
+    NzTimePickerModule, NzGridModule, SelectAutocompleteComponent
   ],
   templateUrl: './modal-form-diligencia.component.html',
   styleUrl: './modal-form-diligencia.component.css',
@@ -76,20 +76,22 @@ export class ModalFormDiligenciaComponent implements OnInit, OnDestroy {
     );
   }
 
-
-  selecionarResponsavel(event: any): void {
-    const nome = event.nzValue;
-    const responsavel = this.responsaveis.find(d => d.nome === nome);
-    if (responsavel) {
-      this.form.patchValue({
-        responsavelId: responsavel.id,
-        responsavelNome: responsavel.nome
-      });
-    }
+  responsavelSelected(resonsavel: Usuario) {
+    this.form.patchValue({
+      responsavelId: resonsavel.id,
+      responsavelNome: resonsavel.nome
+    });
   }
 
-  get responsavelNomeControl(): FormControl {
-    return this.form.get('responsavelNome') as FormControl;
+  responsavelDeselected() {
+    this.form.patchValue({
+      responsavelId: null,
+      responsavelNome: null
+    });
+  }
+
+  get responsavelControl(): FormControl {
+    return this.form.get('responsavelId') as FormControl;
   }
 
   getDiligencia() {
@@ -230,11 +232,6 @@ export class ModalFormDiligenciaComponent implements OnInit, OnDestroy {
   responsavelSelecionado(responsavel: any) {
     this.form.get('responsavelNome')?.setValue(responsavel.nome);
     this.form.get('responsavelId')?.setValue(responsavel.id);
-  }
-
-  responsavelDeselected() {
-    this.form.get('responsavelId')?.setValue(null);
-    this.form.get('responsavelNome')?.setValue(null);
   }
 
   isInvalidAndTouched(fieldName: string) {
