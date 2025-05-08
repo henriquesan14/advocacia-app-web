@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
 import { BtnCadastrarComponent } from '../../../shared/components/btn-cadastrar/btn-cadastrar.component';
@@ -23,7 +23,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
-import { NzModalRef } from 'ng-zorro-antd/modal';
+import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-form-partes',
@@ -38,15 +38,13 @@ export class FormPartesComponent implements OnInit, OnDestroy {
   estados: Estado[] = [];
   cidades: Cidade[] = [];
 
-  @Input() parteId!: number;
-
   enderecoId!: number;
 
   @Output() submitEvent: EventEmitter<Parte> = new EventEmitter<Parte>();
 
   constructor(private viaCepService: ViaCepService, private formBuilder: FormBuilder,
     private toastr: ToastrService, private spinnerService: NgxSpinnerService,
-    private estadoService: EstadoService, private parteService: PartesService, private modalRef: NzModalRef){
+    private estadoService: EstadoService, private parteService: PartesService, private modalRef: NzModalRef, @Inject(NZ_MODAL_DATA) public data: { parteId: string }){
   }
 
   ngOnInit(): void {
@@ -69,7 +67,7 @@ export class FormPartesComponent implements OnInit, OnDestroy {
       }, { validators: enderecoValidator() }),
     });
     this.getEstados();
-    if(this.parteId){
+    if(this.data.parteId){
       this.getParte();
     }
   }
@@ -82,7 +80,7 @@ export class FormPartesComponent implements OnInit, OnDestroy {
   getParte() {
     this.spinnerService.show();
   
-    this.parteService.getParteById(this.parteId)
+    this.parteService.getParteById(this.data.parteId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
@@ -95,8 +93,7 @@ export class FormPartesComponent implements OnInit, OnDestroy {
           this.formPartes.get('isCliente')?.setValue(res.isCliente);
   
           if (res.dataNascimento) {
-            const dataNascimento = new Date(res.dataNascimento).toISOString().split('T')[0];
-            this.formPartes.get('dataNascimento')?.setValue(dataNascimento);
+            this.formPartes.get('dataNascimento')?.setValue(new Date(res.dataNascimento));
           }
   
           if (res.endereco) {
@@ -235,8 +232,8 @@ export class FormPartesComponent implements OnInit, OnDestroy {
           parte.endereco.id = this.enderecoId;
         }
       }
-      if(parte.id){
-
+      if(this.data.parteId){
+        this.updateParte(parte);
       }else{
         this.cadastrarParte(parte);
       }
@@ -256,6 +253,23 @@ export class FormPartesComponent implements OnInit, OnDestroy {
     this.parteService.addParte(parte).subscribe({
       next: (res) => {
         this.toastr.success('Parte cadastrada!', 'Sucesso!');
+        this.modalRef.close(true);
+      },
+      error: () => {
+        this.spinnerService.hide();
+      },
+      complete: () => {
+        this.spinnerService.hide();
+      }
+    })
+  }
+
+  updateParte(parte: Parte){
+    this.spinnerService.show();
+    parte.id = this.data.parteId;
+    this.parteService.updateParte(parte).subscribe({
+      next: () => {
+        this.toastr.success('Parte atualizada!', 'Sucesso!');
         this.modalRef.close(true);
       },
       error: () => {

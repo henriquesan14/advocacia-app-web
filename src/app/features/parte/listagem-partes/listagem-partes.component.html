@@ -1,0 +1,103 @@
+<h4 nz-title class="text-center">Partes</h4>
+
+<div class="container">
+    <btn-novo hasRole="CADASTRAR_PARTE" (clickEvent)="openFormParte()" title="Nova Parte"></btn-novo>
+
+    <form nz-form [formGroup]="filtroForm" (ngSubmit)="getPartes()" nzLayout="vertical">
+        <div nz-row [nzGutter]="16">
+            <div nz-col [nzXs]="24" [nzMd]="12">
+                <label for="nome">Nome</label>
+                <input formControlName="nome" id="nome" placeholder="Nome" nz-input />
+            </div>
+            <div nz-col [nzXs]="24" [nzMd]="8">
+                <label for="cpfCnpj">CPF/CNPJ</label>
+                <input [mask]="mask" (ngModelChange)="onInputChange()" formControlName="cpfCnpj" id="cpfCnpj"
+                    placeholder="CPF/CNPJ" nz-input />
+            </div>
+        </div>
+
+        <div nz-row class="mt-2 mb-2">
+            <div nz-col [nzXs]="24" [nzMd]="6">
+                <label nz-checkbox formControlName="isCliente">
+                    Somente Clientes
+                </label>
+            </div>
+        </div>
+
+        <div nz-row class="mb-2">
+            <div nz-col [nzXs]="24" [nzMd]="12">
+                <btn-pesquisar class="me-1"></btn-pesquisar>
+                <btn-limpar (clickEvent)="limpar()"></btn-limpar>
+            </div>
+        </div>
+    </form>
+
+    <div class="my-2">
+        <span>{{ responsePagePartes.totalCount }} partes encontradas.</span>
+    </div>
+
+    <nz-table [nzData]="responsePagePartes.items" [nzFrontPagination]="false" [nzSize]="'small'"
+        [nzScroll]="{ x: '1000px' }" [nzBordered]="true">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>CPF/CNPJ</th>
+                <th>Cliente</th>
+                <th>Data de Cadastro</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (parte of responsePagePartes.items; track parte.id) {
+            <tr>
+                <td>{{ parte.nome }}</td>
+                <td>{{ parte.cpfCnpj | cpfCnpj | hideCpf }}</td>
+                <td>{{ parte.isCliente ? 'Sim' : 'Não' }}</td>
+                <td>{{ parte.createdAt | date: 'dd/MM/yyyy' }}</td>
+                <td>
+                    <button class="me-1" nz-button nzType="primary" nzSize="small" hasRole="LISTAR_PARTE"
+                        nz-tooltip="Visualizar" (click)="openFormParte(parte.id)">
+                        <fa-icon [icon]="faEye"></fa-icon>
+                    </button>
+
+                    <button class="me-1" nz-button nzType="default" nzDanger nzSize="small" hasRole="EXCLUIR_PARTE"
+                        nz-tooltip="Excluir" (click)="deleteParte(parte.id)">
+                        <fa-icon [icon]="faTrash"></fa-icon>
+                    </button>
+
+                    @if (parte.isCliente) {
+                    <button class="me-1" nz-button nzType="default" nzSize="small" nz-tooltip="Gerar usuário"
+                        hasRole="CADASTRAR_USUARIO" (click)="generateUser(parte.id)">
+                        <fa-icon [icon]="faIdCard"></fa-icon>
+                    </button>
+
+                    <button class="me-1" nz-button nzType="default" nzSize="small" nz-tooltip="Gerar cobrança"
+                        hasRole="CADASTRAR_COBRANCA" (click)="gerarCobranca(parte)">
+                        <fa-icon [icon]="faCommentsDollar"></fa-icon>
+                    </button>
+
+                    <button nz-button nzType="default" nzSize="small" nz-tooltip="Listar cobranças"
+                        hasRole="LISTAR_COBRANCA" (click)="listarCobrancas(parte.cpfCnpj)">
+                        <fa-icon [icon]="faFileInvoiceDollar"></fa-icon>
+                    </button>
+                    }
+                </td>
+            </tr>
+            }
+        </tbody>
+    </nz-table>
+
+    <div class="d-flex justify-content-between align-items-center p-2">
+        <nz-pagination
+          [nzTotal]="responsePagePartes.totalCount"
+          [(nzPageIndex)]="responsePagePartes.currentPage"
+          [nzPageSize]="responsePagePartes.pageSize"
+          (nzPageIndexChange)="onPageChange($event)"
+          (nzPageSizeChange)="onPageSizeChange($event)"
+          [nzShowSizeChanger]="true"
+          [nzPageSizeOptions]="[2,5,10,20]">
+        </nz-pagination>
+      </div>
+</div>
+
+<ngx-spinner type="ball-clip-rotate-multiple"></ngx-spinner>

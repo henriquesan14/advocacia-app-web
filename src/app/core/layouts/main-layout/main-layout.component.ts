@@ -55,7 +55,6 @@ export class MainLayoutComponent {
       permission: 'VISUALIZAR_PARTE',
       children: [
         { label: 'Listar', link: 'partes/list', permission: 'VISUALIZAR_PARTE', },
-        { label: 'Novo', link: 'partes/cadastro', permission: 'CADASTRAR_PARTE', },
       ]
     },
   ]

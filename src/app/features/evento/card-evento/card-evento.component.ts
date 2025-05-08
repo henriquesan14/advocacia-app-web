@@ -31,13 +31,11 @@ export class CardEventoComponent {
     return texto.length > 60 ? texto.substring(0, 60) + '...' : texto;
   }
 
-  onEditar(event: Event) {
-    event.stopPropagation();
+  onEditar() {
     this.editar.emit(this.evento.id);
   }
 
-  onExcluir(event: Event) {
-    event.stopPropagation();
+  onExcluir() {
     this.excluir.emit(this.evento.id);
   }
 }

@@ -2,7 +2,7 @@ import { Processo } from "./processo.interface"
 import { Usuario } from "./usuario.interface"
 
 export interface Evento {
-    id: number
+    id: string
     titulo: string
     tipo: string
     descricao: string

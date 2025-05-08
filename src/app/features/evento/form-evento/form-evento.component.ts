@@ -47,7 +47,7 @@ export class FormEventoComponent implements OnInit, OnDestroy {
   presencial = false;
 
   responsavelNome!:  string;
-  constructor(@Optional() private modalRef: NzModalRef, @Optional() @Inject(NZ_MODAL_DATA) public data: { eventoId: string }, private formBuilder: FormBuilder, private usuarioService: UsuariosService, private spinner: NgxSpinnerService,
+  constructor(private modalRef: NzModalRef, @Inject(NZ_MODAL_DATA) public data: { eventoId: string }, private formBuilder: FormBuilder, private usuarioService: UsuariosService, private spinner: NgxSpinnerService,
     private eventoService: EventosService, private toastr: ToastrService, 
   ){
 

@@ -1,4 +1,4 @@
-<li (click)="onEditar(evento.id)"  class="list-group-item card-evento">
+<li (click)="onEditar()"  class="list-group-item card-evento">
     <div class="left">
         <span class="data">
             <fa-icon class="me-1" [icon]="faCalendar"></fa-icon>{{evento.dataEvento | date: 'dd/MM/yyyy'}}
@@ -68,11 +68,11 @@
     </div>
 
     <div class="end">
-        <button nz-button nzType="primary" nz-tooltip="Editar" hasRole="LISTAR_EVENTO" (click)="onEditar(evento.id);$event.stopPropagation()" class="me-1">
+        <button nz-button nzType="primary" nz-tooltip="Editar" hasRole="LISTAR_EVENTO" (click)="onEditar();$event.stopPropagation()" class="me-1">
             <fa-icon [icon]="faPencil"></fa-icon>
             
         </button>
-        <button nz-button nzType="primary" nzDanger nz-tooltip="Excluir" hasRole="EXCLUIR_EVENTO" (click)="onExcluir(evento.id);$event.stopPropagation()" class="btn btn-danger">
+        <button nz-button nzType="primary" nzDanger nz-tooltip="Excluir" hasRole="EXCLUIR_EVENTO" (click)="onExcluir();$event.stopPropagation()" class="btn btn-danger">
             <fa-icon [icon]="faTrash"></fa-icon>
             
         </button>

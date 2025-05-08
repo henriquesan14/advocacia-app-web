@@ -27,7 +27,7 @@ export class PartesService {
     return this.http.post<Parte>(`${this.API}/parte`, parte);
   }
 
-  getParteById(id: number): Observable<Parte>{
+  getParteById(id: string): Observable<Parte>{
     return this.http.get<Parte>(`${this.API}/parte/${id}`);
   }
 
@@ -39,7 +39,7 @@ export class PartesService {
     return this.http.delete(`${this.API}/parte/${id}`);
   }
 
-  generateUser(parteId: number){
+  generateUser(parteId: string){
     return this.http.post(`${this.API}/parte/generateUser`, {parteId});
   }
 }

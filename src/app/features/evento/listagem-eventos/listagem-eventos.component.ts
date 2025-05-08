@@ -6,7 +6,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -43,6 +43,7 @@ export class ListagemEventosComponent implements OnInit, OnDestroy {
   formAgenda!: FormGroup;
 
   private modalService = inject(NzModalService);
+  confirmModal?: NzModalRef;
 
   @ViewChild('content') content!: ElementRef;
 
@@ -102,58 +103,22 @@ export class ListagemEventosComponent implements OnInit, OnDestroy {
     this.getEventos();
   }
 
-  cancelarEvento(eventoId: number){
-    // const modalRef = this.modalService.open(ConfirmationModalComponent);
-    // modalRef.componentInstance.title = 'Confirmar Cancelamento';
-    // modalRef.componentInstance.message = 'Tem certeza de que deseja cancelar este evento?';
-    
-    // modalRef.result.then((result) => {
-    //   if (result) {
-    //     this.spinner.show();
-    //   this.eventoService.updateStatus({eventoId: eventoId, status: 'CANCELADO'}).subscribe({
-    //     next: () => {
-    //       this.toastr.success('Evento cancelado!', 'Sucesso');
-    //       this.getEventos();
-    //     },
-    //     error: () => {
-    //       this.spinner.hide();
-    //     },
-    //     complete: () => {
-    //       this.spinner.hide();
-    //     }
-    //   })
-    //   }
-    //   }, () => {
-    //   });
-  }
-
-  editarEvento(id: number){
+  editarEvento(id: string){
     this.router.navigateByUrl(`/app/agenda/${id}`);
   }
 
-  excluirEvento(eventoId: number){
-    // const modalRef = this.modalService.open(ConfirmationModalComponent);
-    // modalRef.componentInstance.title = 'Confirmar Exclusão';
-    // modalRef.componentInstance.message = 'Tem certeza de que deseja excluir este evento?';
-    
-    // modalRef.result.then((result) => {
-    //   if (result) {
-    //     this.spinner.show();
-    //     this.eventoService.deleteEvento(eventoId).subscribe({
-    //     next: () => {
-    //       this.toastr.success('Evento removido!', 'Sucesso');
-    //       this.getEventos();
-    //     },
-    //     error: () => {
-    //       this.spinner.hide();
-    //     },
-    //     complete: () => {
-    //       this.spinner.hide();
-    //     }
-    //   })
-    //   }
-    //   }, () => {
-    //   });
+  excluirEvento(eventoId: string){
+    this.confirmModal = this.modalService.confirm({
+      nzTitle: 'Exclusão',
+      nzContent: 'Tem certeza que quer remover esta agenda?',
+      nzOnOk: () =>
+        this.eventoService.deleteEvento(eventoId).subscribe({
+          next: () => {
+            this.toastr.success('Agenda removida!', 'Sucesso');
+            this.getEventos();
+          }
+        })
+    });
   }
 
   submit(){
@@ -186,8 +151,7 @@ export class ListagemEventosComponent implements OnInit, OnDestroy {
         nzWidth: '1000px',
         nzFooter: null,
         nzData: {
-          evento: evento,
-          isModal: true
+          eventoId: evento?.id
         }
       });
   

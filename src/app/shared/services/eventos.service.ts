@@ -39,7 +39,7 @@ export class EventosService {
     return this.http.patch(`${this.API}/evento/status`, updateStatus);
   }
 
-  deleteEvento(eventoId: number){
+  deleteEvento(eventoId: string){
     return this.http.delete(`${this.API}/evento/${eventoId}`);
   }
 }

@@ -19,6 +19,7 @@ export const routes: Routes = [
       { path: '', redirectTo: 'processos', pathMatch: 'full' },
       { path: 'processos', loadChildren: () => import('./features/processo/processos.routes').then(m => m.PROCESSOS_ROUTES) },
       { path: 'eventos', loadChildren: () => import('./features/evento/evento.routes').then(m => m.EVENTO_ROUTES) },
+      { path: 'partes', loadChildren: () => import('./features/parte/parte.routes').then(m => m.PARTE_ROUTES) },
     ],
     canActivate: [],
   },
