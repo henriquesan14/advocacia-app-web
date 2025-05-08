@@ -24,6 +24,7 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { CardEventoComponent } from '../card-evento/card-evento.component';
+import { FormEventoComponent } from '../form-evento/form-evento.component';
 
 @Component({
   selector: 'app-listagem-eventos',
@@ -175,8 +176,25 @@ export class ListagemEventosComponent implements OnInit, OnDestroy {
   }
 
   novoEvento(){
-    this.router.navigateByUrl('app/agenda/cadastro');
+    this.router.navigateByUrl('eventos/cadastro');
   }
+
+  openModalFormEvento(evento?: Evento) {
+      const modal = this.modalService.create({
+        nzTitle: evento ? 'Edição de agenda' : 'Cadastro de agenda',
+        nzContent: FormEventoComponent,
+        nzWidth: '1000px',
+        nzFooter: null,
+        nzData: {
+          evento: evento,
+          isModal: true
+        }
+      });
+  
+      modal.afterClose.subscribe(() => {
+        this.getEventos();
+      });
+    }
 
   captureScreen() {
     const content = this.content.nativeElement;

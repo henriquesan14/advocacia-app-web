@@ -42,12 +42,11 @@ export class MainLayoutComponent {
       ]
     },
     {
-      title: 'Eventos',
+      title: 'Agenda',
       icon: 'calendar',
       permission: 'VISUALIZAR_EVENTO',
       children: [
         { label: 'Listar', link: 'eventos/list', permission: 'CADASTRAR_EVENTO' },
-        { label: 'Novo', link: 'eventos/cadastro', permission: 'VISUALIZAR_EVENTO' },
       ]
     },
     {

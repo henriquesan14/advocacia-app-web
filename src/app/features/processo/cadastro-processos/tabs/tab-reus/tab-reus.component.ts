@@ -11,13 +11,16 @@ import { FormPartesComponent } from '../../../../parte/form-partes/form-partes.c
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { PartesService } from '../../../../../shared/services/partes.service';
 import { Subject, takeUntil } from 'rxjs';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { ProcessosService } from '../../../../../shared/services/processos.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'tab-reus',
   standalone: true,
-  imports: [BtnNovoComponent, IconClienteComponent, ReactiveFormsModule, NzFormModule, NzInputModule, NzAutocompleteModule, NzTableModule, NzButtonModule, NzIconModule],
+  imports: [BtnNovoComponent, IconClienteComponent, ReactiveFormsModule, NzFormModule, NzInputModule, NzAutocompleteModule, NzTableModule, NzButtonModule, FontAwesomeModule],
   templateUrl: './tab-reus.component.html',
   styleUrl: './tab-reus.component.scss'
 })
@@ -25,14 +28,18 @@ export class TabReusComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   reuNomeControl = new FormControl('');
 
-  reusSelecionados: Parte[] = [];
-  @Input() reus: Parte[] = [];
+  faTrash = faTrash;
+
+  reus: Parte[] = [];
+  @Input() reusSelecionados: Parte[] = [];
+  @Input() processoId?: string;
 
   @Output() reusChange = new EventEmitter<Parte[]>();
 
   modalService = inject(NzModalService);
+  toastr = inject(ToastrService);
 
-  constructor(private parteService: PartesService) { }
+  constructor(private parteService: PartesService, private processoService: ProcessosService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['reus']) {
@@ -70,15 +77,45 @@ export class TabReusComponent implements OnInit, OnDestroy {
     const nome = event.nzValue;
     const reu = this.reus.find(a => a.nome === nome);
     if (reu && !this.reusSelecionados.some(a => a.nome === nome)) {
-      this.reusSelecionados.push(reu);
-      this.reuNomeControl.setValue('');
-      this.reusChange.emit(this.reusSelecionados);
+      if (this.processoId) {
+        const reuProcesso = {
+          reuId: reu.id,
+          processoId: this.processoId
+        };
+
+        this.processoService.addReuProcesso(reuProcesso).subscribe({
+          next: () => {
+            this.toastr.success('Réu adicionado no processo!', 'Sucesso');
+            this.reusSelecionados.push(reu);
+            this.reuNomeControl.setValue('');
+            this.reusChange.emit(this.reusSelecionados);
+          }
+        })
+      } else {
+        this.reusSelecionados.push(reu);
+        this.reuNomeControl.setValue('');
+        this.reusChange.emit(this.reusSelecionados);
+      }
     }
   }
 
-  deleteReu(index: any) {
-    this.reusSelecionados.splice(index, 1);
-    this.reusChange.emit(this.reusSelecionados);
+  deleteReu(autor: Parte, index: any) {
+    if (this.processoId) {
+      const reuProcesso = {
+        reuId: autor.id,
+        processoId: this.processoId
+      };
+      this.processoService.deleteReuProcesso(reuProcesso).subscribe({
+        next: () => {
+          this.toastr.success('Réu excluído com sucesso!', 'Sucesso');
+          this.reusSelecionados.splice(index, 1);
+          this.reusChange.emit(this.reusSelecionados);
+        }
+      });
+    }else{
+      this.reusSelecionados.splice(index, 1);
+      this.reusChange.emit(this.reusSelecionados);
+    }
   }
 
   openModalFormParte() {

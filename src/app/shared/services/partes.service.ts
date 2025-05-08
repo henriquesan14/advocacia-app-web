@@ -35,7 +35,7 @@ export class PartesService {
     return this.http.put(`${this.API}/parte`, parte);
   }
 
-  delete(id: number){
+  delete(id: string){
     return this.http.delete(`${this.API}/parte/${id}`);
   }
 

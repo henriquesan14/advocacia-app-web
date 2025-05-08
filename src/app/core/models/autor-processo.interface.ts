@@ -1,4 +1,4 @@
 export interface AutorProcesso {
-    autorId: number;
-    processoId: number;
+    autorId: string;
+    processoId: string;
 }

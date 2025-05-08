@@ -26,7 +26,7 @@
         [nzShowPagination]="false">
         <thead>
           <tr>
-            <th>Nome</th>
+            <th nzWidth="50%">Nome</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -35,9 +35,9 @@
           <tr>
             <td>{{ autor.nome }}</td>
             <td>
-              <button nzSize="small" (click)="deleteAutor($index)" nz-tooltip nzTooltipTitle="Excluir"
-                nzTooltipPlacement="top" nz-button nzType="default" nzDanger>
-                <span nz-icon nzType="delete"></span>
+              <button nz-button nzType="default" nzDanger nzSize="small" (click)="deleteAutor(autor, $index)"
+                nz-tooltip="Excluir">
+                <fa-icon [icon]="faTrash"></fa-icon>
               </button>
             </td>
           </tr>

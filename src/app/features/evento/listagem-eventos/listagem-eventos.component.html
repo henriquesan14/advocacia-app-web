@@ -4,7 +4,7 @@
     </div>
   
     <div class="mb-3 d-flex justify-content-between flex-wrap">
-      <btn-novo class="me-1" hasRole="CADASTRAR_EVENTO" (clickEvent)="novoEvento()" title="Nova agenda"></btn-novo>
+      <btn-novo class="me-1" hasRole="CADASTRAR_EVENTO" (clickEvent)="openModalFormEvento()" title="Nova agenda"></btn-novo>
   
       <button nz-button nzType="default" nzShape="round" (click)="captureScreen()">
         <fa-icon [icon]="faCamera" class="me-1"></fa-icon> Capturar Tela

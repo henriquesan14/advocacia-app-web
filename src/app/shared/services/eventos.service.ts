@@ -23,7 +23,7 @@ export class EventosService {
     return this.http.get<ResponsePage<Evento>>(`${this.API}/evento`, {params});
   }
 
-  getById(id: number): Observable<Evento>{
+  getById(id: string): Observable<Evento>{
     return this.http.get<Evento>(`${this.API}/evento/${id}`);
   }
 

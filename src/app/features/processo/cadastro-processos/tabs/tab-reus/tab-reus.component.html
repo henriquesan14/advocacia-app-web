@@ -26,8 +26,8 @@
         [nzShowPagination]="false">
         <thead>
           <tr>
-            <th>Nome</th>
-            <th>Ações</th>
+            <th nzWidth="50%">Nome</th>
+            <th >Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -35,9 +35,9 @@
           <tr>
             <td>{{ reu.nome }}</td>
             <td>
-              <button nzSize="small" (click)="deleteReu($index)" nz-tooltip nzTooltipTitle="Excluir"
-                nzTooltipPlacement="top" nz-button nzType="default" nzDanger>
-                <span nz-icon nzType="delete"></span>
+              <button nz-button nzType="default" nzDanger nzSize="small" (click)="deleteReu(reu, $index)"
+                nz-tooltip="Excluir">
+                <fa-icon [icon]="faTrash"></fa-icon>
               </button>
             </td>
           </tr>

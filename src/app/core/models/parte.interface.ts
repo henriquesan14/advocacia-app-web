@@ -1,7 +1,7 @@
 import { Endereco } from "./endereco.interface";
 
 export interface Parte {
-    id: number;
+    id: string;
     nome: string;
     cpfCnpj: string;
     tipoPessoa: number;

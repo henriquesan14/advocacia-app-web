@@ -1,4 +1,4 @@
 export interface ReuProcesso {
-    reuId: number;
-    processoId: number;
+    reuId: string;
+    processoId: string;
 }

@@ -15,11 +15,11 @@
             </nz-tab>
 
             <nz-tab nzTitle="Autores">
-              <tab-autores [autores]="autoresSelecionados" (autoresChange)="onAutoresChange($event)"></tab-autores>
+              <tab-autores [processoId]="processoId" [autoresSelecionados]="autoresSelecionados" (autoresChange)="onAutoresChange($event)"></tab-autores>
             </nz-tab>
 
             <nz-tab nzTitle="Réus">
-              <tab-reus [reus]="reusSelecionados" (reusChange)="onReusChange($event)"></tab-reus>
+              <tab-reus [processoId]="processoId" [reusSelecionados]="reusSelecionados" (reusChange)="onReusChange($event)"></tab-reus>
             </nz-tab>
 
             <nz-tab nzTitle="Históricos">
