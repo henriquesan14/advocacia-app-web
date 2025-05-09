@@ -20,11 +20,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BtnPesquisarComponent } from '../../../shared/components/btn-pesquisar/btn-pesquisar.component';
 import { BtnLimparComponent } from '../../../shared/components/btn-limpar/btn-limpar.component';
 import { FormUsuarioComponent } from '../form-usuario/form-usuario.component';
+import { BtnNovoComponent } from '../../../shared/components/btn-novo/btn-novo.component';
 
 @Component({
   selector: 'app-listagem-usuarios',
   standalone: true,
-  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NzModalModule, NzTableModule, DatePipe, NzButtonModule, NzToolTipModule, FontAwesomeModule, BtnPesquisarComponent, BtnLimparComponent],
+  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NzModalModule, NzTableModule, DatePipe, NzButtonModule, NzToolTipModule, FontAwesomeModule, BtnPesquisarComponent, BtnLimparComponent, BtnNovoComponent],
   templateUrl: './listagem-usuarios.component.html',
   styleUrl: './listagem-usuarios.component.scss'
 })

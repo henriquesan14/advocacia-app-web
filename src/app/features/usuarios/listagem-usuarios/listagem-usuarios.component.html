@@ -1,9 +1,7 @@
 <h2 nzTitle class="text-center">Usuários</h2>
 
 <div class="mb-3">
-  <button hasRole="'CADASTRAR_USUARIO'" nz-button nzType="primary" (click)="openModalFormUsuario()">
-    <span>Novo Usuário</span>
-  </button>
+  <btn-novo hasRole="CADASTRAR_PARTE" (clickEvent)="openModalFormUsuario()" title="Novo usuário"></btn-novo>
 </div>
 
 <form nz-form [formGroup]="filtroForm" (ngSubmit)="getUsuarios()" nzLayout="vertical">

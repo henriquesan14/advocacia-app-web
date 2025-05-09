@@ -7,8 +7,6 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzListModule } from 'ng-zorro-antd/list';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BtnNovoComponent } from '../../../shared/components/btn-novo/btn-novo.component';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -29,7 +27,7 @@ import { FormEventoComponent } from '../form-evento/form-evento.component';
 @Component({
   selector: 'app-listagem-eventos',
   standalone: true,
-  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, BtnPesquisarComponent, BtnLimparComponent, FontAwesomeModule, BtnNovoComponent, NzCardModule, CommonModule,
+  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, BtnPesquisarComponent, BtnLimparComponent, FontAwesomeModule, BtnNovoComponent, CommonModule,
     NgxSpinnerModule, NzPaginationModule, NzModalModule, NzButtonModule, NzDatePickerModule, CardEventoComponent
   ],
   templateUrl: './listagem-eventos.component.html',
