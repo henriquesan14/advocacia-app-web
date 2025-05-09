@@ -46,7 +46,6 @@ export class FormEventoComponent implements OnInit, OnDestroy {
   diaInteiro = false;
   presencial = false;
 
-  responsavelNome!:  string;
   constructor(private modalRef: NzModalRef, @Inject(NZ_MODAL_DATA) public data: { eventoId: string }, private formBuilder: FormBuilder, private usuarioService: UsuariosService, private spinner: NgxSpinnerService,
     private eventoService: EventosService, private toastr: ToastrService, 
   ){
@@ -136,13 +135,14 @@ export class FormEventoComponent implements OnInit, OnDestroy {
         }
         
         this.formEvento.get('responsavelId')?.setValue(res.responsavel.id);
-        this.formEvento.get('responsavel')?.setValue(res.responsavel);
-        this.responsavelNome = res.responsavel.nome;
+        this.formEvento.get('responsavelNome')?.setValue(res.responsavel.nome);
 
         this.formEvento.get('local')?.setValue(res.local);
         this.formEvento.get('linkAudiencia')?.setValue(res.linkAudiencia);
         
-        // DateUtils.setDataHora(res.dataEvento, this.dp, this.formEvento, 'dataInicio', 'horaInicio');
+        this.formEvento.get('dataEvento')?.setValue(res.dataEvento);
+        this.formEvento.get('horaEvento')?.setValue(res.dataEvento);
+        
         this.diaInteiro = res.diaInteiro;
         this.presencial = res.presencial;
         
@@ -179,15 +179,34 @@ export class FormEventoComponent implements OnInit, OnDestroy {
         diaInteiro: this.diaInteiro,
         presencial: this.presencial
       };
-      this.eventoService.addEvento(evento).subscribe({
-        next: (res) => {
+      if(this.data.eventoId){
+        evento.id = this.data.eventoId;
+        this.updateEvento(evento);
+        return;
+      }
+      this.cadastrarEvento(evento);
+      
+    }else {
+      FormUtils.markFormGroupTouched(this.formEvento);
+    }
+  }
+
+  cadastrarEvento(evento: NewEvento){
+    this.eventoService.addEvento(evento).subscribe({
+        next: () => {
           this.toastr.success('Evento adicionado!', 'Sucesso');
           this.modalRef.close();
         }
       })
-    }else {
-      FormUtils.markFormGroupTouched(this.formEvento);
-    }
+  }
+
+  updateEvento(evento: NewEvento){
+    this.eventoService.updateEvento(evento).subscribe({
+        next: () => {
+          this.toastr.success('Evento atualizado!', 'Sucesso');
+          this.modalRef.close();
+        }
+    });
   }
 
   isInvalidAndTouched(fieldName: string){

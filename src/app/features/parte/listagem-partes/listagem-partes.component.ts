@@ -129,7 +129,7 @@ export class ListagemPartesComponent implements OnInit, OnDestroy {
   deleteParte(id: string){
     this.confirmModal = this.modalService.confirm({
       nzTitle: 'Exclusão',
-      nzContent: 'Tem certeza que quer remover esta agenda?',
+      nzContent: 'Tem certeza que quer remover esta parte?',
       nzOnOk: () =>
         this.parteService.delete(id).subscribe({
           next: () => {

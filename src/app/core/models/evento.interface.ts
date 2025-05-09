@@ -10,7 +10,7 @@ export interface Evento {
     local: string
     linkAudiencia: string
     processoId: number
-    processo: Processo
+    processo?: Processo
     status: string
     diaInteiro: boolean
     presencial: boolean

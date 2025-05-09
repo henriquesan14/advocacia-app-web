@@ -89,10 +89,6 @@ export class ListagemEventosComponent implements OnInit, OnDestroy {
     });
   }
 
-  onPageSize(){
-
-  }
-
   onPageChange(event: number) {
     this.responsePageEventos.currentPage = event;
     this.getEventos();
@@ -144,14 +140,14 @@ export class ListagemEventosComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('eventos/cadastro');
   }
 
-  openModalFormEvento(evento?: Evento) {
+  openModalFormEvento(eventoId?: string) {
       const modal = this.modalService.create({
-        nzTitle: evento ? 'Edição de agenda' : 'Cadastro de agenda',
+        nzTitle: eventoId ? 'Edição de agenda' : 'Cadastro de agenda',
         nzContent: FormEventoComponent,
         nzWidth: '1000px',
         nzFooter: null,
         nzData: {
-          eventoId: evento?.id
+          eventoId: eventoId
         }
       });
   

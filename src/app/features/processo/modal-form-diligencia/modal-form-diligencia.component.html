@@ -40,7 +40,7 @@
             <nz-form-item>
                 <nz-form-label [nzRequired]="true" nzFor="responsavelId">Responsável</nz-form-label>
                 <nz-form-control>
-                    <select-autocomplete [shouldReset]="false" [title]="'Selecione a responsável do processo'"
+                    <select-autocomplete [valorInicial]="form.get('responsavelNome')?.value" [shouldReset]="false" [title]="'Selecione a responsável do processo'"
                         [filterBy]="'nome'" (selectedEvent)="responsavelSelected($event)"
                         (changeEvent)="onChangeResponsavel($event)" (deselectEvent)="responsavelDeselected()"
                         [items]="responsaveis"></select-autocomplete>

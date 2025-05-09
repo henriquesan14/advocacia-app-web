@@ -1,30 +1,28 @@
 <form [formGroup]="formEvento" (ngSubmit)="submit()" nz-form nzLayout="vertical">
-  @if(evento?.processo){
-  <ng-container>
-    <div nz-row class="box-processo" [nzGutter]="16">
-      <div nz-col [nzSpan]="8">
-        <b>Autor:</b> {{ evento.processo.autores[0].nome }}
-        @if(evento.processo.autores.length > 1){
-        e Outros
-        }
-        @if(evento.processo.autores[0].isCliente){
-        <icon-cliente></icon-cliente>
-        }
-      </div>
-      <div nz-col [nzSpan]="8">
-        <b>Réu:</b> {{ evento.processo.reus[0].nome }}
-        @if(evento.processo.reus.length > 1){
-        e Outros
-        }
-        @if(evento.processo.reus[0].isCliente){
-        <icon-cliente></icon-cliente>
-        }
-      </div>
-      <div nz-col [nzSpan]="8">
-        <b>Assunto:</b> {{ evento.processo.tipoAcao }}
-      </div>
+  @if(evento && evento.processo){
+  <div nz-row class="box-processo mb-2" [nzGutter]="16">
+    <div nz-col [nzSpan]="8">
+      <b>Autor:</b> {{ evento.processo.autores[0].nome }}
+      @if(evento.processo.autores.length > 1){
+      e Outros
+      }
+      @if(evento.processo.autores[0].isCliente){
+      <icon-cliente></icon-cliente>
+      }
     </div>
-  </ng-container>
+    <div nz-col [nzSpan]="8">
+      <b>Réu:</b> {{ evento.processo.reus[0].nome }}
+      @if(evento.processo.reus.length > 1){
+      e Outros
+      }
+      @if(evento.processo.reus[0].isCliente){
+      <icon-cliente></icon-cliente>
+      }
+    </div>
+    <div nz-col [nzSpan]="8">
+      <b>Assunto:</b> {{ evento.processo.tipoAcao }}
+    </div>
+  </div>
   }
 
 
@@ -56,7 +54,7 @@
       <nz-form-item>
         <nz-form-label nzRequired>Responsável</nz-form-label>
         <nz-form-control>
-          <select-autocomplete [shouldReset]="false" [title]="'Selecione a responsável do processo'" [filterBy]="'nome'"
+          <select-autocomplete [valorInicial]="formEvento.get('responsavelNome')?.value" [shouldReset]="false" [title]="'Selecione a responsável do processo'" [filterBy]="'nome'"
             (selectedEvent)="responsavelSelected($event)" (changeEvent)="onChangeResponsavel($event)"
             (deselectEvent)="responsavelDeselected()" [items]="responsaveis"></select-autocomplete>
           @if(responsavelControl.invalid && responsavelControl.touched){
@@ -131,7 +129,7 @@
     </div>
 
     @if(!diaInteiro){
-    <div nz-col [nzSpan]="6">
+    <div nz-col [nzSpan]="8">
       <nz-form-item>
         <nz-form-label>Hora Evento</nz-form-label>
         <nz-form-control [nzErrorTip]="'O campo é obrigatório'">

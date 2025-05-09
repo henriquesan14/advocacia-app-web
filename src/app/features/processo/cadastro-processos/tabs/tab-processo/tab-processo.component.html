@@ -27,7 +27,7 @@
       <nz-form-item>
         <nz-form-label [nzSpan]="24" nzRequired>Dono do Processo</nz-form-label>
         <nz-form-control [nzSpan]="24">
-          <select-autocomplete [shouldReset]="false" [title]="'Selecione o dono do processo'" [filterBy]="'nome'"
+          <select-autocomplete [valorInicial]="formProcesso.get('donoNome')?.value" [shouldReset]="false" [title]="'Selecione o dono do processo'" [filterBy]="'nome'"
             (selectedEvent)="donoSelected($event)" (changeEvent)="onChangeDono($event)"
             (deselectEvent)="donoDeselected()" [items]="donos"></select-autocomplete>
           @if(donoNomeControl.invalid && donoNomeControl.touched){
@@ -48,7 +48,7 @@
       <nz-form-item>
         <nz-form-label [nzSpan]="24" nzRequired="">Responsável pelo Processo</nz-form-label>
         <nz-form-control [nzSpan]="24">
-          <select-autocomplete [shouldReset]="false" [title]="'Selecione o responsável do processo'" [filterBy]="'nome'"
+          <select-autocomplete [valorInicial]="formProcesso.get('responsavelNome')?.value" [shouldReset]="false" [title]="'Selecione o responsável do processo'" [filterBy]="'nome'"
             (selectedEvent)="responsavelSelected($event)" (changeEvent)="onChangeResponsavel($event)"
             (deselectEvent)="responsavelDeselected()" [items]="responsaveis"></select-autocomplete>
           @if(responsavelNomeControl.invalid && responsavelNomeControl.touched){
@@ -120,7 +120,7 @@
       <nz-form-item>
         <nz-form-label [nzSpan]="24" nzRequired>Comarca</nz-form-label>
         <nz-form-control [nzSpan]="24">
-          <select-autocomplete [shouldReset]="false" [title]="'Selecione a comarca do processo'" [filterBy]="'nome'"
+          <select-autocomplete [valorInicial]="formProcesso.get('comarcaNome')?.value" [shouldReset]="false" [title]="'Selecione a comarca do processo'" [filterBy]="'nome'"
             (selectedEvent)="comarcaSelected($event)" (changeEvent)="onChangeComarca($event)"
             (deselectEvent)="comarcaDeselected()" [items]="comarcas"></select-autocomplete>
           @if(comarcaNomeControl.invalid && comarcaNomeControl.touched){

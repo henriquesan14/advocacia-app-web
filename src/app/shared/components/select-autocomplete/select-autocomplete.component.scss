@@ -4,7 +4,6 @@
 }
 
 .input{
-    
     box-sizing: border-box;
     border-radius: 2px;
     height: 32.44px;
@@ -24,6 +23,14 @@
     color: #888888;   
     font-size: 14px; 
     opacity: 1;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block; /* ou block se preferir */
+  width: 100%;
 }
 
 .autocomplete .input:hover {

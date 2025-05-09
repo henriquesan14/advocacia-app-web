@@ -57,6 +57,10 @@
     text-transform: uppercase;
 }
 
+.link-reuniao{
+    text-decoration: underline;
+}
+
 @media (max-width: 970px) {
     .card-compromisso {
         flex-direction: column;

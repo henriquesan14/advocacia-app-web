@@ -1,4 +1,5 @@
 export interface NewEvento {
+    id: string;
     titulo: string
     tipo: string
     descricao: string

@@ -49,7 +49,7 @@
     @if(responsePageEventos.items.length > 0){
         <ul #content class="eventos list-group">
             @for(evento of responsePageEventos.items; track evento.id){
-                <app-card-evento (editar)="editarEvento(evento.id)" (excluir)="excluirEvento(evento.id)" [evento]="evento"></app-card-evento>
+                <app-card-evento (editar)="openModalFormEvento(evento.id)" (excluir)="excluirEvento(evento.id)" [evento]="evento"></app-card-evento>
             }
         </ul>
     }
