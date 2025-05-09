@@ -1,0 +1,61 @@
+<form [formGroup]="formGrupo" (ngSubmit)="submit()" nz-form [nzLayout]="'vertical'">
+
+  <div nz-row>
+    <div nz-col [nzSpan]="24">
+      <nz-form-item>
+        <nz-form-label [nzFor]="'nome'" [nzRequired]="true">Nome</nz-form-label>
+        <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
+          <input nz-input id="nome" formControlName="nome" maxlength="50" placeholder="Nome" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div nz-row>
+    <div nz-col [nzSpan]="24">
+      <nz-form-item>
+        <nz-form-control>
+          <label nz-checkbox formControlName="sobAprovacao">Sob Aprovação</label>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <br />
+  <h3>Permissões</h3>
+
+  <div class="mb-2">
+    <button hasRole="CADASTRAR_GRUPO" nz-button nzType="primary" size="small" (click)="selecionarTudo()" type="button" class="me-1">
+      Selecionar todos
+    </button>
+    <button hasRole="CADASTRAR_GRUPO" nz-button nzType="primary" size="small" (click)="desmarcarTudo()" type="button">
+      Desmarcar todos
+    </button>
+  </div>
+
+  <div class="box-permissoes">
+    @for(categoria of permissoes; track categoria.categoriaPermissao) {
+      <div class="permissao">
+        <h3>{{ categoria.categoriaPermissao }}</h3>
+        @for(permissao of categoria.permissoes; track permissao.id) {
+          <div>
+            <label nz-checkbox [formControlName]="permissao.id">
+              {{ permissao.nome }}
+            </label>
+          </div>
+        }
+        
+      </div>
+    }
+  </div>
+
+  <div nz-row class="mt-3">
+    <div nz-col [nzSpan]="24">
+      @if(data && data.grupoId) {
+        <btn-cadastrar hasRole="EDITAR_GRUPO" [title]="'Atualizar'"></btn-cadastrar>
+      } @else {
+        <btn-cadastrar hasRole="CADASTRAR_GRUPO" [title]="'Cadastrar'"></btn-cadastrar>
+      }
+    </div>
+  </div>
+</form>

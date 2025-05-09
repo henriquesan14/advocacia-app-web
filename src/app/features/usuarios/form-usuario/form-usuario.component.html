@@ -1,5 +1,5 @@
+<btn-novo (clickEvent)="openModalFormGrupo()" title="Novo grupo"></btn-novo>
 <form nz-form [formGroup]="form" (ngSubmit)="submit()">
-
     <div class="mb-2 box-avatar">
       <!-- Avatar -->
       <img
@@ -140,7 +140,7 @@
   
     <div nz-row class="mt-3">
       <div nz-col [nzSpan]="24">
-        @if(data){
+        @if(data && data.usuarioId){
             <btn-cadastrar hasRole="EDITAR_USUARIO" [title]="'Atualizar'"></btn-cadastrar>
         }@else {
             <btn-cadastrar hasRole="CADASTRAR_USUARIO" [title]="'Cadastrar'"></btn-cadastrar>

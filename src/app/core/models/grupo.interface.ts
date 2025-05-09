@@ -2,10 +2,10 @@ import { Permissao } from "./permissao.interface";
 
 
 export interface Grupo {
+  id: string;
   nome: string;
   permissoes: Permissao[];
   sobAprovacao: boolean;
-  id: number;
   createdByUserId: number;
   createdAt: string;
 }

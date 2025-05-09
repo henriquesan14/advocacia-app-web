@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, inject, Inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GrupoService } from '../../../shared/services/grupo.service';
 import { Grupo } from '../../../core/models/grupo.interface';
@@ -21,13 +21,16 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { ToastrService } from 'ngx-toastr';
-import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
+import { NZ_MODAL_DATA, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { BtnNovoComponent } from '../../../shared/components/btn-novo/btn-novo.component';
+import { FormGrupoComponent } from '../../grupo/form-grupo/form-grupo.component';
+import { NzDrawerModule, NzDrawerService } from 'ng-zorro-antd/drawer';
 
 @Component({
   selector: 'app-form-usuario',
   standalone: true,
   imports: [ ReactiveFormsModule, BtnCadastrarComponent, NgxMaskDirective, HasRoleDirective, FontAwesomeModule, NzToolTipModule, NgxSpinnerModule, NzFormModule, NzInputModule,
-    NzSelectModule
+    NzSelectModule, BtnNovoComponent, NzDrawerModule
   ],
   templateUrl: './form-usuario.component.html',
   styleUrl: './form-usuario.component.css'
@@ -44,10 +47,12 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
   avatar!: Avatar | null;
   loading = false;
   mask: string = '';
+
+  private drawerService = inject(NzDrawerService);
   
   constructor(private formBuilder: FormBuilder, 
     private grupoService: GrupoService, private usuarioService: UsuariosService, private dataService: DataService, private spinner: NgxSpinnerService,
-    private avatarService: AvatarService, private toastr: ToastrService, private modalRef: NzModalRef, @Inject(NZ_MODAL_DATA) public data: { usuarioId: string }){
+    private avatarService: AvatarService, private toastr: ToastrService, private modalService: NzModalService, private modalRef: NzModalRef, @Inject(NZ_MODAL_DATA) public data: { usuarioId: string }){
   }
 
   ngOnInit(): void {
@@ -62,7 +67,7 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
     }, {
       validators: ConfirmPasswordValidators.confirmPasswordValidator
     });
-    this.getGrupos(null);
+    this.getGrupos();
     if(this.data.usuarioId){
       this.getUsuario();
     }
@@ -83,8 +88,8 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
   }
   
 
-  getGrupos(parametros: any){
-    this.grupoService.getGrupos(parametros)
+  getGrupos(){
+    this.grupoService.getGrupos(null)
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next: (res) => {
@@ -113,6 +118,31 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
         this.loading = false;
       }
     })
+  }
+
+  openModalFormGrupo(){
+    const width = window.innerWidth;
+    let drawerWidth: number;
+
+    if (width < 576) {
+      drawerWidth = 280; // Celular
+    } else if (width < 992) {
+      drawerWidth = 380; // Tablet
+    } else {
+      drawerWidth = 500; // Desktop
+    }
+    
+    const drawerRef = this.drawerService.create({
+      nzTitle: 'Novo Grupo',
+      nzContent: FormGrupoComponent,
+      nzWidth: drawerWidth,
+    });
+  
+    drawerRef.afterClose.subscribe((shouldRefresh: boolean) => {
+      if (shouldRefresh) {
+        this.getGrupos();
+      }
+    });
   }
 
   submit(){

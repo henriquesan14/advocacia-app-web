@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { faEye, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Subject, takeUntil } from 'rxjs';
 import { Grupo } from '../../../core/models/grupo.interface';
-import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { GrupoService } from '../../../shared/services/grupo.service';
 import { ToastrService } from 'ngx-toastr';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -15,6 +15,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { DatePipe } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BtnNovoComponent } from '../../../shared/components/btn-novo/btn-novo.component';
+import { FormGrupoComponent } from '../form-grupo/form-grupo.component';
 
 @Component({
   selector: 'app-listagem-grupos',
@@ -31,6 +32,7 @@ export class ListagemGruposComponent implements OnInit, OnDestroy {
   grupos: Grupo[] = [];
 
   private modalService = inject(NzModalService);
+  confirmModal?: NzModalRef;
 
   constructor(private formBuilder: FormBuilder, private grupoService: GrupoService, private toastr: ToastrService){
     this.filtroForm = this.formBuilder.group({
@@ -61,15 +63,33 @@ export class ListagemGruposComponent implements OnInit, OnDestroy {
     this.filtroForm.reset();
   }
 
-  openFormGrupo(){
-    
+  openFormGrupo(grupoId? : string){
+    const modal = this.modalService.create({
+      nzTitle: grupoId ? 'Edição de grupo' : 'Cadastro de grupo',
+      nzContent: FormGrupoComponent,
+      nzWidth: '1000px',
+      nzFooter: null,
+      nzData: {
+        grupoId: grupoId,
+      }
+    });
+
+    modal.afterClose.subscribe(() => {
+      this.getGrupos();
+    });
   }
 
-  editarGrupo(id: number){
-    
-  }
-
-  deleteGrupo(grupoId: number){
-    
+  deleteGrupo(grupoId: string){
+    this.confirmModal = this.modalService.confirm({
+      nzTitle: 'Exclusão',
+      nzContent: 'Tem certeza que quer remover este grupo?',
+      nzOnOk: () =>
+        this.grupoService.deleteGrupo(grupoId).subscribe({
+          next: () => {
+            this.toastr.success('Grupo removido!', 'Sucesso');
+            this.getGrupos();
+          }
+        })
+    });
   }
 }

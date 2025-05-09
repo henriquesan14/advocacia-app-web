@@ -25,7 +25,7 @@ export class GrupoService {
     return this.http.post<Grupo>(`${this.API}/grupo`, grupo);
   }
 
-  getGrupoById(id: number){
+  getGrupoById(id: string){
     return this.http.get<Grupo>(`${this.API}/grupo/${id}`);
   }
 
@@ -33,7 +33,7 @@ export class GrupoService {
     return this.http.put(`${this.API}/grupo`, grupo);
   }
 
-  deleteGrupo(id: number){
+  deleteGrupo(id: string){
     return this.http.delete(`${this.API}/grupo/${id}`);
   }
 }
