@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GrupoService } from '../../../shared/services/grupo.service';
 import { Grupo } from '../../../core/models/grupo.interface';
@@ -20,6 +20,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { ToastrService } from 'ngx-toastr';
+import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-form-usuario',
@@ -34,8 +36,6 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   form!: FormGroup;
   grupos: Grupo[] = [];
-  @Output() submitEvent: EventEmitter<Usuario> = new EventEmitter<Usuario>();
-  @Input() usuarioId!: number;
   
   @ViewChild('fileInput') fileInput: any;
 
@@ -47,15 +47,15 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
   
   constructor(private formBuilder: FormBuilder, 
     private grupoService: GrupoService, private usuarioService: UsuariosService, private dataService: DataService, private spinner: NgxSpinnerService,
-    private avatarService: AvatarService){
+    private avatarService: AvatarService, private toastr: ToastrService, private modalRef: NzModalRef, @Inject(NZ_MODAL_DATA) public data: { usuarioId: string }){
   }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       nome: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
-      senha: [null, this.usuarioId ? null : [Validators.required, Validators.minLength(6)]],
-      confirmSenha: [null, this.usuarioId ? null : [Validators.required]],
+      senha: [null, this.data.usuarioId ? null : [Validators.required, Validators.minLength(6)]],
+      confirmSenha: [null, this.data.usuarioId ? null : [Validators.required]],
       grupoId:['', Validators.required],
       telefone:[null, [Validators.required, Validators.minLength(11)]],
       documento:[null, [Validators.minLength(11)]],
@@ -63,7 +63,7 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
       validators: ConfirmPasswordValidators.confirmPasswordValidator
     });
     this.getGrupos(null);
-    if(this.usuarioId){
+    if(this.data.usuarioId){
       this.getUsuario();
     }
   }
@@ -74,7 +74,7 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
   }
 
   isSenhaRequired(): boolean {
-    if (!this.usuarioId) {
+    if (!this.data.usuarioId) {
       return true;
     } else if (this.form && this.form.get('senha')?.value) {
       return true;
@@ -95,7 +95,7 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
 
   getUsuario(){
     this.loading = true;
-    this.usuarioService.getUsuarioById(this.usuarioId)
+    this.usuarioService.getUsuarioById(this.data.usuarioId)
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next: (res) => {
@@ -104,7 +104,7 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
         this.form.get('email')?.setValue(res.email);
         this.form.get('grupoId')?.setValue(res.grupoId);
         this.form.get('telefone')?.setValue(res.telefone);
-        this.form.get('documento')?.setValue(res.telefone);
+        this.form.get('documento')?.setValue(res.documento);
       },
       error: () => {
         this.loading = false;
@@ -121,10 +121,33 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
         avatar: this.avatar,
         ...this.form.value
       };
-      this.submitEvent.emit(usuario);
+      if(this.data.usuarioId){
+        usuario.id = this.data.usuarioId;
+        this.updateUsuario(usuario);
+        return;
+      }
+      this.cadastrarUsuario(usuario);
     }else{
       FormUtils.markFormGroupTouched(this.form);
     }
+  }
+
+  cadastrarUsuario(usuario: Usuario){
+    this.usuarioService.addUsuario(usuario).subscribe({
+      next: () => {
+        this.toastr.success('Usuário adicionado!', 'Sucesso');
+        this.modalRef.close(true);
+      }
+    })
+  }
+
+  updateUsuario(usuario: Usuario){
+    this.usuarioService.updateUsuario(usuario).subscribe({
+      next: () => {
+        this.toastr.success('Usuário atualizado!', 'Sucesso');
+        this.modalRef.close(true);
+      }
+    })
   }
 
   selectFile(): void {

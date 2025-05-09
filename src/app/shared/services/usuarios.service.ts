@@ -36,7 +36,7 @@ export class UsuariosService {
     return this.http.post(`${this.API}/usuario`, usuario);
   }
 
-  getUsuarioById(idUsuario: number): Observable<Usuario>{
+  getUsuarioById(idUsuario: string): Observable<Usuario>{
     return this.http.get<Usuario>(`${this.API}/usuario/${idUsuario}`);
   }
 
@@ -44,7 +44,7 @@ export class UsuariosService {
     return this.http.put(`${this.API}/usuario`, usuario);
   }
   
-  deleteUsuario(usuarioId: number){
+  deleteUsuario(usuarioId: string){
     return this.http.delete(`${this.API}/usuario/${usuarioId}`);
   }
 }

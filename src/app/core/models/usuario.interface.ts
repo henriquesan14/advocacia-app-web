@@ -3,7 +3,7 @@ import { Grupo } from "./grupo.interface";
 
 
 export interface Usuario {
-  id: number;
+  id: string;
   nome: string;
   email: string;
   documento: string;

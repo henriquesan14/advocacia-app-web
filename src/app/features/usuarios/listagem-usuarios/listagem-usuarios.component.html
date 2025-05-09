@@ -1,0 +1,78 @@
+<h2 nzTitle class="text-center">Usuários</h2>
+
+<div class="mb-3">
+  <button hasRole="'CADASTRAR_USUARIO'" nz-button nzType="primary" (click)="openModalFormUsuario()">
+    <span>Novo Usuário</span>
+  </button>
+</div>
+
+<form nz-form [formGroup]="filtroForm" (ngSubmit)="getUsuarios()" nzLayout="vertical">
+  <div nz-row [nzGutter]="16">
+    <div nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label for="nome">Nome</nz-form-label>
+        <nz-form-control>
+          <input formControlName="nome" id="nome" nz-input placeholder="Nome" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label for="grupoId">Grupo</nz-form-label>
+        <nz-form-control>
+          <nz-select formControlName="grupoId" nzAllowClear nzPlaceHolder="Todos">
+            <nz-option nzValue="" nzLabel="Selecione um grupo" nzDisabled></nz-option>
+            @for(grupo of grupos; track grupo.id){
+            <nz-option [nzValue]="grupo.id" [nzLabel]="grupo.nome"></nz-option>
+            }
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div class="mb-2 d-flex gap-2">
+    <btn-pesquisar class="me-1"></btn-pesquisar>
+    <btn-limpar (clickEvent)="limpar()"></btn-limpar>
+  </div>
+</form>
+
+<div class="mb-2 mt-1">
+  <span>{{ usuarios.length }} usuários encontrados.</span>
+</div>
+
+<nz-table [nzData]="usuarios" [nzBordered]="true" [nzSize]="'middle'" [nzShowPagination]="false">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Nome</th>
+      <th>Grupo</th>
+      <th>Data de Cadastro</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for(usuario of usuarios; track usuario.id){
+    <tr>
+      <td>
+        <img class="avatar-usuario" [src]="avatar(usuario)" alt="" />
+      </td>
+      <td>{{ usuario.nome }}</td>
+      <td>{{ usuario.grupo.nome }}</td>
+      <td>{{ usuario.createdAt | date: 'dd/MM/yyyy' }}</td>
+      <td>
+        <button hasRole="'LISTAR_USUARIO'" nzSize="small" nz-button nzType="primary" nz-tooltip="Visualizar"
+          (click)="openModalFormUsuario(usuario.id)" class="me-1">
+          <fa-icon [icon]="faEye">
+          </fa-icon>
+        </button>
+        <button hasRole="'EXCLUIR_USUARIO'" nzSize="small" nz-button nzType="default" nzDanger nz-tooltip="Excluir"
+          (click)="deleteUsuario(usuario.id)">
+          <fa-icon [icon]="faTrash">
+          </fa-icon>
+        </button>
+      </td>
+    </tr>
+    }
+  </tbody>
+</nz-table>
