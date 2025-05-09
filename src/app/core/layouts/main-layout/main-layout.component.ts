@@ -23,7 +23,7 @@ import { faFile } from '@fortawesome/free-solid-svg-icons';
   styleUrl: './main-layout.component.scss'
 })
 export class MainLayoutComponent {
-  isCollapsed = false;
+  isCollapsed = true;
   faFile = faFile;
   private router = inject(Router);
   private localStorageService = inject(LocalstorageService);
@@ -33,11 +33,19 @@ export class MainLayoutComponent {
 
   menuItems = [
     {
+      title: 'Dashboard',
+      icon: 'bar-chart',
+      permission: 'VISUALIZAR_DASHBOARD',
+      children: [
+        { label: 'Visualizar', link: 'dashboard', permission: 'VISUALIZAR_DASHBOARD' },
+      ]
+    },
+    {
       title: 'Processos',
       icon: 'file-add',
       permission: 'VISUALIZAR_PROCESSO',
       children: [
-        { label: 'Listar', link: 'processos/list', permission: 'CADASTRAR_PROCESSO' },
+        { label: 'Visualizar', link: 'processos/list', permission: 'CADASTRAR_PROCESSO' },
         { label: 'Novo', link: 'processos/cadastro', permission: 'VISUALIZAR_PROCESSO' },
       ]
     },
@@ -46,7 +54,7 @@ export class MainLayoutComponent {
       icon: 'calendar',
       permission: 'VISUALIZAR_EVENTO',
       children: [
-        { label: 'Listar', link: 'eventos/list', permission: 'CADASTRAR_EVENTO' },
+        { label: 'Visualizar', link: 'eventos/list', permission: 'CADASTRAR_EVENTO' },
       ]
     },
     {
@@ -54,7 +62,79 @@ export class MainLayoutComponent {
       icon: 'user',
       permission: 'VISUALIZAR_PARTE',
       children: [
-        { label: 'Listar', link: 'partes/list', permission: 'VISUALIZAR_PARTE', },
+        { label: 'Visualizar', link: 'partes/list', permission: 'VISUALIZAR_PARTE', },
+      ]
+    },
+    {
+      title: 'Usuários',
+      icon: 'user-add',
+      permission: 'VISUALIZAR_USUARIO',
+      children: [
+        { label: 'Visualizar', link: 'usuarios/list', permission: 'VISUALIZAR_USUARIO', },
+      ]
+    },
+    {
+      title: 'Grupos',
+      icon: 'usergroup-add',
+      permission: 'VISUALIZAR_GRUPO',
+      children: [
+        { label: 'Visualizar', link: 'grupos/list', permission: 'VISUALIZAR_GRUPO', },
+      ]
+    },
+    {
+      title: 'Comarcas',
+      icon: 'bank',
+      permission: 'VISUALIZAR_COMARCA',
+      children: [
+        { label: 'Visualizar', link: 'comarcas/list', permission: 'VISUALIZAR_COMARCA', },
+      ]
+    },
+    {
+      title: 'Competências',
+      icon: 'tag',
+      permission: 'VISUALIZAR_COMPETENCIA',
+      children: [
+        { label: 'Visualizar', link: 'competencias/list', permission: 'VISUALIZAR_COMPETENCIA', },
+      ]
+    },
+    {
+      title: 'Situações',
+      icon: 'flag',
+      permission: 'VISUALIZAR_SITUACAO',
+      children: [
+        { label: 'Visualizar', link: 'competencias/list', permission: 'VISUALIZAR_SITUACAO', },
+      ]
+    },
+    {
+      title: 'Donos',
+      icon: 'trophy',
+      permission: 'VISUALIZAR_DONO',
+      children: [
+        { label: 'Visualizar', link: 'donos/list', permission: 'VISUALIZAR_DONO', },
+      ]
+    },
+    {
+      title: 'Sistemas',
+      icon: 'desktop',
+      permission: 'VISUALIZAR_SISTEMA',
+      children: [
+        { label: 'Visualizar', link: 'sistemas/list', permission: 'VISUALIZAR_SISTEMA', },
+      ]
+    },
+    {
+      title: 'Despesas',
+      icon: 'barcode',
+      permission: 'VISUALIZAR_DESPESA',
+      children: [
+        { label: 'Visualizar', link: 'despesas/list', permission: 'VISUALIZAR_DESPESA', },
+      ]
+    },
+    {
+      title: 'Ganhos',
+      icon: 'dollar',
+      permission: 'VISUALIZAR_GANHO',
+      children: [
+        { label: 'Visualizar', link: 'ganhos/list', permission: 'VISUALIZAR_GANHO', },
       ]
     },
   ]

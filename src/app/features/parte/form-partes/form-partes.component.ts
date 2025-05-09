@@ -142,7 +142,7 @@ export class FormPartesComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (res) => {
             this.cidades = res;
-            this.formPartes.get('endereco.cidade')?.setValue(null);
+            this.formPartes.get('endereco.cidade')?.setValue('');
           },
           error: (err) => {
             console.error('Erro ao buscar cidades', err);

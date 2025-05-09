@@ -164,7 +164,7 @@
         <nz-form-item>
           <nz-form-label nzFor="estado">Estado</nz-form-label>
           <nz-form-control [nzErrorTip]="estadoErrorTpl">
-            <nz-select formControlName="estado" id="estado" (ngModelChange)="getCidades()" placeholder="Selecione">
+            <nz-select  nzShowSearch formControlName="estado" id="estado" (ngModelChange)="getCidades()" placeholder="Selecione">
               <nz-option nzDisabled [nzLabel]="'Selecione um estado'" [nzValue]="''"></nz-option>
               @for(estado of estados; track $index){
                 <nz-option [nzValue]="estado.id" [nzLabel]="estado.nome"></nz-option>
@@ -183,7 +183,7 @@
         <nz-form-item>
           <nz-form-label nzFor="cidade">Cidade</nz-form-label>
           <nz-form-control [nzErrorTip]="cidadeErrorTpl">
-            <nz-select formControlName="cidade" id="cidade" placeholder="Selecione">
+            <nz-select nzShowSearch formControlName="cidade" id="cidade" placeholder="Selecione">
               <nz-option nzDisabled [nzLabel]="'Selecione uma cidade'" [nzValue]="''"></nz-option>
               @for(cidade of cidades; track $index){
                 <nz-option [nzValue]="cidade.id" [nzLabel]="cidade.nome"></nz-option>
