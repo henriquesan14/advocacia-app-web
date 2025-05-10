@@ -13,9 +13,9 @@ export class AvatarUsuarioComponent {
   constructor(private localStorageService: LocalstorageService){}
 
   get avatar(){
-    const response = this.localStorageService.getAuthStorage();
-    if(response.user.avatar){
-      return response.user.avatar.url;
+    const response = this.localStorageService.getUserStorage();
+    if(response.avatar){
+      return response.avatar.url;
     }
     return '/images/avatar.webp';
   }

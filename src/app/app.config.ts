@@ -11,10 +11,10 @@ import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AccessTokenInterceptor } from './core/interceptors/access-token.interceptor';
-import { NotAuthenticatedInterceptor } from './core/interceptors/not-authenticard.interceptor';
 import { ErrorHandlerInterceptor } from './core/interceptors/error-handler.interceptor';
 import { provideToastr } from 'ngx-toastr';
 import { provideNgxMask } from 'ngx-mask';
+import { CredentialsInterceptor } from './core/interceptors/credentials.interceptor';
 
 registerLocaleData(pt);
 
@@ -27,5 +27,5 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideToastr(),
     provideNgxMask(),
-    provideHttpClient(withInterceptors([AccessTokenInterceptor, NotAuthenticatedInterceptor, ErrorHandlerInterceptor]))]
+    provideHttpClient(withInterceptors([CredentialsInterceptor, AccessTokenInterceptor, ErrorHandlerInterceptor]))]
 };

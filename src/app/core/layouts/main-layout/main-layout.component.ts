@@ -145,24 +145,24 @@ export class MainLayoutComponent {
   
   logout() {
     this.isLoggingOut = true;
-    // this.authService.logout().subscribe({
-    //   next: () => {
-    //     this.localStorageService.removeUsertorage();
-    //     this.router.navigateByUrl('/login');
-    //     this.isLoggingOut = false;
-    //   }
-    // })
+    this.authService.logout().subscribe({
+      next: () => {
+        this.localStorageService.removeUsertorage();
+        this.router.navigateByUrl('/login');
+        this.isLoggingOut = false;
+      }
+    })
   }
 
   get nomeUsuario(){
-    const response = this.localStorageService.getAuthStorage();
-    return response.user.nome;
+    const response = this.localStorageService.getUserStorage();
+    return response.nome;
   }
 
   get avatar(){
-    const response = this.localStorageService.getAuthStorage();
-    if(response && response.user && response.user.avatar){
-      return response.user.urlFoto;
+    const response = this.localStorageService.getUserStorage();
+    if(response && response && response.avatar){
+      return response.urlFoto;
     }
     return '/images/avatar.webp';
   }

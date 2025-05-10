@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { AuthLayoutComponent } from './core/layouts/auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './core/layouts/main-layout/main-layout.component';
+import { UnauthenticadedGuard } from './core/guards/unauthenticated.guard';
+import { AuthGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -10,7 +12,7 @@ export const routes: Routes = [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: '', loadChildren: () => import('./features/auth/auth.routes').then(m => m.AUTH_ROUTES) },
     ],
-    canActivate: [],
+    canActivate: [UnauthenticadedGuard],
   },
   {
     path: '',
@@ -23,7 +25,7 @@ export const routes: Routes = [
       { path: 'usuarios', loadChildren: () => import('./features/usuarios/usuarios.routes').then(m => m.USUARIOS_ROUTES) },
       { path: 'grupos', loadChildren: () => import('./features/grupo/grupos.routes').then(m => m.GRUPOS_ROUTES) },
     ],
-    canActivate: [],
+    canActivate: [AuthGuard],
   },
   {
     path: '**',

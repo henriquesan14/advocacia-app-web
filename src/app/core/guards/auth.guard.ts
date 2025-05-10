@@ -3,11 +3,11 @@ import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } fr
 import { LocalstorageService } from '../../shared/services/localstorage.service';
 
 export const AuthGuard: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean => {
-const storageService = inject(LocalstorageService);
-const router = inject(Router);
-if (storageService.getAuthStorage()) {
-    return true;
-}
-router.navigateByUrl('/');
-return false;
+    const storageService = inject(LocalstorageService);
+    const router = inject(Router);
+    if (storageService.getUserStorage()) {
+        return true;
+    }
+    router.navigate(['/login']);
+    return false;
 }

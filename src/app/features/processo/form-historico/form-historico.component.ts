@@ -42,7 +42,7 @@ export class FormHistoricoComponent implements OnInit{
 
   onSubmit(){
     const grau = this.formHistorico.get('grau')?.value;
-    const user = this.localStorageService.getAuthStorage().user;
+    const user = this.localStorageService.getUserStorage();
     const formattedDate = this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss');
     if(this.processoId){
       const historico = {

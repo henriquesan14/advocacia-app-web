@@ -11,7 +11,7 @@ export class HasRoleDirective implements OnInit {
   constructor(private elementRef: ElementRef, private renderer: Renderer2, private localStorageService: LocalstorageService) { }
 
   ngOnInit() {
-    const userRoles = this.localStorageService.getAuthStorage().user.grupo.permissoes.map(p => p.nome);
+    const userRoles = this.localStorageService.getUserStorage().grupo.permissoes.map(p => p.nome);
 
     const hasPermission: boolean = userRoles.includes(this.permittedRole);
 

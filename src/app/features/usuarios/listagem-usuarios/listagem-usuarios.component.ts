@@ -50,7 +50,7 @@ export class ListagemUsuariosComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const userRoles = this.localStorageService.getAuthStorage().user.grupo.permissoes.map(p => p.nome);
+    const userRoles = this.localStorageService.getUserStorage().grupo.permissoes.map(p => p.nome);
     const hasPermissionGrupo = userRoles.includes('LISTAR_GRUPO');
     if(hasPermissionGrupo){
       this.getGrupos();
