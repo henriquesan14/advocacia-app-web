@@ -21,19 +21,17 @@ export class ErrorHandlerService {
       this.localStorageService.removeUsertorage();
       return;
     }
-    if (res.error.errors) {
+    if (res?.error && res.error?.errors) {
       for (const [key, value] of Object.entries(res.error.errors)) {
         this.toastr.error(`${key}: ${value}`, 'Erro!');
       }
     }
-    else if (res.error.detail) {
+    else if (res?.error && res.error?.detail) {
       this.toastr.error(`${res.error.detail}`, 'Erro!');
     }
-    else if (res.error.message) {
+    else if (res?.error?.message) {
       this.toastr.error(`${res.error.message}`, 'Erro!');
     }
-    else {
-      this.toastr.error('Ocorreu um erro.', 'Erro!');
-    }
+    
   }
 }

@@ -156,7 +156,7 @@ export class MainLayoutComponent {
 
   get nomeUsuario(){
     const response = this.localStorageService.getUserStorage();
-    return response.nome;
+    return response?.nome;
   }
 
   get avatar(){
