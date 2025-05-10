@@ -1,0 +1,102 @@
+
+  <h2 class="text-center">Dashboard</h2>
+
+  <form nz-form [formGroup]="formFiltro" nzLayout="vertical">
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label for="mes">Mês</nz-form-label>
+          <nz-form-control>
+            <nz-select id="mes" formControlName="mes" (ngModelChange)="onChangeFiltro()">
+              <nz-option [nzValue]="''" nzLabel="Todos"></nz-option>
+              @for(mes of barChartLabels; track $index){
+                <nz-option [nzValue]="mes" [nzLabel]="mes"></nz-option>
+              }
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label for="ano">Ano</nz-form-label>
+          <nz-form-control>
+            <nz-select id="ano" formControlName="ano" nzPlaceHolder="Selecione um ano" (ngModelChange)="onChangeFiltro()">
+              <nz-option nzDisabled [nzValue]="''" nzLabel="Selecione um ano"></nz-option>
+              @for(ano of [2023, 2024, 2025, 2026]; track $index){
+                <nz-option [nzValue]="ano" [nzLabel]="ano"></nz-option>
+              }
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+  </form>
+
+  <nz-row [nzGutter]="16" class="mb-2">
+    <nz-col [nzSpan]="8">
+      <nz-card [nzBodyStyle]="{ display: 'flex', alignItems: 'center' }" class="bg-primary text-white">
+        <fa-icon [icon]="faArrowUp" class="fa-3x me-5"></fa-icon>
+        <div>
+          <h2>Ganhos</h2>
+          <h3>{{summary.totalGanhos | currency: 'BRL'}}</h3>
+        </div>
+      </nz-card>
+    </nz-col>
+
+    <nz-col [nzSpan]="8">
+      <nz-card [nzBodyStyle]="{ display: 'flex', alignItems: 'center' }" [nzBordered]="false" class="bg-danger text-white">
+        <fa-icon [icon]="faArrowDown" class="fa-3x me-5"></fa-icon>
+        <div>
+          <h2>Despesas</h2>
+          <h3>{{summary.totalDespesas | currency: 'BRL'}}</h3>
+        </div>
+      </nz-card>
+    </nz-col>
+
+    <nz-col [nzSpan]="8">
+      <nz-card [nzBodyStyle]="{ display: 'flex', alignItems: 'center' }" [nzBordered]="false"
+        [ngClass]="{
+          'bg-secondary text-white': summary.saldo == null,
+          'bg-success text-white': summary.saldo > 0,
+          'bg-danger text-white': summary.saldo < 0,
+          'bg-warning text-white': summary.saldo === 0
+        }">
+        <fa-icon [icon]="getIcon()" class="fa-3x me-5"></fa-icon>
+        <div>
+          <h2>Saldo</h2>
+          <h3>{{summary.saldo | currency: 'BRL'}}</h3>
+        </div>
+      </nz-card>
+    </nz-col>
+  </nz-row>
+
+  <nz-row [nzGutter]="16">
+    <nz-col [nzSpan]="12">
+      <nz-card nzTitle="Ganhos/Despesas Mensais">
+        <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+                [legend]="barChartLegend" [type]="'bar'"></canvas>
+      </nz-card>
+    </nz-col>
+
+    <nz-col [nzSpan]="6">
+      <nz-card nzTitle="Despesas por Categoria">
+        @if(statisticsByType.despesasPorTipo?.length > 0){
+            <canvas baseChart [datasets]="doughnutChartData" [labels]="doughnutChartLabels" [type]="'doughnut'"></canvas>
+        }@else{
+            <span class="p-2">Não há dados disponíveis</span>
+        }
+      </nz-card>
+    </nz-col>
+
+    <nz-col [nzSpan]="6">
+      <nz-card nzTitle="Ganhos por Categoria">
+        @if(statisticsByType.ganhosPorTipo?.length > 0){
+            <canvas baseChart [datasets]="doughnutChartData2" [labels]="doughnutChartLabels2" [type]="'doughnut'"></canvas>
+        }@else {
+            <span class="p-2">Não há dados disponíveis</span>
+        }
+      </nz-card>
+    </nz-col>
+  </nz-row>
+

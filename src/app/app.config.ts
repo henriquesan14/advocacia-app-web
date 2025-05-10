@@ -15,6 +15,7 @@ import { ErrorHandlerInterceptor } from './core/interceptors/error-handler.inter
 import { provideToastr } from 'ngx-toastr';
 import { provideNgxMask } from 'ngx-mask';
 import { CredentialsInterceptor } from './core/interceptors/credentials.interceptor';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 registerLocaleData(pt);
 
@@ -27,5 +28,8 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideToastr(),
     provideNgxMask(),
-    provideHttpClient(withInterceptors([CredentialsInterceptor, AccessTokenInterceptor, ErrorHandlerInterceptor]))]
+    provideHttpClient(withInterceptors([CredentialsInterceptor, AccessTokenInterceptor, ErrorHandlerInterceptor])),
+    provideCharts(withDefaultRegisterables())
+  ],
+    
 };
