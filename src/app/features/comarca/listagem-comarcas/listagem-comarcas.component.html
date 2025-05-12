@@ -2,7 +2,7 @@
 <div class="container mt-3">
     <btn-novo hasRole="CADASTRAR_COMARCA" (clickEvent)="openFormComarca()" title="Nova Comarca"></btn-novo>
 
-    <form [formGroup]="filtroForm" nz-form (ngSubmit)="getComarcas()" nzLayout="vertical">
+    <form [formGroup]="filtroForm" nz-form (ngSubmit)="getComarcas()" nzLayout="vertical" class="mt-2">
         <div nz-row [nzGutter]="16">
             <div nz-col [nzSpan]="12">
                 <nz-form-item>
