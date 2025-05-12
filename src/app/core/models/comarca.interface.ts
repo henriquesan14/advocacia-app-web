@@ -1,7 +1,7 @@
 import { Estado } from "./estado.interface";
 
 export interface Comarca {
-    id: number;
+    id: string;
     nome:string;
     estado: Estado;
     estadoId: number;

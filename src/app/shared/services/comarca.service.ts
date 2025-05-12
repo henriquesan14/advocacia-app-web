@@ -22,6 +22,10 @@ export class ComarcaService {
     return this.http.get<Comarca[]>(`${this.API}/comarca`, {params});
   }
 
+  getComarcaById(id: string) : Observable<Comarca>{
+    return this.http.get<Comarca>(`${this.API}/comarca/${id}`);
+  }
+
   addComarca(comarca: Comarca): Observable<Comarca>{
     return this.http.post<Comarca>(`${this.API}/comarca`, comarca);
   }
@@ -30,7 +34,7 @@ export class ComarcaService {
     return this.http.put(`${this.API}/comarca`, comarca);
   }
 
-  deleteComarca(id: number){
+  deleteComarca(id: string){
     return this.http.delete(`${this.API}/comarca/${id}`);
   }
 }

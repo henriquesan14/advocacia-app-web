@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { DashboardService } from '../../../shared/services/dashboard.service';
 import { faArrowCircleDown, faArrowCircleUp, faScaleBalanced, faScaleUnbalanced, faScaleUnbalancedFlip } from '@fortawesome/free-solid-svg-icons';
 import { Historical } from '../../../core/models/historical.interface';
@@ -19,6 +19,7 @@ import { CurrencyPipe, NgClass } from '@angular/common';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   formFiltro!: FormGroup;
   summary: any = {};
   monthlyData: Historical = <Historical>{};
@@ -57,7 +58,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   loadAllData() {
@@ -66,7 +68,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       monthlyData: this.dashboardService.historical(null),
       recentTransactions: this.dashboardService.recentTransactions(),
       statisticsByType: this.dashboardService.statisticsByType(null)
-    }).subscribe((result) => {
+    })
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((result) => {
       // Atualize cada variável com os dados retornados
       this.summary = result.summary;
       this.monthlyData = result.monthlyData;
@@ -87,7 +91,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       summary: this.dashboardService.summary(params),
       statisticsByType: this.dashboardService.statisticsByType(params),
       monthlyData: this.dashboardService.historical(params),
-    }).subscribe((result) => {
+    })
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((result) => {
       this.summary = result.summary;
       this.statisticsByType = result.statisticsByType;
       this.monthlyData = result.monthlyData;

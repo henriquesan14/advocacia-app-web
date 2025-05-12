@@ -25,6 +25,7 @@ export const routes: Routes = [
       { path: 'partes', loadChildren: () => import('./features/parte/parte.routes').then(m => m.PARTE_ROUTES) },
       { path: 'usuarios', loadChildren: () => import('./features/usuarios/usuarios.routes').then(m => m.USUARIOS_ROUTES) },
       { path: 'grupos', loadChildren: () => import('./features/grupo/grupos.routes').then(m => m.GRUPOS_ROUTES) },
+      { path: 'comarcas', loadChildren: () => import('./features/comarca/comarca.routes').then(m => m.COMARCA_ROUTES) },
     ],
     canActivate: [AuthGuard],
   },

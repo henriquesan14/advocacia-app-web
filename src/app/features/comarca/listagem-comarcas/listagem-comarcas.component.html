@@ -1,0 +1,74 @@
+<h2 nz-title class="text-center">Comarcas</h2>
+<div class="container mt-3">
+    <btn-novo hasRole="CADASTRAR_COMARCA" (clickEvent)="openFormComarca()" title="Nova Comarca"></btn-novo>
+
+    <form [formGroup]="filtroForm" nz-form (ngSubmit)="getComarcas()" nzLayout="vertical">
+        <div nz-row [nzGutter]="16">
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label for="nome">Nome</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input formControlName="nome" id="nome" placeholder="Nome" type="text" />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label for="uf">UF</nz-form-label>
+                    <nz-form-control>
+                        <nz-select formControlName="uf" id="uf" nzPlaceHolder="Todos">
+                            <nz-option [nzValue]="''" nzLabel="Todos"></nz-option>
+                            @for(estado of estados; track estado.id){
+                            <nz-option [nzValue]="estado.id" [nzLabel]="estado.nome"></nz-option>
+                            }
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row class="mb-3">
+            <div nz-col [nzSpan]="12">
+                <btn-pesquisar class="me-1"></btn-pesquisar>
+                <btn-limpar (clickEvent)="limpar()"></btn-limpar>
+            </div>
+        </div>
+    </form>
+
+    <div class="mb-2 mt-1">
+        <span>{{ comarcas.length }} comarcas encontradas.</span>
+    </div>
+
+    <nz-table [nzData]="comarcas" [nzBordered]="true" [nzSize]="'middle'">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Estado</th>
+                <th>Data de Cadastro</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(comarca of comarcas; track comarca.id){
+            <tr>
+                <td>{{ comarca.nome }}</td>
+                <td>{{ comarca.estado.nome }}</td>
+                <td>{{ comarca.createdAt | date: 'dd/MM/yyyy' }}</td>
+                <td>
+                    <button hasRole="LISTAR_COMARCA" nz-tooltip="Visualizar" nz-button nzType="primary" nzSize="small"
+                        class="me-1" (click)="openFormComarca(comarca.id)">
+                        <fa-icon [icon]="faEye"></fa-icon>
+                    </button>
+
+                    <button hasRole="EXCLUIR_COMARCA" nz-tooltip="Excluir" nz-button nzType="default" nzDanger
+                        nzSize="small" (click)="deleteComarca(comarca.id)">
+                        <fa-icon [icon]="faTrash"></fa-icon>
+                    </button>
+                </td>
+            </tr>
+            }
+
+        </tbody>
+    </nz-table>
+</div>

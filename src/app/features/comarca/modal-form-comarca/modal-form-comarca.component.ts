@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Estado } from '../../../core/models/estado.interface';
 import { EstadoService } from '../../../shared/services/estado.service';
@@ -8,11 +8,10 @@ import { ComarcaService } from '../../../shared/services/comarca.service';
 import { FormUtils } from '../../../shared/utils/form.utils';
 import { BtnCadastrarComponent } from '../../../shared/components/btn-cadastrar/btn-cadastrar.component';
 import { Subject, takeUntil } from 'rxjs';
-import { Comarca } from '../../../core/models/comarca.interface';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzModalRef } from 'ng-zorro-antd/modal';
+import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @Component({
@@ -27,10 +26,8 @@ export class ModalFormComarcaComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   estados: Estado[] = [];
 
-  @Input() comarca!: Comarca; 
-
   constructor(private comarcaService: ComarcaService, private formBuilder: FormBuilder, private toastr: ToastrService, 
-    private spinner: NgxSpinnerService, private estadoService: EstadoService, private modal: NzModalRef){}
+    private spinner: NgxSpinnerService, private estadoService: EstadoService, private modal: NzModalRef,  @Inject(NZ_MODAL_DATA) public data: { comarcaId: string }){}
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -39,15 +36,33 @@ export class ModalFormComarcaComponent implements OnInit, OnDestroy {
     });
     this.getEstados();
 
-    if(this.comarca){
-      this.form.get('nome')?.setValue(this.comarca.nome);
-      this.form.get('estadoId')?.setValue(this.comarca.estadoId);
+    if(this.data.comarcaId){
+      this.getComarca();
+      
     }
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  getComarca(){
+    this.spinner.show();
+    this.comarcaService.getComarcaById(this.data.comarcaId)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (res) => {
+        this.form.get('nome')?.setValue(res.nome);
+        this.form.get('estadoId')?.setValue(res.estadoId);
+      },
+      error: () => {
+        this.spinner.hide();
+      },
+      complete: () => {
+        this.spinner.hide();
+      }
+    })
   }
 
   getEstados(){
@@ -63,7 +78,7 @@ export class ModalFormComarcaComponent implements OnInit, OnDestroy {
   submit(){
     if(this.form.valid){
       this.spinner.show();
-      if(this.comarca){
+      if(this.data.comarcaId){
        this.updateComarca(); 
        return;
       }
@@ -90,7 +105,7 @@ export class ModalFormComarcaComponent implements OnInit, OnDestroy {
 
   updateComarca(){
     this.comarcaService.updateComarca({
-      id: this.comarca.id,
+      id: this.data.comarcaId,
       ...this.form.value
     }).subscribe({
       next: () => {

@@ -1,7 +1,7 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ResponsePage } from '../../../core/models/response-page.interface';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { Parte } from '../../../core/models/parte.interface';
 import { faCommentsDollar, faEye, faFileInvoiceDollar, faIdCard, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
@@ -99,7 +99,9 @@ export class ListagemPartesComponent implements OnInit, OnDestroy {
 
   generateUser(parteId: string){
     this.spinner.show();
-    this.parteService.generateUser(parteId).subscribe({
+    this.parteService.generateUser(parteId)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
       next: () => {
         this.toastr.success('Usuário gerado!', 'Sucesso');
       },

@@ -23,7 +23,7 @@
     <!-- Botões -->
     <nz-form-item>
         <nz-form-control>
-            @if(comarca){
+            @if(data && data.comarcaId){
             <btn-cadastrar hasRole="EDITAR_COMARCA" [title]="'Atualizar'"></btn-cadastrar>
             }@else {
             <btn-cadastrar hasRole="CADASTRAR_COMARCA" [title]="'Cadastrar'"></btn-cadastrar>
