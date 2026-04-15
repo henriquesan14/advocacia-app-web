@@ -28,6 +28,7 @@ export const routes: Routes = [
       { path: 'comarcas', loadChildren: () => import('./features/comarca/comarca.routes').then(m => m.COMARCA_ROUTES) },
       { path: 'competencias', loadChildren: () => import('./features/competencia/competencia.routes').then(m => m.COMPETENCIA_ROUTES) },
       { path: 'situacoes', loadChildren: () => import('./features/situacao-processo/situacao.routes').then(m => m.SITUACAO_ROUTES) },
+      { path: 'donos', loadChildren: () => import('./features/dono/dono.routes').then(m => m.DONO_ROUTES) },
     ],
     canActivate: [AuthGuard],
   },

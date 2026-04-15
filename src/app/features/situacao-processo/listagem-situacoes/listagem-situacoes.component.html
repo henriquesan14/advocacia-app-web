@@ -1,6 +1,6 @@
 <h2 nz-title class="text-center">Situações de processo</h2>
 <div class="container mt-3">
-    <btn-novo hasRole="CADASTRAR_COMARCA" (clickEvent)="openFormSituacao()" title="Nova Situação"></btn-novo>
+    <btn-novo hasRole="CADASTRAR_SITUACAO" (clickEvent)="openFormSituacao()" title="Nova Situação"></btn-novo>
 
     <form [formGroup]="filtroForm" nz-form (ngSubmit)="getSituacoes()" nzLayout="vertical" class="mt-2">
         <div nz-row [nzGutter]="16">
