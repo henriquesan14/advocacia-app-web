@@ -22,6 +22,10 @@ export class SistemaService {
     return this.http.get<Sistema[]>(`${this.API}/sistema`, {params});
   }
 
+  getSistemaById(id: string) : Observable<Sistema>{
+    return this.http.get<Sistema>(`${this.API}/sistema/${id}`);
+  }
+
   addSistema(sistema: Sistema): Observable<Sistema>{
     return this.http.post<Sistema>(`${this.API}/sistema`, sistema);
   }
@@ -30,7 +34,7 @@ export class SistemaService {
     return this.http.put<Sistema>(`${this.API}/sistema`, sistema);
   }
 
-  deleteSistema(id: number){
+  deleteSistema(id: string){
     return this.http.delete(`${this.API}/sistema/${id}`);
   }
 }

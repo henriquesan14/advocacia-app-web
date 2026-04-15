@@ -29,6 +29,7 @@ export const routes: Routes = [
       { path: 'competencias', loadChildren: () => import('./features/competencia/competencia.routes').then(m => m.COMPETENCIA_ROUTES) },
       { path: 'situacoes', loadChildren: () => import('./features/situacao-processo/situacao.routes').then(m => m.SITUACAO_ROUTES) },
       { path: 'donos', loadChildren: () => import('./features/dono/dono.routes').then(m => m.DONO_ROUTES) },
+      { path: 'sistemas', loadChildren: () => import('./features/sistema/sistema.routes').then(m => m.SISTEMA_ROUTES) },
     ],
     canActivate: [AuthGuard],
   },

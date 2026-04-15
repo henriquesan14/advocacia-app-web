@@ -1,8 +1,8 @@
-<h2 nz-title class="text-center">Donos</h2>
+<h2 nz-title class="text-center">Sistemas</h2>
 <div class="container mt-3">
-    <btn-novo hasRole="CADASTRAR_DONO" (clickEvent)="openFormDono()" title="Novo Dono"></btn-novo>
+    <btn-novo hasRole="CADASTRAR_DONO" (clickEvent)="openFormSistema()" title="Novo Sistema"></btn-novo>
 
-    <form [formGroup]="filtroForm" nz-form (ngSubmit)="getDonos()" nzLayout="vertical" class="mt-2">
+    <form [formGroup]="filtroForm" nz-form (ngSubmit)="getSistemas()" nzLayout="vertical" class="mt-2">
         <div nz-row [nzGutter]="16">
             <div nz-col [nzSpan]="12">
                 <nz-form-item>
@@ -23,10 +23,10 @@
     </form>
 
     <div class="mb-2 mt-1">
-        <span>{{ donos.length }} donos encontrados.</span>
+        <span>{{ sistemas.length }} sistemas encontrados.</span>
     </div>
 
-    <nz-table [nzShowPagination]="false" [nzData]="donos" [nzBordered]="true" [nzSize]="'middle'">
+    <nz-table [nzShowPagination]="false" [nzData]="sistemas" [nzBordered]="true" [nzSize]="'middle'">
         <thead>
             <tr>
                 <th>Nome</th>
@@ -35,18 +35,18 @@
             </tr>
         </thead>
         <tbody>
-            @for(dono of donos; track dono.id){
+            @for(sistema of sistemas; track sistema.id){
             <tr>
-                <td>{{ dono.nome }}</td>
-                <td>{{ dono.createdAt | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ sistema.nome }}</td>
+                <td>{{ sistema.createdAt | date: 'dd/MM/yyyy' }}</td>
                 <td>
-                    <button hasRole="LISTAR_DONO" nz-tooltip="Visualizar" nz-button nzType="primary" nzSize="small"
-                        class="me-1" (click)="openFormDono(dono.id)">
+                    <button hasRole="LISTAR_SISTEMA" nz-tooltip="Visualizar" nz-button nzType="primary" nzSize="small"
+                        class="me-1" (click)="openFormSistema(sistema.id)">
                         <fa-icon [icon]="faEye"></fa-icon>
                     </button>
 
-                    <button hasRole="EXCLUIR_DONO" nz-tooltip="Excluir" nz-button nzType="default" nzDanger
-                        nzSize="small" (click)="deleteDono(dono.id)">
+                    <button hasRole="EXCLUIR_SISTEMA" nz-tooltip="Excluir" nz-button nzType="default" nzDanger
+                        nzSize="small" (click)="deleteSistema(sistema.id)">
                         <fa-icon [icon]="faTrash"></fa-icon>
                     </button>
                 </td>
