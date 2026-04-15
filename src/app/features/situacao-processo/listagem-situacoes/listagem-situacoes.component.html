@@ -1,0 +1,58 @@
+<h2 nz-title class="text-center">Situações de processo</h2>
+<div class="container mt-3">
+    <btn-novo hasRole="CADASTRAR_COMARCA" (clickEvent)="openFormSituacao()" title="Nova Situação"></btn-novo>
+
+    <form [formGroup]="filtroForm" nz-form (ngSubmit)="getSituacoes()" nzLayout="vertical" class="mt-2">
+        <div nz-row [nzGutter]="16">
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label for="nome">Nome</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input formControlName="nome" id="nome" placeholder="Nome" type="text" />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row class="mb-3">
+            <div nz-col [nzSpan]="12">
+                <btn-pesquisar class="me-1"></btn-pesquisar>
+                <btn-limpar (clickEvent)="limpar()"></btn-limpar>
+            </div>
+        </div>
+    </form>
+
+    <div class="mb-2 mt-1">
+        <span>{{ situacoes.length }} situações processo encontradas.</span>
+    </div>
+
+    <nz-table [nzShowPagination]="false" [nzData]="situacoes" [nzBordered]="true" [nzSize]="'middle'">
+        <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Data de Cadastro</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(situacao of situacoes; track situacao.id){
+            <tr>
+                <td>{{ situacao.descricao }}</td>
+                <td>{{ situacao.createdAt | date: 'dd/MM/yyyy' }}</td>
+                <td>
+                    <button hasRole="LISTAR_SITUACAO" nz-tooltip="Visualizar" nz-button nzType="primary" nzSize="small"
+                        class="me-1" (click)="openFormSituacao(situacao.id)">
+                        <fa-icon [icon]="faEye"></fa-icon>
+                    </button>
+
+                    <button hasRole="EXCLUIR_SITUACAO" nz-tooltip="Excluir" nz-button nzType="default" nzDanger
+                        nzSize="small" (click)="deleteSituacao(situacao.id)">
+                        <fa-icon [icon]="faTrash"></fa-icon>
+                    </button>
+                </td>
+            </tr>
+            }
+
+        </tbody>
+    </nz-table>
+</div>

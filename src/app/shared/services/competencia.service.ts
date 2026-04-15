@@ -22,6 +22,10 @@ export class CompetenciaService {
     return this.http.get<Competencia[]>(`${this.API}/competencia`, {params});
   }
 
+  getCompetenciaById(id: string) : Observable<Competencia>{
+    return this.http.get<Competencia>(`${this.API}/competencia/${id}`);
+  }
+
   addCompetencia(competencia: Competencia): Observable<Competencia>{
     return this.http.post<Competencia>(`${this.API}/competencia`, competencia);
   }
@@ -30,7 +34,7 @@ export class CompetenciaService {
     return this.http.put(`${this.API}/competencia`, competencia);
   }
 
-  deleteCompetencia(id: number){
+  deleteCompetencia(id: string){
     return this.http.delete(`${this.API}/competencia/${id}`);
   }
 }

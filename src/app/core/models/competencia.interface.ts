@@ -1,5 +1,5 @@
 export interface Competencia {
-    id: number;
+    id: string;
     nome: string;
     createdAt: string;
 }

@@ -1,15 +1,15 @@
-import { Component, Input } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CompetenciaService } from '../../../shared/services/competencia.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { FormUtils } from '../../../shared/utils/form.utils';
 import { BtnCadastrarComponent } from '../../../shared/components/btn-cadastrar/btn-cadastrar.component';
-import { Competencia } from '../../../core/models/competencia.interface';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzModalRef } from 'ng-zorro-antd/modal';
+import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-modal-form-competencia',
@@ -18,35 +18,56 @@ import { NzModalRef } from 'ng-zorro-antd/modal';
   templateUrl: './modal-form-competencia.component.html',
   styleUrl: './modal-form-competencia.component.css'
 })
-export class ModalFormCompetenciaComponent {
+export class ModalFormCompetenciaComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   form!: FormGroup;
 
-  @Input() competencia!: Competencia;
-
   constructor(private competenciaService: CompetenciaService, private formBuilder: FormBuilder, private toastr: ToastrService,
-     private spinner: NgxSpinnerService, private modal: NzModalRef) { }
+    private spinner: NgxSpinnerService, private modal: NzModalRef, @Inject(NZ_MODAL_DATA) public data: { competenciaId: string }) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       nome: [null, Validators.required],
     });
 
-    if(this.competencia){
-      this.form.get('nome')?.setValue(this.competencia.nome);
+    if (this.data.competenciaId) {
+      this.getCompetencia();
     }
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   submit() {
-    if (this.form.valid) {
+    if(this.form.valid){
       this.spinner.show();
-      if (this.competencia) {
-        this.updateCompetencia();
-        return;
+      if(this.data.competenciaId){
+       this.updateCompetencia(); 
+       return;
       }
       this.addCompetencia();
-    } else {
+    }else{
       FormUtils.markFormGroupTouched(this.form);
     }
+  }
+
+  getCompetencia() {
+    this.spinner.show();
+    this.competenciaService.getCompetenciaById(this.data.competenciaId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.form.get('nome')?.setValue(res.nome);
+        },
+        error: () => {
+          this.spinner.hide();
+        },
+        complete: () => {
+          this.spinner.hide();
+        }
+      })
   }
 
   addCompetencia() {
@@ -66,7 +87,7 @@ export class ModalFormCompetenciaComponent {
 
   updateCompetencia() {
     this.competenciaService.updateCompetencia({
-      id: this.competencia.id,
+      id: this.data.competenciaId,
       ...this.form.value
     }).subscribe({
       next: () => {
