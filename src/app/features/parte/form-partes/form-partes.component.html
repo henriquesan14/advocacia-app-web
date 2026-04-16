@@ -16,7 +16,7 @@
 
     <nz-col [nzSpan]="12">
       <nz-form-item>
-        <nz-form-label nzFor="email">Email</nz-form-label>
+        <nz-form-label [nzRequired]="true" nzFor="email">Email</nz-form-label>
         <nz-form-control [nzErrorTip]="emailErrorTpl">
           <input nz-input formControlName="email" id="email" maxlength="100" />
           <ng-template #emailErrorTpl let-control>
@@ -30,7 +30,7 @@
 
     <nz-col [nzSpan]="12">
       <nz-form-item>
-        <nz-form-label nzFor="tipoPessoa">Tipo Pessoa</nz-form-label>
+        <nz-form-label [nzRequired]="true" nzFor="tipoPessoa">Tipo Pessoa</nz-form-label>
         <nz-form-control>
           <nz-radio-group formControlName="tipoPessoa">
             <label nz-radio [nzValue]="'PESSOA_FISICA'">Pessoa Física</label>
@@ -42,7 +42,7 @@
 
     <nz-col [nzSpan]="12">
       <nz-form-item>
-        <nz-form-label nzFor="cpfCnpj">CPF/CNPJ</nz-form-label>
+        <nz-form-label [nzRequired]="true" nzFor="cpfCnpj">CPF/CNPJ</nz-form-label>
         <nz-form-control [nzErrorTip]="cpfCnpjErrorTpl">
           <input nz-input formControlName="cpfCnpj" id="cpfCnpj" [mask]="getMaskCpfCnpj()" />
           <ng-template #cpfCnpjErrorTpl let-control>
@@ -56,7 +56,7 @@
 
     <nz-col [nzSpan]="12">
       <nz-form-item>
-        <nz-form-label nzFor="dataNascimento">Data de Nascimento</nz-form-label>
+        <nz-form-label [nzRequired]="true" nzFor="dataNascimento">Data de Nascimento</nz-form-label>
         <nz-form-control [nzErrorTip]="dataNascimentoErrorTpl">
           <nz-date-picker formControlName="dataNascimento" nzFormat="dd/MM/yyyy"></nz-date-picker>
           <ng-template #dataNascimentoErrorTpl let-control>
@@ -70,7 +70,7 @@
 
     <nz-col [nzSpan]="12">
       <nz-form-item>
-        <nz-form-label nzFor="telefone">Telefone</nz-form-label>
+        <nz-form-label [nzRequired]="true" nzFor="telefone">Telefone</nz-form-label>
         <nz-form-control [nzErrorTip]="telefoneErrorTpl">
           <input nz-input formControlName="telefone" id="telefone" mask="(00) 0 0000-0000" />
           <ng-template #telefoneErrorTpl let-control>

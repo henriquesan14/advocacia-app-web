@@ -77,13 +77,13 @@
   </div>
 
   <nz-form-item>
-    <nz-form-control>
-      <button
-        nz-button
-        nzType="primary">
-        {{ data?.ganhoId ? 'Atualizar' : 'Cadastrar' }}
-      </button>
-    </nz-form-control>
-  </nz-form-item>
+        <nz-form-control>
+            @if(data && data.ganhoId){
+            <btn-cadastrar hasRole="EDITAR_COMARCA" [title]="'Atualizar'"></btn-cadastrar>
+            }@else {
+            <btn-cadastrar hasRole="CADASTRAR_COMARCA" [title]="'Cadastrar'"></btn-cadastrar>
+            }
+        </nz-form-control>
+    </nz-form-item>
 
 </form>

@@ -232,7 +232,7 @@ export class FormPartesComponent implements OnInit, OnDestroy {
           parte.endereco.id = this.enderecoId;
         }
       }
-      if(this.data.parteId){
+      if(this.data && this.data.parteId){
         this.updateParte(parte);
       }else{
         this.cadastrarParte(parte);
