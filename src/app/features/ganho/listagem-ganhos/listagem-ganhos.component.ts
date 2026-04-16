@@ -1,15 +1,14 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
-import { Despesa } from '../../../core/models/despesa.interface';
+import { Ganho } from '../../../core/models/ganho.interface';
 import { faCheck, faExclamationCircle, faExclamationTriangle, faEye, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { DespesaService } from '../../../shared/services/despesa.service';
+import { GanhoService } from '../../../shared/services/ganho.service';
 import { ToastrService } from 'ngx-toastr';
-import { ModalFormDespesaComponent } from '../modal-form-despesa/modal-form-despesa.component';
 import { BtnNovoComponent } from '../../../shared/components/btn-novo/btn-novo.component';
-import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { BtnPesquisarComponent } from '../../../shared/components/btn-pesquisar/btn-pesquisar.component';
 import { BtnLimparComponent } from '../../../shared/components/btn-limpar/btn-limpar.component';
@@ -21,19 +20,20 @@ import { NroProcessoPipe } from '../../../shared/pipes/nro-processo.pipe';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { ModalFormGanhoComponent } from '../modal-form-ganho/modal-form-ganho.component';
 
 @Component({
-  selector: 'app-listagem-despesas',
+  selector: 'app-listagem-ganhos',
   standalone: true,
   imports: [BtnNovoComponent, ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, BtnPesquisarComponent, BtnLimparComponent, NzTableModule, NzButtonModule, FontAwesomeModule, NzToolTipModule, DatePipe,
-      NzModalModule, CurrencyPipe, DatePipe, NgClass, NroProcessoPipe, NzToolTipModule, HasRoleDirective, NzTagModule],
-  templateUrl: './listagem-despesas.component.html',
-  styleUrl: './listagem-despesas.component.scss'
+        NzModalModule, CurrencyPipe, DatePipe, NgClass, NroProcessoPipe, NzToolTipModule, HasRoleDirective, NzTagModule],
+  templateUrl: './listagem-ganhos.component.html',
+  styleUrl: './listagem-ganhos.component.scss'
 })
-export class ListagemDespesasComponent implements OnInit, OnDestroy {
+export class ListagemGanhosComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   filtroForm!: FormGroup;
-  despesas: Despesa[] = [];
+  ganhos: Ganho[] = [];
   faPencil = faPencil;
   faTrash = faTrash;
   faEye = faEye;
@@ -44,16 +44,16 @@ export class ListagemDespesasComponent implements OnInit, OnDestroy {
   confirmModal?: NzModalRef;
   private modalService = inject(NzModalService);
 
-  constructor(private despesaService: DespesaService, private formBuilder: FormBuilder,  
+  constructor(private ganhoService: GanhoService, private formBuilder: FormBuilder,
     private toastr: ToastrService){
     this.filtroForm = this.formBuilder.group({
-      tipo: [''],
+      fonte: [''],
       status: ['']
     });
   }
 
   ngOnInit(): void {
-    this.getDespesas();
+    this.getGanhos();
   }
 
   ngOnDestroy(): void {
@@ -61,63 +61,54 @@ export class ListagemDespesasComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  getDespesas(){
-    this.despesaService.getDespesas(this.filtroForm.value)
+  getGanhos(){
+    this.ganhoService.getGanhos(this.filtroForm.value)
     .pipe(takeUntil(this.destroy$))
     .subscribe({
-      next: (res: Despesa[]) => {
-        this.despesas = res;
+      next: (res: Ganho[]) => {
+        this.ganhos = res;
       }
     });
   }
 
   limpar(){
     this.filtroForm.reset();
-    this.filtroForm.get('tipo')?.setValue('');
+    this.filtroForm.get('fonte')?.setValue('');
     this.filtroForm.get('status')?.setValue('');
   }
 
-  openFormDespesa(despesaId?: string) {
-    const modal = this.modalService.create({
-      nzTitle: despesaId ? 'Edição de despesa' : 'Cadastro de despesa',
-      nzContent: ModalFormDespesaComponent,
-      nzWidth: '1000px',
-      nzFooter: null,
-      nzData: {
-        despesaId: despesaId,
-      }
-    });
-
-    modal.afterClose.subscribe(() => {
-      this.getDespesas();
-    });
-  }
-
-
-  deleteDespesa(id: string) {
+  openFormGanho(ganhoId?: string) {
+      const modal = this.modalService.create({
+        nzTitle: ganhoId ? 'Edição de ganho' : 'Cadastro de ganho',
+        nzContent: ModalFormGanhoComponent,
+        nzWidth: '1000px',
+        nzFooter: null,
+        nzData: {
+          ganhoId: ganhoId,
+        }
+      });
+  
+      modal.afterClose.subscribe(() => {
+        this.getGanhos();
+      });
+    }
+  
+  
+  deleteGanho(id: string) {
     this.confirmModal = this.modalService.confirm({
       nzTitle: 'Exclusão',
-      nzContent: 'Tem certeza que quer remover esta despesa?',
+      nzContent: 'Tem certeza que quer remover este ganho?',
       nzOnOk: () =>
-        this.despesaService.deleteDespesa(id).subscribe({
+        this.ganhoService.deleteGanho(id).subscribe({
           next: () => {
-            this.toastr.success('Despesa removida!', 'Sucesso');
-            this.getDespesas();
+            this.toastr.success('Ganho removido!', 'Sucesso');
+            this.getGanhos();
           }
         })
     });
   }
 
-  pagarDespesa(id: string){
-    this.despesaService.pagarDespesa(id).subscribe({
-      next: () => {
-        this.toastr.success('Despesa paga!', 'Sucesso');
-        this.getDespesas();
-      }
-    })
-  }
-
-  getVencimentoStatus(dataVencimento: string): number {
+  getRecebimentoStatus(dataVencimento: string): number {
     const vencimento = new Date(dataVencimento);
     const hoje = new Date();
   
@@ -146,15 +137,5 @@ export class ListagemDespesasComponent implements OnInit, OnDestroy {
       default:
         return 'default';
     }
-  }
-
-  getTextoReduzido(descricao: string | undefined){
-    if(!descricao){
-      return 'N/A';
-    }
-    if(descricao.length <= 10){
-      return descricao;
-    }
-    return `${descricao.substring(0,10)}...`;
   }
 }

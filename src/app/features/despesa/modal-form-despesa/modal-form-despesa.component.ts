@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -24,7 +24,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
   styleUrl: './modal-form-despesa.component.scss',
   providers: [DatePipe]
 })
-export class ModalFormDespesaComponent implements OnInit {
+export class ModalFormDespesaComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   form!: FormGroup;
   

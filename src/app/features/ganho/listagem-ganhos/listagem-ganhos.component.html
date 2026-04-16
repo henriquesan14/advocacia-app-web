@@ -1,0 +1,107 @@
+<h2 class="card-header text-center">Ganhos</h2>
+<div class="container  mt-3">
+
+    <btn-novo hasRole="CADASTRAR_GANHO" (clickEvent)="openFormGanho()" title="Novo Ganho"></btn-novo>
+    <form [formGroup]="filtroForm" nz-form (ngSubmit)="getGanhos()" nzLayout="vertical" class="mt-2">
+        <div nz-row [nzGutter]="16">
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label for="fonte">Fonte</nz-form-label>
+                    <nz-form-control>
+                        <nz-select formControlName="fonte" id="fonte" nzPlaceHolder="Todos">
+                            <nz-option [nzValue]="''" nzLabel="Todos"></nz-option>
+                            <nz-option [nzValue]="'ALUGUEL'" nzLabel="Aluguel"></nz-option>
+                            <nz-option [nzValue]="'HONORARIO'" nzLabel="Honorários"></nz-option>
+                            <nz-option [nzValue]="'SERVICOS'" nzLabel="Serviços"></nz-option>
+                            <nz-option [nzValue]="'JUROS'" nzLabel="Juros"></nz-option>
+                            <nz-option [nzValue]="'OUTROS'" nzLabel="Outros"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label for="status">Status</nz-form-label>
+                    <nz-form-control>
+                        <nz-select formControlName="status" id="status" nzPlaceHolder="Todos">
+                            <nz-option [nzValue]="''" nzLabel="Todos"></nz-option>
+                            <nz-option [nzValue]="'PENDENTE'" nzLabel="Pendente"></nz-option>
+                            <nz-option [nzValue]="'PAGO'" nzLabel="Pago"></nz-option>
+                            <nz-option [nzValue]="'AGUARDANDO'" nzLabel="Aguardando"></nz-option>
+                            <nz-option [nzValue]="'RECEBIDO'" nzLabel="Recebido"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+        </div>
+
+        <div nz-row class="mb-3">
+            <div nz-col [nzSpan]="12">
+                <btn-pesquisar class="me-1"></btn-pesquisar>
+                <btn-limpar (clickEvent)="limpar()"></btn-limpar>
+            </div>
+        </div>
+    </form>
+
+    <div class="mb-2 mt-1">
+        <span>{{ganhos.length}} ganhos encontrados.</span>
+    </div>
+
+
+    <nz-table [nzData]="ganhos" [nzBordered]="true" [nzSize]="'middle'">
+        <thead>
+            <tr>
+                <th>Fonte</th>
+                <th>Valor</th>
+                <th>Data de recebimento</th>
+                <th>Status</th>
+                <th>Processo</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (ganho of ganhos; track ganho.id) {
+            <tr>
+                <td>
+                    {{ ganho.fonte }}
+                </td>
+                <td>
+                    {{ ganho.valor | currency: 'BRL' }}
+                </td>
+                <td>
+                    {{ ganho.dataRecebimento | date : 'dd/MM/yyyy'}}
+                    @if(ganho.status != 'PAGO' && getRecebimentoStatus(ganho.dataRecebimento) < 0){ <fa-icon
+                        ngbTooltip="Atrasado" class="text-danger" [icon]="faExclamationCircle"></fa-icon>
+                        }
+                        @if(ganho.status != 'PAGO' && getRecebimentoStatus(ganho.dataRecebimento) >= 0 &&
+                        getRecebimentoStatus(ganho.dataRecebimento) < 8){ <fa-icon ngbTooltip="Recebimento próximo"
+                            class="text-warning" [icon]="faExclamationTriangle"></fa-icon>
+                            }
+                </td>
+                <td>
+                    <nz-tag [nzColor]="getStatusColor(ganho.status)">
+                        {{ ganho.status }}
+                    </nz-tag>
+                </td>
+                <td>
+                    {{ ganho.processo ? (ganho.processo.nroProcesso! | nroProcesso) : 'N/A' }}
+                </td>
+
+                <td style="white-space:nowrap;">
+                    <button hasRole="LISTAR_GANHO" (click)="openFormGanho(ganho.id)" nz-tooltip="Visualizar" nz-button nzType="primary" nzSize="small"
+                        class="me-1">
+                        <fa-icon [icon]="faEye">
+                        </fa-icon>
+                    </button>
+                    <button hasRole="EXCLUIR_GANHO" (click)="deleteGanho(ganho.id)" nz-tooltip="Excluir" nz-button nzType="default" nzDanger
+                        nzSize="small">
+                        <fa-icon [icon]="faTrash"></fa-icon>
+                    </button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </nz-table>
+</div>

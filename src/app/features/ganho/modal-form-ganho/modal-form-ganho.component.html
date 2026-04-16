@@ -1,0 +1,89 @@
+<form nz-form [formGroup]="form" (ngSubmit)="submit()" nzLayout="vertical">
+
+  <div nz-row nzGutter="16">
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>Fonte</nz-form-label>
+        <nz-form-control nzErrorTip="O campo é obrigatório">
+          <nz-select formControlName="fonte" nzPlaceHolder="Selecione uma fonte">
+            <nz-option nzValue="HONORARIOS" nzLabel="Honorários"></nz-option>
+            <nz-option nzValue="SERVICOS" nzLabel="Serviços"></nz-option>
+            <nz-option nzValue="JUROS" nzLabel="Juros"></nz-option>
+            <nz-option nzValue="OUTROS" nzLabel="Outros"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>Valor</nz-form-label>
+        <nz-form-control nzErrorTip="O campo é obrigatório">
+          <input
+            nz-input
+            formControlName="valor"
+            placeholder="R$ 0,00"
+            mask="separator.2"
+            prefix="R$ "
+            [dropSpecialCharacters]="false"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div nz-row nzGutter="16">
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>Status</nz-form-label>
+        <nz-form-control nzErrorTip="O campo é obrigatório">
+          <nz-select formControlName="status" nzPlaceHolder="Selecione um status">
+            <nz-option nzValue="PENDENTE" nzLabel="Pendente"></nz-option>
+            <nz-option nzValue="PAGO" nzLabel="Pago"></nz-option>
+            <nz-option nzValue="AGUARDANDO" nzLabel="Aguardando"></nz-option>
+            <nz-option nzValue="RECEBIDO" nzLabel="Recebido"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>Data de recebimento</nz-form-label>
+        <nz-form-control nzErrorTip="O campo é obrigatório">
+          <nz-date-picker
+            formControlName="dataRecebimento"
+            nzFormat="dd/MM/yyyy">
+          </nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div nz-row nzGutter="16">
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label>Processo</nz-form-label>
+        <nz-form-control>
+          <input
+            nz-input
+            formControlName="nroProcesso"
+            placeholder="N. Processo"
+            mask="0000000.00.0000.0.00.0000"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <nz-form-item>
+    <nz-form-control>
+      <button
+        nz-button
+        nzType="primary">
+        {{ data?.ganhoId ? 'Atualizar' : 'Cadastrar' }}
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+
+</form>

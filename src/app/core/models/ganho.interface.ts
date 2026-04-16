@@ -1,7 +1,7 @@
 import { Processo } from "./processo.interface";
 
 export interface Ganho {
-    id: number;
+    id: string;
     fonte: string;
     valor: number;
     dataRecebimento: string;
