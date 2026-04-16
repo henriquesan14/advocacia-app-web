@@ -1,0 +1,114 @@
+<form nz-form [formGroup]="form" (ngSubmit)="submit()" nzLayout="vertical">
+
+  <div nz-row nzGutter="16">
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>Tipo</nz-form-label>
+        <nz-form-control nzErrorTip="O campo é obrigatório">
+          <nz-select formControlName="tipo" nzPlaceHolder="Selecione um tipo">
+            <nz-option nzValue="ALUGUEL" nzLabel="Aluguel"></nz-option>
+            <nz-option nzValue="PAGAMENTO_FUNCIONARIO" nzLabel="Pagamento funcionário"></nz-option>
+            <nz-option nzValue="CONTAS" nzLabel="Contas"></nz-option>
+            <nz-option nzValue="MATERIAL_ESCRITORIO" nzLabel="Material escritório"></nz-option>
+            <nz-option nzValue="MARKETING" nzLabel="Marketing"></nz-option>
+            <nz-option nzValue="VIAGEM" nzLabel="Viagem"></nz-option>
+            <nz-option nzValue="OUTROS" nzLabel="Outros"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>Valor</nz-form-label>
+        <nz-form-control nzErrorTip="O campo é obrigatório">
+          <input
+            nz-input
+            formControlName="valor"
+            placeholder="R$ 0,00"
+            mask="separator.2"
+            prefix="R$ "
+            [dropSpecialCharacters]="false"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div nz-row nzGutter="16">
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>Data de vencimento</nz-form-label>
+        <nz-form-control nzErrorTip="O campo é obrigatório">
+          <nz-date-picker formControlName="dataVencimento" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label>Data de pagamento</nz-form-label>
+        <nz-form-control>
+          <nz-date-picker formControlName="dataPagamento" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div nz-row nzGutter="16">
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>Status</nz-form-label>
+        <nz-form-control nzErrorTip="O campo é obrigatório">
+          <nz-select formControlName="status" nzPlaceHolder="Selecione um status">
+            <nz-option nzValue="PENDENTE" nzLabel="Pendente"></nz-option>
+            <nz-option nzValue="PAGO" nzLabel="Pago"></nz-option>
+            <nz-option nzValue="AGUARDANDO" nzLabel="Aguardando"></nz-option>
+            <nz-option nzValue="RECEBIDO" nzLabel="Recebido"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label>Processo</nz-form-label>
+        <nz-form-control>
+          <input
+            nz-input
+            formControlName="nroProcesso"
+            placeholder="N. Processo"
+            mask="0000000.00.0000.0.00.0000"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div nz-row>
+    <div nz-col nzSpan="24">
+      <nz-form-item>
+        <nz-form-label>Observações</nz-form-label>
+        <nz-form-control>
+          <textarea
+            nz-input
+            rows="4"
+            formControlName="observacoes"
+            placeholder="Observações">
+          </textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <nz-form-item>
+        <nz-form-control>
+            @if(data && data.despesaId){
+            <btn-cadastrar hasRole="EDITAR_COMARCA" [title]="'Atualizar'"></btn-cadastrar>
+            }@else {
+            <btn-cadastrar hasRole="CADASTRAR_COMARCA" [title]="'Cadastrar'"></btn-cadastrar>
+            }
+        </nz-form-control>
+    </nz-form-item>
+
+</form>

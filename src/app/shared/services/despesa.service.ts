@@ -21,7 +21,7 @@ export class DespesaService {
     return this.http.get<Despesa[]>(`${this.API}/despesa`, {params});
   }
 
-  getById(id: number): Observable<Despesa>{
+  getById(id: string): Observable<Despesa>{
     return this.http.get<Despesa>(`${this.API}/despesa/${id}`);
   }
 
@@ -29,7 +29,7 @@ export class DespesaService {
     return this.http.post<Despesa>(`${this.API}/despesa`, despesa);
   }
 
-  deleteDespesa(id: number){
+  deleteDespesa(id: string){
     return this.http.delete(`${this.API}/despesa/${id}`);
   }
 
@@ -37,7 +37,7 @@ export class DespesaService {
     return this.http.put(`${this.API}/despesa`, despesa);
   }
 
-  pagarDespesa(id: number){
+  pagarDespesa(id: string){
     return this.http.patch(`${this.API}/despesa`, {id});
   }
   

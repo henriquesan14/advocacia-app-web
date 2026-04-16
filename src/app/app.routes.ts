@@ -30,6 +30,7 @@ export const routes: Routes = [
       { path: 'situacoes', loadChildren: () => import('./features/situacao-processo/situacao.routes').then(m => m.SITUACAO_ROUTES) },
       { path: 'donos', loadChildren: () => import('./features/dono/dono.routes').then(m => m.DONO_ROUTES) },
       { path: 'sistemas', loadChildren: () => import('./features/sistema/sistema.routes').then(m => m.SISTEMA_ROUTES) },
+      { path: 'despesas', loadChildren: () => import('./features/despesa/despesa.routes').then(m => m.DESPESA_ROUTES) },
     ],
     canActivate: [AuthGuard],
   },
