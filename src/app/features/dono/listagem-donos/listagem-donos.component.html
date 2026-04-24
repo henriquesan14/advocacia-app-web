@@ -1,0 +1,58 @@
+<h2 nz-title class="text-center">Donos</h2>
+<div class="container mt-3">
+    <btn-novo hasRole="CADASTRAR_DONO" (clickEvent)="openFormDono()" title="Novo Dono"></btn-novo>
+
+    <form [formGroup]="filtroForm" nz-form (ngSubmit)="getDonos()" nzLayout="vertical" class="mt-2">
+        <div nz-row [nzGutter]="16">
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label for="nome">Nome</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input formControlName="nome" id="nome" placeholder="Nome" type="text" />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row class="mb-3">
+            <div nz-col [nzSpan]="12">
+                <btn-pesquisar class="me-1"></btn-pesquisar>
+                <btn-limpar (clickEvent)="limpar()"></btn-limpar>
+            </div>
+        </div>
+    </form>
+
+    <div class="mb-2 mt-1">
+        <span>{{ donos.length }} donos encontrados.</span>
+    </div>
+
+    <nz-table [nzShowPagination]="false" [nzData]="donos" [nzBordered]="true" [nzSize]="'middle'">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Data de Cadastro</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(dono of donos; track dono.id){
+            <tr>
+                <td>{{ dono.nome }}</td>
+                <td>{{ dono.createdAt | date: 'dd/MM/yyyy' }}</td>
+                <td>
+                    <button hasRole="LISTAR_DONO" nz-tooltip="Visualizar" nz-button nzType="primary" nzSize="small"
+                        class="me-1" (click)="openFormDono(dono.id)">
+                        <fa-icon [icon]="faEye"></fa-icon>
+                    </button>
+
+                    <button hasRole="EXCLUIR_DONO" nz-tooltip="Excluir" nz-button nzType="default" nzDanger
+                        nzSize="small" (click)="deleteDono(dono.id)">
+                        <fa-icon [icon]="faTrash"></fa-icon>
+                    </button>
+                </td>
+            </tr>
+            }
+
+        </tbody>
+    </nz-table>
+</div>

@@ -1,7 +1,7 @@
 import { Processo } from "./processo.interface";
 
 export interface Despesa {
-    id: number;
+    id: string;
     tipo: string;
     valor: number;
     dataVencimento: string;

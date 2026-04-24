@@ -57,11 +57,11 @@
     <nz-col [nzSpan]="8">
       <nz-card [nzBodyStyle]="{ display: 'flex', alignItems: 'center' }" [nzBordered]="false"
         [ngClass]="{
-          'bg-secondary text-white': summary.saldo == null,
-          'bg-success text-white': summary.saldo > 0,
-          'bg-danger text-white': summary.saldo < 0,
-          'bg-warning text-white': summary.saldo === 0
-        }">
+          'bg-secondary': summary.saldo == null,
+          'bg-success': summary.saldo > 0,
+          'bg-danger': summary.saldo < 0,
+          'bg-warning': summary.saldo === 0
+        }" class="text-white">
         <fa-icon [icon]="getIcon()" class="fa-3x me-5"></fa-icon>
         <div>
           <h2>Saldo</h2>

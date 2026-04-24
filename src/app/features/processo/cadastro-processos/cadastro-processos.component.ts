@@ -27,6 +27,7 @@ import { Documento } from '../../../core/models/documento.interface';
 import { Audiencia } from '../../../core/models/audiencia.interface';
 import { Diligencia } from '../../../core/models/diligencia.interface';
 import { Historico } from '../../../core/models/historico.interface';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-cadastro-processos',
@@ -35,7 +36,8 @@ import { Historico } from '../../../core/models/historico.interface';
     BtnCadastrarComponent, BtnVoltarComponent, HasRoleDirective, NzTabsModule, NzModalModule, 
     TabProcessoComponent,TabAutoresComponent, TabReusComponent, TabHistoricosComponent, TabDiligenciasComponent, TabAudienciasComponent, TabDocumentosComponent],
   templateUrl: './cadastro-processos.component.html',
-  styleUrl: './cadastro-processos.component.css'
+  styleUrl: './cadastro-processos.component.css',
+  providers: [DatePipe]
 })
 export class CadastroProcessosComponent implements OnInit {
   formProcesso!: FormGroup;
@@ -53,7 +55,7 @@ export class CadastroProcessosComponent implements OnInit {
   autoresSelecionados: Parte[] = [];
 
   constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService, private processoService: ProcessosService,
-    private toastr: ToastrService, private router: Router, private dataService: DataService, private activatedRoute: ActivatedRoute) {
+    private toastr: ToastrService, private router: Router, private dataService: DataService, private activatedRoute: ActivatedRoute, private datePipe: DatePipe) {
   }
 
   ngOnInit(): void {
@@ -179,6 +181,7 @@ export class CadastroProcessosComponent implements OnInit {
       await this.uploadToStorage();
       let processo = <Processo>{
         ...this.formProcesso.value,
+        dataDistribuicao: this.datePipe.transform(this.formProcesso.value.dataDistribuicao,'yyyy-MM-dd'),
         autores: this.autoresSelecionados.map(a => a.id),
         reus: this.reusSelecionados.map(r => r.id),
         diligencias: this.diligencias,

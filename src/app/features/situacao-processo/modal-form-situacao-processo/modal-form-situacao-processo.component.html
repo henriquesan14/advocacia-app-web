@@ -9,13 +9,13 @@
   
     <!-- Botão -->
     <nz-form-item>
-      <nz-form-control>
-        @if (situacao) {
-          <btn-cadastrar hasRole="EDITAR_SITUACAO" [title]="'Atualizar'"></btn-cadastrar>
-        } @else {
-          <btn-cadastrar hasRole="CADASTRAR_SITUACAO" [title]="'Cadastrar'"></btn-cadastrar>
-        }
-      </nz-form-control>
+        <nz-form-control>
+            @if(data && data.situacaoId){
+            <btn-cadastrar hasRole="EDITAR_SITUACAO" [title]="'Atualizar'"></btn-cadastrar>
+            }@else {
+            <btn-cadastrar hasRole="CADASTRAR_SITUACAO" [title]="'Cadastrar'"></btn-cadastrar>
+            }
+        </nz-form-control>
     </nz-form-item>
   </form>
   

@@ -22,6 +22,10 @@ export class SituacaoProcessoService {
     return this.http.get<SituacaoProcesso[]>(`${this.API}/situacaoprocesso`, {params});
   }
 
+  getSituacaoProcessoById(id: string) : Observable<SituacaoProcesso>{
+    return this.http.get<SituacaoProcesso>(`${this.API}/situacaoprocesso/${id}`);
+  }
+
   addSituacao(situacao: SituacaoProcesso): Observable<SituacaoProcesso>{
     return this.http.post<SituacaoProcesso>(`${this.API}/situacaoprocesso`, situacao);
   }
@@ -30,7 +34,7 @@ export class SituacaoProcessoService {
     return this.http.put(`${this.API}/situacaoprocesso`, situacao);
   }
 
-  deleteSituacao(id: number){
+  deleteSituacao(id: string){
     return this.http.delete(`${this.API}/situacaoprocesso/${id}`);
   }
 }

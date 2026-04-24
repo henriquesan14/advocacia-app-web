@@ -21,7 +21,7 @@ export class GanhoService {
     return this.http.get<Ganho[]>(`${this.API}/ganho`, {params});
   }
 
-  getById(id: number): Observable<Ganho>{
+  getById(id: string): Observable<Ganho>{
     return this.http.get<Ganho>(`${this.API}/ganho/${id}`);
   }
 
@@ -29,7 +29,7 @@ export class GanhoService {
     return this.http.post<Ganho>(`${this.API}/ganho`, despesa);
   }
 
-  deleteGanho(id: number){
+  deleteGanho(id: string){
     return this.http.delete(`${this.API}/ganho/${id}`);
   }
 

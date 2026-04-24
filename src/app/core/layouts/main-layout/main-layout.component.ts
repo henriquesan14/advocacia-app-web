@@ -102,7 +102,7 @@ export class MainLayoutComponent {
       icon: 'flag',
       permission: 'VISUALIZAR_SITUACAO',
       children: [
-        { label: 'Visualizar', link: 'competencias/list', permission: 'VISUALIZAR_SITUACAO', },
+        { label: 'Visualizar', link: 'situacoes/list', permission: 'VISUALIZAR_SITUACAO', },
       ]
     },
     {

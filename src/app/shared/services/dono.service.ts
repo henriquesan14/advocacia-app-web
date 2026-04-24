@@ -22,6 +22,10 @@ export class DonoService {
     return this.http.get<Dono[]>(`${this.API}/dono`, {params});
   }
 
+  getDonoById(id: string) : Observable<Dono>{
+    return this.http.get<Dono>(`${this.API}/dono/${id}`);
+  }
+
   cadastrarDono(dono: Dono){
     return this.http.post(`${this.API}/dono`, dono);
   }
@@ -30,7 +34,7 @@ export class DonoService {
     return this.http.put(`${this.API}/dono`, dono);
   }
 
-  deleteDono(id: number){
+  deleteDono(id: string){
     return this.http.delete(`${this.API}/dono/${id}`);
   }
 }

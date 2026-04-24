@@ -13,7 +13,7 @@
     margin-right: 15px;
 }
 
-.me-5{
+.me-5 {
     margin-right: 25px;
 }
 
@@ -53,26 +53,27 @@
     color: #0dcaf0;
 }
 
-.ant-btn-icon-only{
+.ant-btn-icon-only {
     height: 32.44px;
 }
 
-nz-date-picker, nz-time-picker{
+nz-date-picker,
+nz-time-picker {
     width: 100%;
 }
 
 .desktop-only {
     display: none;
-  
-    @media (min-width: 1250px) {
-      display: block;
+
+    @media (min-width: 1500px) {
+        display: block;
     }
-  }
-  
-  .mobile-only {
+}
+
+.mobile-only {
     display: block;
-  
-    @media (min-width: 1250px) {
-      display: none;
+
+    @media (min-width: 1500px) {
+        display: none;
     }
-  }
+}

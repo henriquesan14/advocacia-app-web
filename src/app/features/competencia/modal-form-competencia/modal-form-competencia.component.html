@@ -9,13 +9,13 @@
   
     <!-- Botões -->
     <nz-form-item>
-      <nz-form-control>
-        @if (competencia) {
-          <btn-cadastrar hasRole="EDITAR_COMPETENCIA" [title]="'Atualizar'"></btn-cadastrar>
-        } @else {
-          <btn-cadastrar hasRole="CADASTRAR_COMPETENCIA" [title]="'Cadastrar'"></btn-cadastrar>
-        }
-      </nz-form-control>
+        <nz-form-control>
+            @if(data && data.competenciaId){
+            <btn-cadastrar hasRole="EDITAR_COMPETENCIA" [title]="'Atualizar'"></btn-cadastrar>
+            }@else {
+            <btn-cadastrar hasRole="CADASTRAR_COMPETENCIA" [title]="'Cadastrar'"></btn-cadastrar>
+            }
+        </nz-form-control>
     </nz-form-item>
   </form>
   

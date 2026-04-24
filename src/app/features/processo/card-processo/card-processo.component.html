@@ -1,7 +1,7 @@
 <div class="processo-card">
     <div class="header">
       <div>
-        <strong>{{ processo.nroProcesso | nroProcesso }}</strong>
+        <strong>Nro: {{ processo.nroProcesso | nroProcesso }}</strong>
       </div>
       <div class="dias" [ngClass]="{
         'text-danger': getDias(processo.dataUltimoHistorico || processo.createdAt) > 20,
@@ -13,7 +13,7 @@
   
     <div class="info">
       <div *ngIf="processo.autores?.length">
-        <strong>Autor:</strong>
+        <strong class="me-1">Autor:</strong>
         <span [ngClass]="{'font-weight-bold': processo.autores[0].isCliente}">
           <icon-cliente *ngIf="processo.autores[0].isCliente"></icon-cliente>
           {{ processo.autores[0].nome }} 

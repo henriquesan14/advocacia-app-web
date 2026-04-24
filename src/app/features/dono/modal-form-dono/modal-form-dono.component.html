@@ -20,15 +20,15 @@
       </div>
     </div>
   
-    <div nz-row class="mt-3">
-      <div nz-col [nzSpan]="24">
-        @if(dono){
+    <nz-form-item>
+        <nz-form-control>
+            @if(data && data.donoId){
             <btn-cadastrar hasRole="EDITAR_DONO" [title]="'Atualizar'"></btn-cadastrar>
-        }@else {
+            }@else {
             <btn-cadastrar hasRole="CADASTRAR_DONO" [title]="'Cadastrar'"></btn-cadastrar>
-        }
-      </div>
-    </div>
+            }
+        </nz-form-control>
+    </nz-form-item>
   </form>
   
   <ngx-spinner type="ball-clip-rotate-multiple"></ngx-spinner>

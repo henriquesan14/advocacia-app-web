@@ -1,5 +1,5 @@
 export interface Sistema {
-    id: number;
+    id: string;
     nome: string;
     createdAt: string;
 }

@@ -1,0 +1,122 @@
+<h2 nz-title class="text-center">Despesas</h2>
+<div class="container mt-3">
+
+    <btn-novo hasRole="CADASTRAR_DESPESA" (clickEvent)="openFormDespesa()" title="Nova Despesa"></btn-novo>
+    <form [formGroup]="filtroForm" nz-form (ngSubmit)="getDespesas()" nzLayout="vertical" class="mt-2">
+        <div nz-row [nzGutter]="16">
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label for="tipo">Tipo</nz-form-label>
+                    <nz-form-control>
+                        <nz-select formControlName="tipo" id="tipo" nzPlaceHolder="Todos">
+                            <nz-option [nzValue]="''" nzLabel="Todos"></nz-option>
+                            <nz-option [nzValue]="'ALUGUEL'" nzLabel="Aluguel"></nz-option>
+                            <nz-option [nzValue]="'PAGAMENTO_FUNCIONARIO'" nzLabel="Pagamento funcionário"></nz-option>
+                            <nz-option [nzValue]="'CONTAS'" nzLabel="Contas"></nz-option>
+                            <nz-option [nzValue]="'MATERIAL_ESCRITORIO'" nzLabel="Material escritório"></nz-option>
+                            <nz-option [nzValue]="'MARKETING'" nzLabel="Marketing"></nz-option>
+                            <nz-option [nzValue]="'VIAGEM'" nzLabel="Viagem"></nz-option>
+                            <nz-option [nzValue]="'OUTROS'" nzLabel="Outros"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+            <div nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label for="status">Status</nz-form-label>
+                    <nz-form-control>
+                        <nz-select formControlName="status" id="status" nzPlaceHolder="Todos">
+                            <nz-option [nzValue]="''" nzLabel="Todos"></nz-option>
+                            <nz-option [nzValue]="'PENDENTE'" nzLabel="Pendente"></nz-option>
+                            <nz-option [nzValue]="'PAGO'" nzLabel="Pago"></nz-option>
+                            <nz-option [nzValue]="'AGUARDANDO'" nzLabel="Aguardando"></nz-option>
+                            <nz-option [nzValue]="'RECEBIDO'" nzLabel="Recebido"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+
+        <div nz-row class="mb-3">
+            <div nz-col [nzSpan]="12">
+                <btn-pesquisar class="me-1"></btn-pesquisar>
+                <btn-limpar (clickEvent)="limpar()"></btn-limpar>
+            </div>
+        </div>
+    </form>
+
+    <div class="mb-2 mt-1">
+        <span>{{ despesas.length }} despesas encontradas.</span>
+    </div>
+
+
+    <nz-table [nzData]="despesas" [nzBordered]="true" [nzSize]="'middle'">
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Valor</th>
+                <th>Data de vencimento</th>
+                <th>Data de pagamento</th>
+                <th>Status</th>
+                <th>Processo</th>
+                <th>Obs.</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (despesa of despesas; track despesa.id) {
+            <tr>
+                <td>
+                    {{ despesa.tipo }}
+                </td>
+                <td>
+                    {{ despesa.valor | currency: 'BRL' }}
+                </td>
+                <td>
+                    {{ despesa.dataVencimento | date : 'dd/MM/yyyy'}}
+                    @if(despesa.status != 'PAGO' && getVencimentoStatus(despesa.dataVencimento) < 0){ <fa-icon
+                        ngbTooltip="Atrasado" class="text-danger" [icon]="faExclamationCircle"></fa-icon>
+                        }
+                        @if(despesa.status != 'PAGO' && getVencimentoStatus(despesa.dataVencimento) >= 0 &&
+                        getVencimentoStatus(despesa.dataVencimento) < 8){ <fa-icon ngbTooltip="Vencimento próximo"
+                            class="text-warning" [icon]="faExclamationTriangle"></fa-icon>
+                            }
+                </td>
+                <td>
+                    {{ despesa.dataPagamento ? (despesa.dataPagamento | date: 'dd/MM/yyyy') : 'N/A' }}
+                </td>
+                <td>
+                    <nz-tag [nzColor]="getStatusColor(despesa.status)">
+                        {{ despesa.status }}
+                    </nz-tag>
+                </td>
+                <td>
+                    {{ despesa.processo ? (despesa.processo.nroProcesso! | nroProcesso) : 'N/A' }}
+                </td>
+                <td>
+                    {{ getTextoReduzido(despesa.observacoes)}}
+                </td>
+
+                <td style="white-space:nowrap;">
+                    <button [disabled]="despesa.dataPagamento || despesa.status == 'PAGO'" hasRole="EDITAR_DESPESA"
+                        (click)="pagarDespesa(despesa.id)" nz-tooltip="Pagar" nz-button nzType="primary" nzSize="small"
+                        class="me-1">
+                        <fa-icon [icon]="faCheck">
+                        </fa-icon>
+                    </button>
+                    <button hasRole="LISTAR_COMARCA" nz-tooltip="Visualizar" nz-button nzType="primary" nzSize="small"
+                        class="me-1" (click)="openFormDespesa(despesa.id)">
+                        <fa-icon [icon]="faEye"></fa-icon>
+                    </button>
+
+                    <button hasRole="EXCLUIR_COMARCA" nz-tooltip="Excluir" nz-button nzType="default" nzDanger
+                        nzSize="small" (click)="deleteDespesa(despesa.id)">
+                        <fa-icon [icon]="faTrash"></fa-icon>
+                    </button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </nz-table>
+</div>

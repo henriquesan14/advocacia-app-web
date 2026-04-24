@@ -1,5 +1,5 @@
 export interface SituacaoProcesso {
-    id: number;
+    id: string;
     descricao: number;
     createdAt: string;
 }
