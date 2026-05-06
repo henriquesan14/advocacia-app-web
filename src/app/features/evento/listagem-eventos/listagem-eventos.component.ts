@@ -58,7 +58,7 @@ export class ListagemEventosComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.formAgenda = this.formBuilder.group({
-      dataEvento: [new Date(), Validators.required],
+      dataEvento: [null],
       tipo: ['']
     });
     
@@ -74,7 +74,7 @@ export class ListagemEventosComponent implements OnInit, OnDestroy {
     const dateFormatted = this.getDateFormatted();
     this.eventoService.getEventos({
       tipo: this.formAgenda.get('tipo')?.value,
-      dataInicio: dateFormatted,
+      dataInicio: this.formAgenda.get('dataEvento')?.value,
       pageNumber: this.responsePageEventos.currentPage,
       pageSize: this.responsePageEventos.pageSize
     })
@@ -174,7 +174,7 @@ export class ListagemEventosComponent implements OnInit, OnDestroy {
   }
 
   reset() {
-    this.formAgenda.get('dataEvento')?.setValue(new Date());
+    this.formAgenda.get('dataEvento')?.setValue(null);
     this.formAgenda.get('tipo')?.setValue('');
   }
 }
