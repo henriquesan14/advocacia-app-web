@@ -29,6 +29,7 @@ import { Diligencia } from '../../../core/models/diligencia.interface';
 import { Historico } from '../../../core/models/historico.interface';
 import { DatePipe } from '@angular/common';
 import { CanComponentDeactivate } from '../../../core/guards/pending-changes.guard';
+import { ResponsePage } from '../../../core/models/response-page.interface';
 
 @Component({
   selector: 'app-cadastro-processos',
@@ -48,7 +49,16 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
   tabActive = 0;
   faTrash = faTrash;
 
-  historicos: Historico[] = [];
+  responsePageHistoricos: ResponsePage<Historico> = {
+    currentPage: 1,
+    hasNext: false,
+    hasPrevious: false,
+    items: [],
+    pageSize: 3,
+    totalCount: 0,
+    totalPages: 0
+  };
+
   diligencias: Diligencia[] = [];
   audiencias: Audiencia[] = [];
   documentos: Documento[] = [];
@@ -131,7 +141,7 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
         this.reusSelecionados = processo.reus ?? [];
         this.diligencias = processo.diligencias ?? [];
         this.audiencias = processo.audiencias ?? [];
-        this.historicos = processo.historico ?? [];
+        this.getHistoricos(id);
         this.documentos = processo.documentos ?? [];
       },
       error: () => {
@@ -143,6 +153,15 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
     });
   }
 
+  getHistoricos(processoId: string){
+    this.processoService.getHistoricos(processoId, {pageNumber: this.responsePageHistoricos.currentPage,
+      pageSize: this.responsePageHistoricos.pageSize}).subscribe({
+      next: (res) => {
+        this.responsePageHistoricos = res;
+      }
+    })
+  }
+
   onAutoresChange(autores: Parte[]) {
     this.autoresSelecionados = autores;
   }
@@ -151,8 +170,11 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
     this.reusSelecionados = reus;
   }
 
-  onHistoricosChange(historicos: Historico[]) {
-    this.historicos = historicos;
+  onHistoricosChange(response: ResponsePage<Historico>) {
+    if(this.processoId){
+      this.getHistoricos(this.processoId!);
+      this.responsePageHistoricos = response;
+    }
   }
 
   onDiligenciasChange(diligencias: Diligencia[]) {
@@ -201,7 +223,7 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
         reus: this.reusSelecionados.map(r => r.id),
         diligencias: this.diligencias,
         audiencias: this.audiencias,
-        historico: this.historicos,
+        historico: this.responsePageHistoricos.items,
         documentos: this.documentos,
       };
       this.processoService.cadastrarProcesso(processo).subscribe({
