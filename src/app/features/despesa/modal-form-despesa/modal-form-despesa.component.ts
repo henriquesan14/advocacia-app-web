@@ -12,14 +12,13 @@ import { BtnCadastrarComponent } from '../../../shared/components/btn-cadastrar/
 import { FormUtils } from '../../../shared/utils/form.utils';
 import { ToastrService } from 'ngx-toastr';
 import { Despesa } from '../../../core/models/despesa.interface';
-import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { DatePipe } from '@angular/common';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'app-modal-form-despesa',
   standalone: true,
-  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NgxMaskDirective, BtnCadastrarComponent, NzDatePickerModule, NzButtonModule],
+  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NgxMaskDirective, BtnCadastrarComponent, NzButtonModule],
   templateUrl: './modal-form-despesa.component.html',
   styleUrl: './modal-form-despesa.component.scss',
   providers: [DatePipe]

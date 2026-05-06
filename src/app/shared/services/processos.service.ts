@@ -68,11 +68,11 @@ export class ProcessosService {
     return this.http.delete<void>(`${this.API}/processo/${reuProcesso.processoId}/reus/${reuProcesso.reuId}`);
   }
 
-  getDiligencias(id: number): Observable<Diligencia[]>{
+  getDiligencias(id: string): Observable<Diligencia[]>{
     return this.http.get<Diligencia[]>(`${this.API}/processo/${id}/diligencias`);
   }
 
-  getHistoricos(id: number,parametros: any): Observable<ResponsePage<Historico>>{
+  getHistoricos(id: string,parametros: any): Observable<ResponsePage<Historico>>{
     let params = new HttpParams();
     for (const key in parametros) {
       if (parametros.hasOwnProperty(key) && parametros[key] !== null && parametros[key] !== undefined) {
@@ -82,7 +82,7 @@ export class ProcessosService {
     return this.http.get<ResponsePage<Historico>>(`${this.API}/processo/${id}/historicos`, {params});
   }
 
-  getAudiencias(id: number): Observable<Audiencia[]>{
+  getAudiencias(id: string): Observable<Audiencia[]>{
     return this.http.get<Audiencia[]>(`${this.API}/processo/${id}/audiencias`);
   }
 

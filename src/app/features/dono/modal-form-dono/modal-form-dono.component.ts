@@ -29,7 +29,7 @@ export class ModalFormDonoComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       nome: [null, Validators.required],
     });
-    if(this.data.donoId){
+    if(this.data && this.data.donoId){
       this.getDono();
     }
   }
@@ -42,7 +42,7 @@ export class ModalFormDonoComponent implements OnInit, OnDestroy {
   submit(){
     if(this.form.valid){
       this.spinner.show();
-      if(this.data.donoId){
+      if(this.data && this.data.donoId){
         this.updateDono();
         return;
       }

@@ -10,7 +10,6 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NgxMaskDirective } from 'ngx-mask';
 import { BtnCadastrarComponent } from '../../../shared/components/btn-cadastrar/btn-cadastrar.component';
-import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { FormUtils } from '../../../shared/utils/form.utils';
 import { Ganho } from '../../../core/models/ganho.interface';
@@ -19,7 +18,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-modal-form-ganho',
   standalone: true,
-  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NgxMaskDirective, BtnCadastrarComponent, NzDatePickerModule, NzButtonModule],
+  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NgxMaskDirective, BtnCadastrarComponent, NzButtonModule],
   templateUrl: './modal-form-ganho.component.html',
   styleUrl: './modal-form-ganho.component.scss',
   providers: [DatePipe]

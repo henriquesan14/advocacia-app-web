@@ -2,10 +2,21 @@
     <app-form-historico hasRole="CADASTRAR_PROCESSO"
      [processoId]="processoId" (submitEvent)="addHistorico($event)"></app-form-historico>
     <h3 class="mt-2">Histórico</h3>
-    @for(historico of historicos; track $index){
+    @for(historico of responsePageHistoricos.items; track $index){
     <app-card-historico (submitEvent)="atualizarHistorico($event)" (deleteEvent)="deleteHistorico(historico.id, $index)"
       [historico]="historico"></app-card-historico>
     }@empty {
     <span>Não há nenhum histórico</span>
     }
-  </div>
+   
+    <nz-pagination
+      class="mt-3"
+      [nzPageIndex]="responsePageHistoricos.currentPage"
+      [nzTotal]="responsePageHistoricos.totalCount"
+      [nzPageSize]="responsePageHistoricos.pageSize"
+      [nzShowSizeChanger]="true"
+      [nzPageSizeOptions]="[1,2,3,4]"
+      (nzPageIndexChange)="onPageChange($event)"
+      (nzPageSizeChange)="onPageSizeChange($event)">
+    </nz-pagination>
+</div>

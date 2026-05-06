@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -28,6 +28,8 @@ import { Audiencia } from '../../../core/models/audiencia.interface';
 import { Diligencia } from '../../../core/models/diligencia.interface';
 import { Historico } from '../../../core/models/historico.interface';
 import { DatePipe } from '@angular/common';
+import { CanComponentDeactivate } from '../../../core/guards/pending-changes.guard';
+import { ResponsePage } from '../../../core/models/response-page.interface';
 
 @Component({
   selector: 'app-cadastro-processos',
@@ -39,7 +41,7 @@ import { DatePipe } from '@angular/common';
   styleUrl: './cadastro-processos.component.css',
   providers: [DatePipe]
 })
-export class CadastroProcessosComponent implements OnInit {
+export class CadastroProcessosComponent implements OnInit, CanComponentDeactivate {
   formProcesso!: FormGroup;
   modalService = inject(NzModalService);
 
@@ -47,7 +49,16 @@ export class CadastroProcessosComponent implements OnInit {
   tabActive = 0;
   faTrash = faTrash;
 
-  historicos: Historico[] = [];
+  responsePageHistoricos: ResponsePage<Historico> = {
+    currentPage: 1,
+    hasNext: false,
+    hasPrevious: false,
+    items: [],
+    pageSize: 3,
+    totalCount: 0,
+    totalPages: 0
+  };
+
   diligencias: Diligencia[] = [];
   audiencias: Audiencia[] = [];
   documentos: Documento[] = [];
@@ -56,6 +67,20 @@ export class CadastroProcessosComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService, private processoService: ProcessosService,
     private toastr: ToastrService, private router: Router, private dataService: DataService, private activatedRoute: ActivatedRoute, private datePipe: DatePipe) {
+  }
+
+  canDeactivate(): boolean {
+    if (this.formProcesso.dirty) {
+      return confirm('Você tem alterações não salvas. Deseja sair mesmo assim?');
+    }
+    return true;
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+    unloadNotification($event: any) {
+    if (this.formProcesso.dirty) {
+      $event.returnValue = true;
+    }
   }
 
   ngOnInit(): void {
@@ -108,7 +133,7 @@ export class CadastroProcessosComponent implements OnInit {
           situacaoProcessoId: processo.situacao?.id,
           competenciaId: processo.competencia?.id,
           sistemaId: processo.sistema?.id,
-          dataDistribuicao: processo.dataDistribuicao ? new Date(processo.dataDistribuicao) : null,
+          dataDistribuicao: processo.dataDistribuicao ? processo.dataDistribuicao.split('T')[0] : null,
           observacao: processo.observacao
         });
   
@@ -116,7 +141,9 @@ export class CadastroProcessosComponent implements OnInit {
         this.reusSelecionados = processo.reus ?? [];
         this.diligencias = processo.diligencias ?? [];
         this.audiencias = processo.audiencias ?? [];
-        this.historicos = processo.historico ?? [];
+        this.getHistoricos(id);
+        this.getDiligencias(id);
+        this.getAudiencias(id);
         this.documentos = processo.documentos ?? [];
       },
       error: () => {
@@ -128,6 +155,31 @@ export class CadastroProcessosComponent implements OnInit {
     });
   }
 
+  getHistoricos(processoId: string){
+    this.processoService.getHistoricos(processoId, {pageNumber: this.responsePageHistoricos.currentPage,
+      pageSize: this.responsePageHistoricos.pageSize}).subscribe({
+      next: (res) => {
+        this.responsePageHistoricos = res;
+      }
+    })
+  }
+
+  getAudiencias(processoId: string){
+    this.processoService.getAudiencias(processoId).subscribe({
+      next: (res) => {
+        this.audiencias = res;
+      }
+    })
+  }
+
+  getDiligencias(processoId: string){
+    this.processoService.getDiligencias(processoId).subscribe({
+      next: (res) => {
+        this.diligencias = res;
+      }
+    })
+  }
+
   onAutoresChange(autores: Parte[]) {
     this.autoresSelecionados = autores;
   }
@@ -136,15 +188,27 @@ export class CadastroProcessosComponent implements OnInit {
     this.reusSelecionados = reus;
   }
 
-  onHistoricosChange(historicos: Historico[]) {
-    this.historicos = historicos;
+  onHistoricosChange(response: ResponsePage<Historico>) {
+    if(this.processoId){
+      this.getHistoricos(this.processoId!);
+      return;
+    }
+    this.responsePageHistoricos = response;
   }
 
   onDiligenciasChange(diligencias: Diligencia[]) {
+    if(this.processoId){
+      this.getDiligencias(this.processoId);
+      return;
+    }
     this.diligencias = diligencias;
   }
 
   onAudienciasChange(audiencias: Audiencia[]) {
+    if(this.processoId){
+      this.getAudiencias(this.processoId);
+      return;
+    }
     this.audiencias = audiencias;
   }
 
@@ -186,12 +250,13 @@ export class CadastroProcessosComponent implements OnInit {
         reus: this.reusSelecionados.map(r => r.id),
         diligencias: this.diligencias,
         audiencias: this.audiencias,
-        historico: this.historicos,
+        historico: this.responsePageHistoricos.items,
         documentos: this.documentos,
       };
       this.processoService.cadastrarProcesso(processo).subscribe({
         next: () => {
           this.toastr.success('Processo cadastrado!', 'Sucesso!');
+          this.formProcesso.markAsPristine();
           this.router.navigateByUrl('/processos/list');
         },
         error: async () => {
@@ -238,5 +303,5 @@ export class CadastroProcessosComponent implements OnInit {
       await this.dataService.deleteFile(documento.path!);
     }
   }
-
+  
 }

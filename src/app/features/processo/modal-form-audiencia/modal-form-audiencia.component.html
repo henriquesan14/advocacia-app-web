@@ -1,4 +1,13 @@
 <form nz-form [formGroup]="formAudiencia" (ngSubmit)="submit()" nzLayout="vertical">
+  <div class="col-sm-12">
+    <nz-form-item>
+      <nz-form-label [nzRequired]="true" nzFor="titulo">Título</nz-form-label>
+      <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
+        <input nz-input type="text" maxlength="100" id="titulo" formControlName="titulo" />
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
   <div class="row g-3">
     <div class="col-sm-12">
       <nz-form-item>
@@ -64,8 +73,8 @@
       <nz-form-item>
         <nz-form-label nzRequired>Data da audiência</nz-form-label>
         <nz-form-control>
-          <nz-date-picker formControlName="dataAudiencia" nzFormat="dd/MM/yyyy"
-            nzPlaceHolder="Selecione a data"></nz-date-picker>
+          <input nz-input type="date" formControlName="dataAudiencia"
+            nzPlaceHolder="Selecione a data">
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -74,7 +83,7 @@
       <nz-form-item>
         <nz-form-label nzRequired>Hora da audiência</nz-form-label>
         <nz-form-control>
-          <nz-time-picker formControlName="horaAudiencia" nzFormat="HH:mm" [nzUse12Hours]="false"></nz-time-picker>
+          <input nz-input type="time" formControlName="horaAudiencia">
         </nz-form-control>
       </nz-form-item>
     </div>

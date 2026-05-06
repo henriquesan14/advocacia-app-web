@@ -40,7 +40,7 @@
       <nz-form-item>
         <nz-form-label nzRequired>Data de vencimento</nz-form-label>
         <nz-form-control nzErrorTip="O campo é obrigatório">
-          <nz-date-picker formControlName="dataVencimento" nzFormat="dd/MM/yyyy"></nz-date-picker>
+          <input nz-input formControlName="dataVencimento" type="date">
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -49,7 +49,7 @@
       <nz-form-item>
         <nz-form-label>Data de pagamento</nz-form-label>
         <nz-form-control>
-          <nz-date-picker formControlName="dataPagamento" nzFormat="dd/MM/yyyy"></nz-date-picker>
+          <input nz-input type="date" formControlName="dataPagamento">
         </nz-form-control>
       </nz-form-item>
     </div>

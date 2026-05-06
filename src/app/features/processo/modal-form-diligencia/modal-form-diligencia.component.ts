@@ -14,8 +14,6 @@ import { Subject, takeUntil } from 'rxjs';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
-import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { SelectAutocompleteComponent } from '../../../shared/components/select-autocomplete/select-autocomplete.component';
@@ -23,8 +21,7 @@ import { SelectAutocompleteComponent } from '../../../shared/components/select-a
 @Component({
   selector: 'app-modal-form-diligencia',
   standalone: true,
-  imports: [ReactiveFormsModule, BtnCadastrarComponent, NgxSpinnerModule, ToggleButtonComponent, NzFormModule, NzInputModule, NzButtonModule, NzDatePickerModule,
-    NzTimePickerModule, NzGridModule, SelectAutocompleteComponent
+  imports: [ReactiveFormsModule, BtnCadastrarComponent, NgxSpinnerModule, ToggleButtonComponent, NzFormModule, NzInputModule, NzButtonModule, NzGridModule, SelectAutocompleteComponent
   ],
   templateUrl: './modal-form-diligencia.component.html',
   styleUrl: './modal-form-diligencia.component.css',
@@ -40,7 +37,7 @@ export class ModalFormDiligenciaComponent implements OnInit, OnDestroy {
   date!: { year: number; month: number };
 
   @Output() submitEvent: EventEmitter<Diligencia> = new EventEmitter<Diligencia>();
-  
+
   responsavelNome!: string;
   diaInteiro = false;
   presencial = false;
@@ -50,6 +47,7 @@ export class ModalFormDiligenciaComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
+      titulo: [null, Validators.required],
       descricao: [null, Validators.required],
       dataDiligencia: [new Date(), Validators.required],
       horaDiligencia: [new Date(), Validators.required],
@@ -95,18 +93,20 @@ export class ModalFormDiligenciaComponent implements OnInit, OnDestroy {
   }
 
   getDiligencia() {
-        this.form.get('descricao')?.setValue(this.data.diligencia.descricao);
-        this.form.get('local')?.setValue(this.data.diligencia.local);
-        this.form.get('responsavelId')?.setValue(this.data.diligencia.responsavelId);
-        this.form.get('responsavelNome')?.setValue(this.data.diligencia.responsavel.nome);
+    this.form.get('titulo')?.setValue(this.data.diligencia.titulo);
+    this.form.get('descricao')?.setValue(this.data.diligencia.descricao);
+    this.form.get('local')?.setValue(this.data.diligencia.local);
+    this.form.get('responsavelId')?.setValue(this.data.diligencia.responsavelId);
+    this.form.get('responsavelNome')?.setValue(this.data.diligencia.responsavel.nome);
 
-        const data = new Date(this.data.diligencia.dataDiligencia);
+    const data = this.data.diligencia.dataDiligencia.split('T')[0];
+    const hora = this.data.diligencia.dataDiligencia.split('T')[1].substring(0, 5);
 
-        this.form.get('dataDiligencia')?.setValue(data);
-        this.form.get('horaDiligencia')?.setValue(data);
-        
-        this.presencial = this.data.diligencia.presencial;
-        this.diaInteiro = this.data.diligencia.diaInteiro;
+    this.form.get('dataDiligencia')?.setValue(data);
+    this.form.get('horaDiligencia')?.setValue(hora);
+
+    this.presencial = this.data.diligencia.presencial;
+    this.diaInteiro = this.data.diligencia.diaInteiro;
   }
 
 
@@ -179,26 +179,16 @@ export class ModalFormDiligenciaComponent implements OnInit, OnDestroy {
     });
   }
 
-  getDateFormatted(){
+  getDateFormatted() {
     const data = this.form.value.dataDiligencia;
     const hora = this.form.value.horaDiligencia;
 
-    let dataDiligencia: string;
 
     if (!this.diaInteiro && hora) {
-      const dataObj = new Date(data);
-      const horaObj = new Date(hora);
-
-      dataObj.setHours(horaObj.getHours(), horaObj.getMinutes(), 0, 0);
-      dataDiligencia = `${dataObj.getFullYear()}-${(dataObj.getMonth() + 1).toString().padStart(2, '0')}-${dataObj.getDate().toString().padStart(2, '0')}T${dataObj.getHours().toString().padStart(2, '0')}:${dataObj.getMinutes().toString().padStart(2, '0')}:00`;
+      return `${data}T${hora}`
     } else {
-      const dataObj = new Date(data);
-      dataObj.setHours(0, 0, 0, 0);
-
-      dataDiligencia = `${dataObj.getFullYear()}-${(dataObj.getMonth() + 1).toString().padStart(2, '0')}-${dataObj.getDate().toString().padStart(2, '0')}T00:00:00`;
+      return `${data}T23:59:59`
     }
-
-    return dataDiligencia;
   }
 
   updateDiligencia() {

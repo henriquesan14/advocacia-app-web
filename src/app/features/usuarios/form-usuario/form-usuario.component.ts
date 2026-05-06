@@ -25,12 +25,13 @@ import { NZ_MODAL_DATA, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { BtnNovoComponent } from '../../../shared/components/btn-novo/btn-novo.component';
 import { FormGrupoComponent } from '../../grupo/form-grupo/form-grupo.component';
 import { NzDrawerModule, NzDrawerService } from 'ng-zorro-antd/drawer';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'app-form-usuario',
   standalone: true,
   imports: [ ReactiveFormsModule, BtnCadastrarComponent, NgxMaskDirective, HasRoleDirective, FontAwesomeModule, NzToolTipModule, NgxSpinnerModule, NzFormModule, NzInputModule,
-    NzSelectModule, BtnNovoComponent, NzDrawerModule
+    NzSelectModule, BtnNovoComponent, NzDrawerModule, NzButtonModule
   ],
   templateUrl: './form-usuario.component.html',
   styleUrl: './form-usuario.component.css'
@@ -59,8 +60,8 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       nome: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
-      senha: [null, this.data.usuarioId ? null : [Validators.required, Validators.minLength(6)]],
-      confirmSenha: [null, this.data.usuarioId ? null : [Validators.required]],
+      senha: [null, this.data && this.data.usuarioId ? null : [Validators.required, Validators.minLength(6)]],
+      confirmSenha: [null, this.data && this.data.usuarioId ? null : [Validators.required]],
       grupoId:['', Validators.required],
       telefone:[null, [Validators.required, Validators.minLength(11)]],
       documento:[null, [Validators.minLength(11)]],
@@ -68,7 +69,7 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
       validators: ConfirmPasswordValidators.confirmPasswordValidator
     });
     this.getGrupos();
-    if(this.data.usuarioId){
+    if(this.data && this.data.usuarioId){
       this.getUsuario();
     }
   }
@@ -151,7 +152,7 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
         avatar: this.avatar,
         ...this.form.value
       };
-      if(this.data.usuarioId){
+      if(this.data && this.data.usuarioId){
         usuario.id = this.data.usuarioId;
         this.updateUsuario(usuario);
         return;

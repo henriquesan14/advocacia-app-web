@@ -51,7 +51,7 @@
             @for (parte of responsePagePartes.items; track parte.id) {
             <tr>
                 <td>{{ parte.nome }}</td>
-                <td>{{ parte.cpfCnpj | cpfCnpj | hideCpf }}</td>
+                <td>{{ parte.cpfCnpj | cpfCnpj }}</td>
                 <td>{{ parte.isCliente ? 'Sim' : 'Não' }}</td>
                 <td>{{ parte.createdAt | date: 'dd/MM/yyyy' }}</td>
                 <td>

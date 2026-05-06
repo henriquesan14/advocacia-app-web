@@ -4,31 +4,41 @@ import { CardHistoricoComponent } from '../../../card-historico/card-historico.c
 import { Historico } from '../../../../../core/models/historico.interface';
 import { HistoricoService } from '../../../../../shared/services/historico.service';
 import { ToastrService } from 'ngx-toastr';
+import { ResponsePage } from '../../../../../core/models/response-page.interface';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 
 @Component({
   selector: 'tab-historicos',
   standalone: true,
-  imports: [FormHistoricoComponent, CardHistoricoComponent],
+  imports: [FormHistoricoComponent, CardHistoricoComponent, NzPaginationModule],
   templateUrl: './tab-historicos.component.html',
   styleUrl: './tab-historicos.component.scss'
 })
 export class TabHistoricosComponent {
-  @Input() historicos: Historico[] = [];
+  @Input() responsePageHistoricos: ResponsePage<Historico> = {
+    currentPage: 1,
+    hasNext: false,
+    hasPrevious: false,
+    items: [],
+    pageSize: 3,
+    totalCount: 0,
+    totalPages: 0
+  };
   @Input() processoId?: string;
   historicoService = inject(HistoricoService);
   toastr = inject(ToastrService);
 
-  @Output() historicosChange = new EventEmitter<Historico[]>();
+  @Output() historicosChange = new EventEmitter<ResponsePage<Historico>>();
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['historicos']) {
-      this.historicos = [...this.historicos];
+    if (changes['responsePageHistoricos']) {
+      this.responsePageHistoricos = this.responsePageHistoricos;
     }
   }
 
   addHistorico(historico: any) {
-    this.historicos.push(historico);
-    this.historicosChange.emit(this.historicos);
+    this.responsePageHistoricos.items.push(historico);
+    this.historicosChange.emit(this.responsePageHistoricos);
   }
 
   deleteHistorico(historicoId: string, index: number) {
@@ -36,8 +46,8 @@ export class TabHistoricosComponent {
       this.historicoService.deleteHistorico(historicoId).subscribe({
         next: () => {
           this.toastr.success('Histórico excluído com sucesso!', 'Sucesso');
-          this.historicos.splice(index, 1);
-          this.historicosChange.emit(this.historicos);
+          this.responsePageHistoricos.items.splice(index, 1);
+          this.historicosChange.emit(this.responsePageHistoricos);
         },
         error: () => {
           this.toastr.error('Erro ao excluir histórico', 'Erro');
@@ -45,15 +55,27 @@ export class TabHistoricosComponent {
       });
     } else {
       // Caso seja uma exclusão local antes de salvar no back-end
-      this.historicos.splice(index, 1);
-      this.historicosChange.emit(this.historicos);
+      this.responsePageHistoricos.items.splice(index, 1);
+      this.historicosChange.emit(this.responsePageHistoricos);
     }
   }
 
   atualizarHistorico(historicoAtualizado: Historico) {
-    const index = this.historicos.findIndex(h => h.id === historicoAtualizado.id);
+    const index = this.responsePageHistoricos.items.findIndex(h => h.id === historicoAtualizado.id);
     if (index !== -1) {
-      this.historicos[index] = historicoAtualizado;
+      this.responsePageHistoricos.items[index] = historicoAtualizado;
     }
+  }
+
+  onPageChange(page: number) {
+    this.responsePageHistoricos.currentPage = page;
+    this.historicosChange.emit(this.responsePageHistoricos);
+  }
+
+  onPageSizeChange(size: number) {
+    this.responsePageHistoricos.pageSize = size;
+    this.responsePageHistoricos.currentPage = 1;
+
+    this.historicosChange.emit(this.responsePageHistoricos);
   }
 }

@@ -30,7 +30,7 @@ export class ModalFormSistemaComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       nome: [null, Validators.required],
     });
-    if(this.data.sistemaId){
+    if(this.data && this.data.sistemaId){
       this.getSistema();
     }
   }
@@ -43,7 +43,7 @@ export class ModalFormSistemaComponent implements OnInit, OnDestroy {
   submit(){
     if(this.form.valid){
       this.spinner.show();
-      if(this.data.sistemaId){
+      if(this.data && this.data.sistemaId){
         this.updateSistema();
         return;
       }

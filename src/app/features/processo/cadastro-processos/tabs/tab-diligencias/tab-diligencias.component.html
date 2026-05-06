@@ -7,7 +7,7 @@
       nzSize="middle" class="mb-3">
       <thead>
         <tr>
-          <th>Descrição</th>
+          <th>Título</th>
           <th>Responsável</th>
           <th>Presencial</th>
           <th>Local</th>
@@ -18,7 +18,7 @@
       <tbody>
         @for (diligencia of diligencias; track $index) {
         <tr>
-          <td>{{ getTextoReduzido(diligencia.descricao) }}</td>
+          <td>{{ diligencia.titulo }}</td>
           <td>{{ diligencia.responsavel.nome }}</td>
           <td>{{ diligencia.presencial ? 'Sim' : 'Não' }}</td>
           <td>{{ diligencia.local || 'N/A' }}</td>
