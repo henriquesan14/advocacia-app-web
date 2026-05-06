@@ -30,7 +30,7 @@ export class ModalFormSituacaoProcessoComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       descricao: [null, Validators.required],
     })
-    if(this.data.situacaoId){
+    if(this.data && this.data.situacaoId){
       this.getSituacao();
     }
   }
@@ -43,7 +43,7 @@ export class ModalFormSituacaoProcessoComponent implements OnInit, OnDestroy {
   submit() {
     if (this.form.valid) {
       this.spinner.show();
-      if (this.data.situacaoId) {
+      if (this.data && this.data.situacaoId) {
         this.updateSituacao();
         return;
       }

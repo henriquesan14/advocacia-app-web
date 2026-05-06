@@ -36,7 +36,7 @@ export class ModalFormComarcaComponent implements OnInit, OnDestroy {
     });
     this.getEstados();
 
-    if(this.data.comarcaId){
+    if(this.data && this.data.comarcaId){
       this.getComarca();
       
     }
@@ -78,7 +78,7 @@ export class ModalFormComarcaComponent implements OnInit, OnDestroy {
   submit(){
     if(this.form.valid){
       this.spinner.show();
-      if(this.data.comarcaId){
+      if(this.data && this.data.comarcaId){
        this.updateComarca(); 
        return;
       }

@@ -30,7 +30,7 @@ export class ModalFormCompetenciaComponent implements OnInit, OnDestroy {
       nome: [null, Validators.required],
     });
 
-    if (this.data.competenciaId) {
+    if (this.data && this.data.competenciaId) {
       this.getCompetencia();
     }
   }
@@ -43,7 +43,7 @@ export class ModalFormCompetenciaComponent implements OnInit, OnDestroy {
   submit() {
     if(this.form.valid){
       this.spinner.show();
-      if(this.data.competenciaId){
+      if(this.data && this.data.competenciaId){
        this.updateCompetencia(); 
        return;
       }
