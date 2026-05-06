@@ -62,7 +62,7 @@
         @if(evento.local){
             <span><b>Local: </b>{{evento.local}}</span>
         }
-        @if(evento.linkAudiencia){
+        @if(!evento.presencial){
             <a target="_blank" [href]="evento.linkAudiencia" class="link-reuniao" (click)="$event.stopPropagation()">Ir a reunião</a>
         }
     </div>

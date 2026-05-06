@@ -6,6 +6,7 @@ import { IconClienteComponent } from '../../../shared/components/icon-cliente/ic
 import { NroProcessoPipe } from '../../../shared/pipes/nro-processo.pipe';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { Evento } from '../../../core/models/evento.interface';
 
 @Component({
   selector: 'app-card-evento',
@@ -15,7 +16,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
   styleUrl: './card-evento.component.scss'
 })
 export class CardEventoComponent {
-  @Input() evento!: any;
+  @Input() evento!: Evento;
   @Output() editar = new EventEmitter<string>();
   @Output() excluir = new EventEmitter<string>();
 
