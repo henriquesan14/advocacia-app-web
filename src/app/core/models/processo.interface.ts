@@ -11,7 +11,7 @@ import { SituacaoProcesso } from "./situacao-processo.interface"
 import { Usuario } from "./usuario.interface"
 
 export interface Processo {
-    id: number
+    id: string
     dono: Dono
     donoId: number
     advogadoId: number

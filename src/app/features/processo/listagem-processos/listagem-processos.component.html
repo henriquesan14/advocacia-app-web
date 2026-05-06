@@ -308,11 +308,11 @@
                             (click)="visualizarProcesso(processo.id)" nz-button nzType="primary" nzSize="small">
                             <fa-icon [icon]="faEye"></fa-icon>
                         </button>
-                        <button hasRole="EDITAR_PROCESSO" nz-tooltip="Reiniciar contador" class="me-1" nz-button
+                        <button (click)="resetarDataHistorico(processo.id)" hasRole="EDITAR_PROCESSO" nz-tooltip="Reiniciar contador" class="me-1" nz-button
                             nzType="default" nzSize="small">
                             <fa-icon [icon]="faRefresh"></fa-icon>
                         </button>
-                        <button hasRole="EXCLUIR_PROCESSO" nz-tooltip="Excluir" nz-button nzDanger nzSize="small">
+                        <button (click)="deleteProcesso(processo.id)" hasRole="EXCLUIR_PROCESSO" nz-tooltip="Excluir" nz-button nzDanger nzSize="small">
                             <fa-icon [icon]="faTrash"></fa-icon>
                         </button>
                     </td>
@@ -325,9 +325,21 @@
 
     <div class="mobile-only">
         @for(processo of responsePageProcessos.items; track processo.id){
-        <app-card-processo [processo]="processo" [getDias]="getDias" (visualizar)="visualizarProcesso($event)">
+        <app-card-processo [processo]="processo" [getDias]="getDias" (visualizar)="visualizarProcesso($event)" (reiniciar)="resetarDataHistorico($event)" (excluir)="deleteProcesso($event)">
         </app-card-processo>
         }
+        <div class="d-flex justify-content-between align-items-center p-2">
+        <nz-pagination
+            [nzTotal]="responsePageProcessos.totalCount"
+            [(nzPageIndex)]="responsePageProcessos.currentPage"
+            [nzPageSize]="responsePageProcessos.pageSize"
+            (nzPageIndexChange)="onPageChange($event)"
+            (nzPageSizeChange)="onPageSizeChange($event)"
+            [nzShowSizeChanger]="true"
+            >
+        </nz-pagination>
+        </div>
+
     </div>
 
     }@else{

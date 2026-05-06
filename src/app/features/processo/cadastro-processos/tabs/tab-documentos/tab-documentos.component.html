@@ -25,7 +25,7 @@
         @for(documento of documentos; track $index){
           <tr>
             <td>
-              <a [href]="documento.urlLocal" target="_blank">{{ documento.nome }}</a>
+              <a [href]="documento.url || documento.urlLocal" target="_blank">{{ documento.nome }}</a>
             </td>
             <td>{{ documento.tipo }}</td>
             <td>

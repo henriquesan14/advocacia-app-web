@@ -39,6 +39,7 @@ export class TabProcessoComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   @Input({ required: true }) formProcesso!: FormGroup;
+  @Input() processoId?: string;
 
   donos: Dono[] = [];
   responsaveis: Usuario[] = [];

@@ -11,7 +11,7 @@
         <form class="needs-validation" [formGroup]="formProcesso">
           <nz-tabset [(nzSelectedIndex)]="tabActive">
             <nz-tab [nzTitle]="'Processo'">
-              <tab-processo [formProcesso]="formProcesso"></tab-processo>
+              <tab-processo [processoId]="processoId" [formProcesso]="formProcesso"></tab-processo>
             </nz-tab>
 
             <nz-tab nzTitle="Autores">

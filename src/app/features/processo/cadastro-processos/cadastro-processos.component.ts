@@ -97,7 +97,7 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
       responsavelId: [null, Validators.required],
       responsavelNome: ['', Validators.required],
       tipoAcao: [null, Validators.required],
-      nroProcesso: [null, [Validators.required], [existingProcessValidator(this.processoService)]],
+      nroProcesso: [null, [Validators.required], this.processoId? [existingProcessValidator(this.processoService)] : null],
       vara: [null, Validators.required],
       comarcaId: [null, Validators.required],
       comarcaNome: ['', Validators.required],
@@ -227,11 +227,20 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
 
         modalRef.afterClose.subscribe(result => {
           if (result) {
-            this.cadastrarProcesso();
+            if(this.processoId){
+              this.atualizarProcesso();
+            }else{
+              this.cadastrarProcesso();
+            }
+            
           }
         });
       } else {
-        this.cadastrarProcesso();
+        if(this.processoId){
+          this.atualizarProcesso();
+        }else{
+          this.cadastrarProcesso();
+        }
       }
     } else {
       FormUtils.markFormGroupTouched(this.formProcesso);
@@ -245,7 +254,7 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
       await this.uploadToStorage();
       let processo = <Processo>{
         ...this.formProcesso.value,
-        dataDistribuicao: this.datePipe.transform(this.formProcesso.value.dataDistribuicao,'yyyy-MM-dd'),
+        dataDistribuicao: this.formProcesso.value.dataDistribuicao,
         autores: this.autoresSelecionados.map(a => a.id),
         reus: this.reusSelecionados.map(r => r.id),
         diligencias: this.diligencias,
@@ -273,6 +282,26 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
     } finally {
       this.spinner.hide();
     }
+  }
+
+  atualizarProcesso() {
+    this.spinner.show();
+    let processo = <Processo>{
+      ...this.formProcesso.value,
+      id: this.processoId
+    };
+    this.processoService.updateProcesso(processo).subscribe({
+      next: () => {
+        this.toastr.success('Processo atualizado!', 'Sucesso!');
+        this.router.navigateByUrl('/processos/list');
+      },
+      error:  () => {
+        this.spinner.hide();
+      },
+      complete: () => {
+        this.spinner.hide();
+      }
+    });
   }
 
   async uploadToStorage(): Promise<void> {

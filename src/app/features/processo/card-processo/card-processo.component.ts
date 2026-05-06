@@ -20,9 +20,9 @@ export class CardProcessoComponent {
   @Input() processo: any;
   @Input() getDias!: (data: string) => number;
 
-  @Output() visualizar = new EventEmitter<number>();
-  @Output() reiniciar = new EventEmitter<number>();
-  @Output() excluir = new EventEmitter<number>();
+  @Output() visualizar = new EventEmitter<string>();
+  @Output() reiniciar = new EventEmitter<string>();
+  @Output() excluir = new EventEmitter<string>();
 
   onVisualizar() {
     this.visualizar.emit(this.processo.id);

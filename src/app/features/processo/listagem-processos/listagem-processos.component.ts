@@ -38,16 +38,17 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { ConfigFieldProcessosComponent } from '../config-field-processos/config-field-processos.component';
 import { CardProcessoComponent } from '../card-processo/card-processo.component';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 
 @Component({
   selector: 'app-listagem-processos',
   standalone: true,
   imports: [ CommonModule , ReactiveFormsModule, FontAwesomeModule, NzToolTipModule, FormsModule,
     NgxMaskDirective, NroProcessoPipe, BtnPesquisarComponent, BtnLimparComponent, BtnNovoComponent, HasRoleDirective,
-  NgxSpinnerModule, IconClienteComponent, NzCollapseModule, NzTableModule, NzButtonModule, NzFormModule, NzInputModule, NzSelectModule, NzModalModule, CardProcessoComponent],
+  NgxSpinnerModule, IconClienteComponent, NzCollapseModule, NzTableModule, NzButtonModule, NzFormModule, NzInputModule, NzSelectModule, NzModalModule, CardProcessoComponent, NzPaginationModule],
   templateUrl: './listagem-processos.component.html',
   styleUrl: './listagem-processos.component.css'
 })
@@ -87,6 +88,7 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
   hasPermissionAllProcessos = false;
   savedPageNumber?: number;
   savedPageSize?: number;
+  confirmModal?: NzModalRef;
 
   constructor(private processoService: ProcessosService, private formBuilder: FormBuilder, private situacaoService: SituacaoProcessoService,
     private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService, private competenciaService: CompetenciaService,
@@ -171,7 +173,7 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  visualizarProcesso(idProcesso: number) {
+  visualizarProcesso(idProcesso: string) {
 		this.router.navigateByUrl(`/processos/${idProcesso}`);
 	}
 
@@ -340,7 +342,7 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
     }
   }
 
-  aprovarProcesso(id: number){
+  aprovarProcesso(id: string){
     this.processoService.aprovarProcesso(id).subscribe({
       next: () => {
         this.toastr.success('Processo aprovado!', 'Sucesso');
@@ -350,23 +352,19 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
     })
   }
 
-  // resetarDataHistorico(id: number){
-  //   const modalRef = this.modalService.open(ConfirmationModalComponent);
-  //   modalRef.componentInstance.title = 'Confirmar Reset';
-  //   modalRef.componentInstance.message = 'Tem certeza de que deseja resetar o contador?';
-    
-  //   modalRef.result.then((result) => {
-  //     if (result) {
-  //       this.processoService.resetarDataHistoricoProcesso(id).subscribe({
-  //         next: () => {
-  //           this.toastr.success('Contador resetado!', 'Sucesso');
-  //           this.getProcessos();
-  //         }
-  //       });
-  //     }
-  //   }, () => {
-  //   });
-  // }
+  resetarDataHistorico(id: string){
+    this.confirmModal = this.modalService.confirm({
+      nzTitle: 'Confirmar Reset',
+      nzContent: 'Tem certeza de que deseja resetar o contador?',
+      nzOnOk: () =>
+        this.processoService.resetarDataHistoricoProcesso(id).subscribe({
+          next: () => {
+            this.toastr.success('Contador resetado!', 'Sucesso');
+            this.getProcessos();
+          }
+        })
+    });
+  }
 
   limpar(){
     this.filtroForm.reset();
@@ -384,5 +382,19 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
 
   includesField(field: string){
     return this.processoFieldConfigs.find(p => p.fieldName == field && p.isSelected);
+  }
+
+  deleteProcesso(id: string){
+    this.confirmModal = this.modalService.confirm({
+      nzTitle: 'Exclusão',
+      nzContent: 'Tem certeza de que deseja remover o processo?',
+      nzOnOk: () =>
+        this.processoService.deleteProcesso(id).subscribe({
+          next: () => {
+            this.toastr.success('Processo removido!', 'Sucesso');
+            this.getProcessos();
+          }
+        })
+    });
   }
 }
