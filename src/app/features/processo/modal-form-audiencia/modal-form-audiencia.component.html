@@ -1,4 +1,13 @@
 <form nz-form [formGroup]="formAudiencia" (ngSubmit)="submit()" nzLayout="vertical">
+  <div class="col-sm-12">
+    <nz-form-item>
+      <nz-form-label [nzRequired]="true" nzFor="titulo">Título</nz-form-label>
+      <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
+        <input nz-input type="text" maxlength="100" id="titulo" formControlName="titulo" />
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+
   <div class="row g-3">
     <div class="col-sm-12">
       <nz-form-item>

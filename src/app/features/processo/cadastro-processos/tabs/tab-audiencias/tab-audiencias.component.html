@@ -7,7 +7,7 @@
       nzSize="middle" class="mb-3">
       <thead>
         <tr>
-          <th>Descrição</th>
+          <th>Título</th>
           <th>Presencial</th>
           <th>Local</th>
           <th>Data/Hora</th>
@@ -17,7 +17,7 @@
       <tbody>
         @for(audiencia of audiencias; track $index){
         <tr>
-          <td>{{ getTextoReduzido(audiencia.descricao) }}</td>
+          <td>{{ audiencia.titulo }}</td>
           <td>{{ audiencia.presencial ? 'Sim' : 'Não' }}</td>
           <td>{{ audiencia.local || 'N/A' }}</td>
           <td>{{ audiencia.dataAudiencia | date: 'dd/MM/yyyy HH:mm:ss' }}</td>

@@ -103,20 +103,12 @@ export class FormEventoComponent implements OnInit, OnDestroy {
   getDateFormatted() {
     const data = this.formEvento.value.dataEvento;
     const hora = this.formEvento.value.horaEvento;
-    const diaInteiro = this.diaInteiro;
   
-    const dataObj = new Date(data);
-  
-    if (diaInteiro) {
-      dataObj.setHours(23, 59, 59, 0);
+    if (this.diaInteiro) {
+      return `${data}T23:59:59`;
     } else {
-      const horaObj = new Date(hora);
-      dataObj.setHours(horaObj.getHours(), horaObj.getMinutes(), 0, 0);
+      return `${data}T${hora}`;
     }
-  
-    const dataDiligencia = `${dataObj.getFullYear()}-${(dataObj.getMonth() + 1).toString().padStart(2, '0')}-${dataObj.getDate().toString().padStart(2, '0')}T${dataObj.getHours().toString().padStart(2, '0')}:${dataObj.getMinutes().toString().padStart(2, '0')}:${dataObj.getSeconds().toString().padStart(2, '0')}`;
-  
-    return dataDiligencia;
   }
 
   getEvento(){
@@ -126,6 +118,10 @@ export class FormEventoComponent implements OnInit, OnDestroy {
     .subscribe({
       next: (res) => {
         this.evento = res;
+
+        const data = res.dataEvento.split('T')[0];
+        const hora = res.dataEvento.split('T')[1].substring(0,5);
+
         this.formEvento.get('titulo')?.setValue(res.titulo);
         this.formEvento.get('tipo')?.setValue(res.tipo);
         if(res.processo){
@@ -138,8 +134,8 @@ export class FormEventoComponent implements OnInit, OnDestroy {
         this.formEvento.get('local')?.setValue(res.local);
         this.formEvento.get('linkAudiencia')?.setValue(res.linkAudiencia);
         
-        this.formEvento.get('dataEvento')?.setValue(res.dataEvento);
-        this.formEvento.get('horaEvento')?.setValue(res.dataEvento);
+        this.formEvento.get('dataEvento')?.setValue(data);
+        this.formEvento.get('horaEvento')?.setValue(hora);
         
         this.diaInteiro = res.diaInteiro;
         this.presencial = res.presencial;

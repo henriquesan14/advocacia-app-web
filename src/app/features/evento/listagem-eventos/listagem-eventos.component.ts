@@ -71,7 +71,6 @@ export class ListagemEventosComponent implements OnInit, OnDestroy {
   }
 
   getEventos(){
-    const dateFormatted = this.getDateFormatted();
     this.eventoService.getEventos({
       tipo: this.formAgenda.get('tipo')?.value,
       dataInicio: this.formAgenda.get('dataEvento')?.value,

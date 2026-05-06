@@ -121,7 +121,7 @@
   <div nz-row [nzGutter]="16">
     <div nz-col [nzSpan]="8">
       <nz-form-item>
-        <nz-form-label>Data do evento</nz-form-label>
+        <nz-form-label nzRequired="true">Data do evento</nz-form-label>
         <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
           <input nz-input type="date" formControlName="dataEvento">
         </nz-form-control>
@@ -131,7 +131,7 @@
     @if(!diaInteiro){
     <div nz-col [nzSpan]="8">
       <nz-form-item>
-        <nz-form-label>Hora Evento</nz-form-label>
+        <nz-form-label nzRequired="true">Hora Evento</nz-form-label>
         <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
           <input nz-input type="time" formControlName="horaEvento">
         </nz-form-control>

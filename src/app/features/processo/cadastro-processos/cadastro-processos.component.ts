@@ -133,7 +133,7 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
           situacaoProcessoId: processo.situacao?.id,
           competenciaId: processo.competencia?.id,
           sistemaId: processo.sistema?.id,
-          dataDistribuicao: processo.dataDistribuicao ? new Date(processo.dataDistribuicao) : null,
+          dataDistribuicao: processo.dataDistribuicao ? processo.dataDistribuicao.split('T')[0] : null,
           observacao: processo.observacao
         });
   
@@ -142,6 +142,8 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
         this.diligencias = processo.diligencias ?? [];
         this.audiencias = processo.audiencias ?? [];
         this.getHistoricos(id);
+        this.getDiligencias(id);
+        this.getAudiencias(id);
         this.documentos = processo.documentos ?? [];
       },
       error: () => {
@@ -162,6 +164,22 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
     })
   }
 
+  getAudiencias(processoId: string){
+    this.processoService.getAudiencias(processoId).subscribe({
+      next: (res) => {
+        this.audiencias = res;
+      }
+    })
+  }
+
+  getDiligencias(processoId: string){
+    this.processoService.getDiligencias(processoId).subscribe({
+      next: (res) => {
+        this.diligencias = res;
+      }
+    })
+  }
+
   onAutoresChange(autores: Parte[]) {
     this.autoresSelecionados = autores;
   }
@@ -173,15 +191,24 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
   onHistoricosChange(response: ResponsePage<Historico>) {
     if(this.processoId){
       this.getHistoricos(this.processoId!);
-      this.responsePageHistoricos = response;
+      return;
     }
+    this.responsePageHistoricos = response;
   }
 
   onDiligenciasChange(diligencias: Diligencia[]) {
+    if(this.processoId){
+      this.getDiligencias(this.processoId);
+      return;
+    }
     this.diligencias = diligencias;
   }
 
   onAudienciasChange(audiencias: Audiencia[]) {
+    if(this.processoId){
+      this.getAudiencias(this.processoId);
+      return;
+    }
     this.audiencias = audiencias;
   }
 
@@ -229,6 +256,7 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
       this.processoService.cadastrarProcesso(processo).subscribe({
         next: () => {
           this.toastr.success('Processo cadastrado!', 'Sucesso!');
+          this.formProcesso.markAsPristine();
           this.router.navigateByUrl('/processos/list');
         },
         error: async () => {
@@ -275,5 +303,5 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
       await this.dataService.deleteFile(documento.path!);
     }
   }
-
+  
 }

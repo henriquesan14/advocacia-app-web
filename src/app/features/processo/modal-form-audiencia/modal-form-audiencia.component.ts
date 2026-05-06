@@ -47,6 +47,7 @@ export class ModalFormAudienciaComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.formAudiencia = this.formBuilder.group({
+      titulo: [null, Validators.required],
       descricao: [null, Validators.required],
       dataAudiencia: [new Date(), Validators.required],
       horaAudiencia: [new Date(), Validators.required],
@@ -67,10 +68,12 @@ export class ModalFormAudienciaComponent implements OnInit, OnDestroy {
   }
 
   getAudiencia() {
-    const data = new Date(this.data.audiencia.dataAudiencia);
+    const data = this.data.audiencia.dataAudiencia.split('T')[0];
+    const hora = this.data.audiencia.dataAudiencia.split('T')[1].substring(0, 5);
 
     this.formAudiencia.get('dataAudiencia')?.setValue(data);
-    this.formAudiencia.get('horaAudiencia')?.setValue(data);
+    this.formAudiencia.get('horaAudiencia')?.setValue(hora);
+    this.formAudiencia.get('titulo')?.setValue(this.data.audiencia.titulo);
     this.formAudiencia.get('descricao')?.setValue(this.data.audiencia.descricao);
     this.formAudiencia.get('local')?.setValue(this.data.audiencia.local);
     this.formAudiencia.get('linkAudiencia')?.setValue(this.data.audiencia.linkAudiencia);
@@ -185,14 +188,7 @@ export class ModalFormAudienciaComponent implements OnInit, OnDestroy {
     const data = this.formAudiencia.value.dataAudiencia;
     const hora = this.formAudiencia.value.horaAudiencia;
 
-    let dataDiligencia: string;
-    const dataObj = new Date(data);
-    const horaObj = new Date(hora);
-
-    dataObj.setHours(horaObj.getHours(), horaObj.getMinutes(), 0, 0);
-    dataDiligencia = `${dataObj.getFullYear()}-${(dataObj.getMonth() + 1).toString().padStart(2, '0')}-${dataObj.getDate().toString().padStart(2, '0')}T${dataObj.getHours().toString().padStart(2, '0')}:${dataObj.getMinutes().toString().padStart(2, '0')}:00`;
-
-    return dataDiligencia;
+    return `${data}T${hora}`;
   }
 
   getResponsaveis(params: any) {
