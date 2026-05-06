@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -28,6 +28,7 @@ import { Audiencia } from '../../../core/models/audiencia.interface';
 import { Diligencia } from '../../../core/models/diligencia.interface';
 import { Historico } from '../../../core/models/historico.interface';
 import { DatePipe } from '@angular/common';
+import { CanComponentDeactivate } from '../../../core/guards/pending-changes.guard';
 
 @Component({
   selector: 'app-cadastro-processos',
@@ -39,7 +40,7 @@ import { DatePipe } from '@angular/common';
   styleUrl: './cadastro-processos.component.css',
   providers: [DatePipe]
 })
-export class CadastroProcessosComponent implements OnInit {
+export class CadastroProcessosComponent implements OnInit, CanComponentDeactivate {
   formProcesso!: FormGroup;
   modalService = inject(NzModalService);
 
@@ -56,6 +57,20 @@ export class CadastroProcessosComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService, private processoService: ProcessosService,
     private toastr: ToastrService, private router: Router, private dataService: DataService, private activatedRoute: ActivatedRoute, private datePipe: DatePipe) {
+  }
+
+  canDeactivate(): boolean {
+    if (this.formProcesso.dirty) {
+      return confirm('Você tem alterações não salvas. Deseja sair mesmo assim?');
+    }
+    return true;
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+    unloadNotification($event: any) {
+    if (this.formProcesso.dirty) {
+      $event.returnValue = true;
+    }
   }
 
   ngOnInit(): void {
