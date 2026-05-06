@@ -98,11 +98,15 @@ export class ProcessosService {
     return this.http.get<Documento[]>(`${this.API}/processo/${id}/documentos`);
   }
 
-  aprovarProcesso(id: number){
+  aprovarProcesso(id: string){
     return this.http.patch(`${this.API}/processo`, {id});
   }
 
-  resetarDataHistoricoProcesso(id: number){
+  resetarDataHistoricoProcesso(id: string){
     return this.http.patch(`${this.API}/processo/resetDataHistoricoProcesso`, {id});
+  }
+
+  deleteProcesso(id: string){
+    return this.http.delete(`${this.API}/processo/${id}`);
   }
 }
