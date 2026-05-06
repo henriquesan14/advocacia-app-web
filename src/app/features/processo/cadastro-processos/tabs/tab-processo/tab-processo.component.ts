@@ -26,13 +26,12 @@ import { ModalFormComarcaComponent } from '../../../../comarca/modal-form-comarc
 import { FormUsuarioComponent } from '../../../../usuarios/form-usuario/form-usuario.component';
 import { ModalFormDonoComponent } from '../../../../dono/modal-form-dono/modal-form-dono.component';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { SelectAutocompleteComponent } from '../../../../../shared/components/select-autocomplete/select-autocomplete.component';
 
 @Component({
   selector: 'tab-processo',
   standalone: true,
-  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NgxMaskDirective, BtnNovoComponent, NzDatePickerModule, SelectAutocompleteComponent],
+  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NgxMaskDirective, BtnNovoComponent, SelectAutocompleteComponent],
   templateUrl: './tab-processo.component.html',
   styleUrl: './tab-processo.component.scss'
 })

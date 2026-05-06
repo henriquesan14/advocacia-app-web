@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxMaskDirective } from 'ngx-mask';
-import { BtnCadastrarComponent } from '../../../shared/components/btn-cadastrar/btn-cadastrar.component';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import { forkJoin, of, Subject, takeUntil, tap } from 'rxjs';
+import { forkJoin, Subject, takeUntil, tap } from 'rxjs';
 import { Estado } from '../../../core/models/estado.interface';
 import { Cidade } from '../../../core/models/cidade.interface';
 import { ViaCepService } from '../../../shared/services/viacep.service';
@@ -21,14 +20,13 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzDatePickerModule } from 'ng-zorro-antd/date-picker'
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-form-partes',
   standalone: true,
-  imports: [ReactiveFormsModule, NgxMaskDirective, NzButtonModule, NgxSpinnerModule, HasRoleDirective, NzFormModule, NzInputModule, NzRadioModule, NzSelectModule, NzDatePickerModule, NzCheckboxModule],
+  imports: [ReactiveFormsModule, NgxMaskDirective, NzButtonModule, NgxSpinnerModule, HasRoleDirective, NzFormModule, NzInputModule, NzRadioModule, NzSelectModule, NzCheckboxModule],
   templateUrl: './form-partes.component.html',
   styleUrl: './form-partes.component.css'
 })

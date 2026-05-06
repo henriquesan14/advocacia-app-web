@@ -14,9 +14,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { BtnCadastrarComponent } from '../../../shared/components/btn-cadastrar/btn-cadastrar.component';
 import { ToggleButtonComponent } from '../../../shared/components/toogle-button/toggle-button.component';
-import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { IconClienteComponent } from '../../../shared/components/icon-cliente/icon-cliente.component';
-import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { ToastrService } from 'ngx-toastr';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { SelectAutocompleteComponent } from '../../../shared/components/select-autocomplete/select-autocomplete.component';
@@ -24,7 +22,7 @@ import { SelectAutocompleteComponent } from '../../../shared/components/select-a
 @Component({
   selector: 'app-form-evento',
   standalone: true,
-  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, BtnCadastrarComponent, NgxSpinnerModule, ToggleButtonComponent, NzDatePickerModule, NzTimePickerModule,
+  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, BtnCadastrarComponent, NgxSpinnerModule, ToggleButtonComponent,
     IconClienteComponent, SelectAutocompleteComponent
   ],
   templateUrl: './form-evento.component.html',

@@ -64,8 +64,8 @@
       <nz-form-item>
         <nz-form-label nzRequired>Data da audiência</nz-form-label>
         <nz-form-control>
-          <nz-date-picker formControlName="dataAudiencia" nzFormat="dd/MM/yyyy"
-            nzPlaceHolder="Selecione a data"></nz-date-picker>
+          <input nz-input type="date" formControlName="dataAudiencia"
+            nzPlaceHolder="Selecione a data">
         </nz-form-control>
       </nz-form-item>
     </div>
@@ -74,7 +74,7 @@
       <nz-form-item>
         <nz-form-label nzRequired>Hora da audiência</nz-form-label>
         <nz-form-control>
-          <nz-time-picker formControlName="horaAudiencia" nzFormat="HH:mm" [nzUse12Hours]="false"></nz-time-picker>
+          <input nz-input type="time" formControlName="horaAudiencia">
         </nz-form-control>
       </nz-form-item>
     </div>

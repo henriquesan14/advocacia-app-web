@@ -14,8 +14,6 @@ import { Subject, takeUntil } from 'rxjs';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
-import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { SelectAutocompleteComponent } from '../../../shared/components/select-autocomplete/select-autocomplete.component';
@@ -23,8 +21,7 @@ import { SelectAutocompleteComponent } from '../../../shared/components/select-a
 @Component({
   selector: 'app-modal-form-diligencia',
   standalone: true,
-  imports: [ReactiveFormsModule, BtnCadastrarComponent, NgxSpinnerModule, ToggleButtonComponent, NzFormModule, NzInputModule, NzButtonModule, NzDatePickerModule,
-    NzTimePickerModule, NzGridModule, SelectAutocompleteComponent
+  imports: [ReactiveFormsModule, BtnCadastrarComponent, NgxSpinnerModule, ToggleButtonComponent, NzFormModule, NzInputModule, NzButtonModule, NzGridModule, SelectAutocompleteComponent
   ],
   templateUrl: './modal-form-diligencia.component.html',
   styleUrl: './modal-form-diligencia.component.css',

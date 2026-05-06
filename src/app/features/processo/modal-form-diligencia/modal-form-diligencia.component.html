@@ -62,9 +62,8 @@
             <nz-form-item>
                 <nz-form-label nzRequired>Data da diligência</nz-form-label>
                 <nz-form-control>
-                    <nz-date-picker formControlName="dataDiligencia" nzFormat="dd/MM/yyyy"
+                    <input nz-input type="date" formControlName="dataDiligencia"
                         nzPlaceHolder="Selecione a data">
-                    </nz-date-picker>
                 </nz-form-control>
             </nz-form-item>
         </div>
@@ -74,8 +73,7 @@
             <nz-form-item>
                 <nz-form-label nzRequired>Hora da diligência</nz-form-label>
                 <nz-form-control>
-                    <nz-time-picker formControlName="horaDiligencia" nzFormat="HH:mm" [nzUse12Hours]="false">
-                    </nz-time-picker>
+                    <input nz-input type="date" formControlName="horaDiligencia">
                 </nz-form-control>
             </nz-form-item>
         </div>

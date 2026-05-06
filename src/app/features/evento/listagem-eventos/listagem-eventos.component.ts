@@ -20,7 +20,6 @@ import { faCameraAlt} from '@fortawesome/free-solid-svg-icons';
 import html2canvas from 'html2canvas';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { CardEventoComponent } from '../card-evento/card-evento.component';
 import { FormEventoComponent } from '../form-evento/form-evento.component';
 
@@ -28,7 +27,7 @@ import { FormEventoComponent } from '../form-evento/form-evento.component';
   selector: 'app-listagem-eventos',
   standalone: true,
   imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, BtnPesquisarComponent, BtnLimparComponent, FontAwesomeModule, BtnNovoComponent, CommonModule,
-    NgxSpinnerModule, NzPaginationModule, NzModalModule, NzButtonModule, NzDatePickerModule, CardEventoComponent
+    NgxSpinnerModule, NzPaginationModule, NzModalModule, NzButtonModule, CardEventoComponent
   ],
   templateUrl: './listagem-eventos.component.html',
   styleUrl: './listagem-eventos.component.scss',

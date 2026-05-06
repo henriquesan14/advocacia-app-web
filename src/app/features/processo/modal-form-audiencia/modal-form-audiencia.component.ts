@@ -13,8 +13,6 @@ import { ToggleButtonComponent } from '../../../shared/components/toogle-button/
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
-import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { SelectAutocompleteComponent } from '../../../shared/components/select-autocomplete/select-autocomplete.component';
 
@@ -22,7 +20,7 @@ import { SelectAutocompleteComponent } from '../../../shared/components/select-a
   selector: 'app-modal-form-audiencia',
   standalone: true,
   imports: [ReactiveFormsModule, BtnCadastrarComponent, NgxSpinnerModule,
-    ToggleButtonComponent, NzFormModule, NzInputModule, NzDatePickerModule, NzTimePickerModule, NzGridModule, SelectAutocompleteComponent
+    ToggleButtonComponent, NzFormModule, NzInputModule, NzGridModule, SelectAutocompleteComponent
   ],
   templateUrl: './modal-form-audiencia.component.html',
   styleUrl: './modal-form-audiencia.component.css',

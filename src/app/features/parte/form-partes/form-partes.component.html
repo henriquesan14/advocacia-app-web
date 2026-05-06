@@ -7,7 +7,7 @@
           <input nz-input formControlName="nome" id="nome" maxlength="100" />
           <ng-template #nomeErrorTpl let-control>
             @if (control.hasError('required')) {
-              O campo é obrigatório
+            O campo é obrigatório
             }
           </ng-template>
         </nz-form-control>
@@ -21,7 +21,7 @@
           <input nz-input formControlName="email" id="email" maxlength="100" />
           <ng-template #emailErrorTpl let-control>
             @if (control.hasError('email')) {
-              O campo deve ser um email válido
+            O campo deve ser um email válido
             }
           </ng-template>
         </nz-form-control>
@@ -47,7 +47,7 @@
           <input nz-input formControlName="cpfCnpj" id="cpfCnpj" [mask]="getMaskCpfCnpj()" />
           <ng-template #cpfCnpjErrorTpl let-control>
             @if (control.hasError('required')) {
-              O campo é obrigatório
+            O campo é obrigatório
             }
           </ng-template>
         </nz-form-control>
@@ -56,12 +56,19 @@
 
     <nz-col [nzSpan]="12">
       <nz-form-item>
-        <nz-form-label [nzRequired]="true" nzFor="dataNascimento">Data de Nascimento</nz-form-label>
+        <nz-form-label nzFor="dataNascimento">
+          Data de Nascimento
+        </nz-form-label>
+
         <nz-form-control [nzErrorTip]="dataNascimentoErrorTpl">
-          <nz-date-picker formControlName="dataNascimento" nzFormat="dd/MM/yyyy"></nz-date-picker>
+          <input nz-input formControlName="dataNascimento" placeholder="dd/mm/aaaa" type="date" />
+
           <ng-template #dataNascimentoErrorTpl let-control>
+            @if (control.hasError('invalidDate')) {
+            Data inválida
+            }
             @if (control.hasError('futureDate')) {
-              Não pode ser uma data futura
+            Não pode ser uma data futura
             }
           </ng-template>
         </nz-form-control>
@@ -75,7 +82,7 @@
           <input nz-input formControlName="telefone" id="telefone" mask="(00) 0 0000-0000" />
           <ng-template #telefoneErrorTpl let-control>
             @if (control.hasError('pattern')) {
-              Telefone inválido
+            Telefone inválido
             }
           </ng-template>
         </nz-form-control>
@@ -102,7 +109,7 @@
             <input nz-input formControlName="cep" id="cep" mask="00000-000" (blur)="getCep()" />
             <ng-template #cepErrorTpl let-control>
               @if (control.hasError('required')) {
-                O campo é obrigatório
+              O campo é obrigatório
               }
             </ng-template>
           </nz-form-control>
@@ -116,7 +123,7 @@
             <input nz-input formControlName="logradouro" id="logradouro" maxlength="100" />
             <ng-template #logradouroErrorTpl let-control>
               @if (control.hasError('required')) {
-                O campo é obrigatório
+              O campo é obrigatório
               }
             </ng-template>
           </nz-form-control>
@@ -130,7 +137,7 @@
             <input nz-input formControlName="numero" id="numero" maxlength="10" />
             <ng-template #numeroErrorTpl let-control>
               @if (control.hasError('required')) {
-                O campo é obrigatório
+              O campo é obrigatório
               }
             </ng-template>
           </nz-form-control>
@@ -153,7 +160,7 @@
             <input nz-input formControlName="bairro" id="bairro" maxlength="100" />
             <ng-template #bairroErrorTpl let-control>
               @if (control.hasError('required')) {
-                O campo é obrigatório
+              O campo é obrigatório
               }
             </ng-template>
           </nz-form-control>
@@ -164,15 +171,16 @@
         <nz-form-item>
           <nz-form-label nzFor="estado">Estado</nz-form-label>
           <nz-form-control [nzErrorTip]="estadoErrorTpl">
-            <nz-select  nzShowSearch formControlName="estado" id="estado" (ngModelChange)="getCidades()" placeholder="Selecione">
+            <nz-select nzShowSearch formControlName="estado" id="estado" (ngModelChange)="getCidades()"
+              placeholder="Selecione">
               <nz-option nzDisabled [nzLabel]="'Selecione um estado'" [nzValue]="''"></nz-option>
               @for(estado of estados; track $index){
-                <nz-option [nzValue]="estado.id" [nzLabel]="estado.nome"></nz-option>
+              <nz-option [nzValue]="estado.id" [nzLabel]="estado.nome"></nz-option>
               }
             </nz-select>
             <ng-template #estadoErrorTpl let-control>
               @if (control.hasError('required')) {
-                O campo é obrigatório
+              O campo é obrigatório
               }
             </ng-template>
           </nz-form-control>
@@ -186,12 +194,12 @@
             <nz-select nzShowSearch formControlName="cidade" id="cidade" placeholder="Selecione">
               <nz-option nzDisabled [nzLabel]="'Selecione uma cidade'" [nzValue]="''"></nz-option>
               @for(cidade of cidades; track $index){
-                <nz-option [nzValue]="cidade.id" [nzLabel]="cidade.nome"></nz-option>
+              <nz-option [nzValue]="cidade.id" [nzLabel]="cidade.nome"></nz-option>
               }
             </nz-select>
             <ng-template #cidadeErrorTpl let-control>
               @if (control.hasError('required')) {
-                O campo é obrigatório
+              O campo é obrigatório
               }
             </ng-template>
           </nz-form-control>
@@ -204,9 +212,9 @@
   <nz-form-item class="mt-4">
     <nz-form-control>
       @if(data && data.parteId){
-        <button nz-button nzType="primary" hasRole="EDITAR_PARTE">Atualizar</button>
+      <button nz-button nzType="primary" hasRole="EDITAR_PARTE">Atualizar</button>
       }@else{
-        <button nz-button nzType="primary" hasRole="CADASTRAR_PARTE">Cadastrar</button>
+      <button nz-button nzType="primary" hasRole="CADASTRAR_PARTE">Cadastrar</button>
       }
     </nz-form-control>
   </nz-form-item>
