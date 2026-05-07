@@ -1,0 +1,186 @@
+<h2 nz-typography nzTitle class="text-center">
+    Atualizar perfil
+</h2>
+
+<div class="container">
+
+    <form nz-form [formGroup]="formProfile" (ngSubmit)="submit()" nzLayout="vertical">
+
+        <!-- Avatar -->
+        <div class="mb-4 text-center box-avatar">
+
+            <img
+                ngbTooltip="Selecione uma imagem"
+                #avatarImage
+                id="avatar"
+                [src]="avatarSelecionado"
+                alt="Editar Avatar"
+                (click)="fileInput.click()">
+
+            <input
+                type="file"
+                id="fileInput"
+                #fileInput
+                style="display: none;"
+                (change)="onFileSelected($event)"
+                accept="image/*">
+
+            @if(avatar && (avatar.urlLocal || avatar.url)){
+                <div class="mt-2">
+                    <button
+                        nz-button
+                        nzDanger
+                        nzType="default"
+                        type="button"
+                        (click)="deleteAvatar()">
+
+                        <fa-icon [icon]="faTrash"></fa-icon>
+                        Remover
+                    </button>
+                </div>
+            }
+
+        </div>
+
+        <h4 class="mb-3">
+            Dados pessoais
+        </h4>
+
+        <nz-row [nzGutter]="16">
+
+            <!-- Nome -->
+            <nz-col [nzSpan]="12">
+
+                <nz-form-item>
+
+                    <nz-form-label
+                        [nzRequired]="true"
+                        nzFor="nome">
+
+                        Nome
+
+                    </nz-form-label>
+
+                    <nz-form-control [nzErrorTip]="nomeErrorTpl">
+
+                        <input
+                            nz-input
+                            id="nome"
+                            type="text"
+                            maxlength="100"
+                            formControlName="nome"
+                            placeholder="Nome">
+
+                        <ng-template #nomeErrorTpl>
+                            @if(getError('nome', 'required')){
+                                O campo é obrigatório
+                            }
+                        </ng-template>
+
+                    </nz-form-control>
+
+                </nz-form-item>
+
+            </nz-col>
+
+            <!-- Email -->
+            <nz-col [nzSpan]="12">
+
+                <nz-form-item>
+
+                    <nz-form-label
+                        [nzRequired]="true"
+                        nzFor="email">
+
+                        Email
+
+                    </nz-form-label>
+
+                    <nz-form-control [nzErrorTip]="emailErrorTpl">
+
+                        <input
+                            nz-input
+                            id="email"
+                            type="email"
+                            maxlength="100"
+                            formControlName="email"
+                            placeholder="Email"
+                            autocomplete="true">
+
+                        <ng-template #emailErrorTpl>
+
+                            @if(getError('email', 'required')){
+                                O campo é obrigatório
+                            }
+
+                            @if(getError('email', 'email')){
+                                O campo tem que ser um email válido
+                            }
+
+                        </ng-template>
+
+                    </nz-form-control>
+
+                </nz-form-item>
+
+            </nz-col>
+
+        </nz-row>
+
+        <nz-row [nzGutter]="16">
+
+            <!-- Telefone -->
+            <nz-col [nzSpan]="12">
+
+                <nz-form-item>
+
+                    <nz-form-label
+                        [nzRequired]="true"
+                        nzFor="telefone">
+
+                        Telefone
+
+                    </nz-form-label>
+
+                    <nz-form-control [nzErrorTip]="telefoneErrorTpl">
+
+                        <input
+                            nz-input
+                            mask="(00) 00000-0000"
+                            id="telefone"
+                            type="text"
+                            maxlength="100"
+                            formControlName="telefone"
+                            placeholder="Telefone">
+
+                        <ng-template #telefoneErrorTpl>
+                            @if(getError('telefone', 'required')){
+                                O campo é obrigatório
+                            }
+                        </ng-template>
+
+                    </nz-form-control>
+
+                </nz-form-item>
+
+            </nz-col>
+
+        </nz-row>
+
+        <nz-form-item class="mt-2">
+            <nz-form-control>
+                <btn-cadastrar
+                    nz-button
+                    nzType="primary"
+                    title="Atualizar perfil"
+                    class="me-1">
+                </btn-cadastrar>
+                <btn-voltar></btn-voltar>
+            </nz-form-control>
+        </nz-form-item>
+
+    </form>
+
+</div>
+
+<ngx-spinner type="ball-clip-rotate-multiple"></ngx-spinner>

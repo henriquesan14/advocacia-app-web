@@ -1,0 +1,20 @@
+#avatar {
+    cursor: pointer;
+    width: 180px;
+    border-radius: 50%; 
+    height: 180px; 
+}
+
+.box-avatar {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    width: 100%; /* Opcional: ajusta a largura ao contêiner pai */
+}
+
+
+#avatar:hover {
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+}

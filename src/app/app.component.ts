@@ -12,7 +12,6 @@ import { LocalstorageService } from './shared/services/localstorage.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  isCollapsed = false;
 
   constructor(private localStorageService: LocalstorageService, private notificationService: NotificationService){}
 
