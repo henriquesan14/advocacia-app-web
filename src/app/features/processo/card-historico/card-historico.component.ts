@@ -14,11 +14,13 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 @Component({
   selector: 'app-card-historico',
   standalone: true,
-  imports: [ FontAwesomeModule, ReactiveFormsModule, FormsModule, CommonModule, HasRoleDirective, NzFormModule, NzInputModule, NzButtonModule, NzRadioModule, NzSelectModule, NzGridModule],
+  imports: [ FontAwesomeModule, ReactiveFormsModule, FormsModule, CommonModule, HasRoleDirective, NzFormModule, NzInputModule, NzButtonModule, NzRadioModule, NzSelectModule,
+     NzGridModule, NzTagModule],
   templateUrl: './card-historico.component.html',
   styleUrl: './card-historico.component.css'
 })
@@ -104,6 +106,52 @@ export class CardHistoricoComponent {
       'nao-favoravel': status === 'NAO_FAVORAVEL',
       'parcialmente-favoravel': status === 'PARCIALMENTE_FAVORAVEL',
     };
+  }
+
+  getGrauColor(grau: number): string {
+    switch (grau) {
+      case 1:
+        return '#9AE2C0';
+
+      case 2:
+        return '#F0EBAC';
+
+      case 3:
+        return '#F87676';
+
+      default:
+        return 'default';
+    }
+  }
+
+  getSetencaColor(sentenca: string | undefined): string {
+    switch (sentenca) {
+      case 'FAVORAVEL':
+        return '#9AE2C0';
+
+      case 'NAO_FAVORAVEL':
+        return '#F87676';
+
+      case '':
+        return '#F0EBAC';
+      default:
+        return ' #A5C3DF';
+    }
+  }
+
+  getTextSentenca(sentenca: string | undefined){
+    switch(sentenca){
+      case 'FAVORAVEL':
+        return 'Favorável';
+
+      case 'NAO_FAVORAVEL':
+        return 'Não favorável';
+
+      case '':
+        return 'Parcialmente favorável';
+      default:
+        return ' Sem sentença';
+    }
   }
 }
 

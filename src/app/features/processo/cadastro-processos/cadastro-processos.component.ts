@@ -54,7 +54,7 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
     hasNext: false,
     hasPrevious: false,
     items: [],
-    pageSize: 3,
+    pageSize: 10,
     totalCount: 0,
     totalPages: 0
   };

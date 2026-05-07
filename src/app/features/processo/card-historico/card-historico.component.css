@@ -7,12 +7,12 @@
     
 }
 
-.favoravel{
-    border-left: 15px solid rgb(154, 226, 192);
+/* .favoravel{
+    border-left: 15px solid #b7eb8f;
 }
 
 .nao-favoravel{
-    border-left: 15px solid rgb(248, 118, 118);
+    border-left: 15px solid #ffa39e;
 }
 
 .sem-sentenca{
@@ -20,8 +20,20 @@
 }
 
 .parcialmente-favoravel{
-    border-left: 15px solid rgb(240, 235, 172);
+    border-left: 15px solid #ffd591;
 }
+
+.grau-1 {
+  border-top: 8px solid #b7eb8f;
+}
+
+.grau-2 {
+  border-top: 8px solid #ffd591;
+}
+
+.grau-3 {
+  border-top: 8px solid #ffa39e;
+} */
 
 .left img{
     border-radius: 50%;
