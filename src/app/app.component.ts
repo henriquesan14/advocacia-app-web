@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
     // Verifica se o usuário está logado ao iniciar a aplicação
     const user = this.localStorageService.getUserStorage();
     if (user) {
-      this.notificationService.startConnection(user.toString());
+      this.notificationService.startConnection(user.id);
     }
   }
 }
