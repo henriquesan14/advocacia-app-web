@@ -142,8 +142,12 @@ export class MainLayoutComponent {
     },
   ]
 
-  goToProfile() {
+  goToUpdatePassword() {
     this.router.navigateByUrl('/account/update-password');
+  }
+
+  goToUpdateProfile(){
+    this.router.navigateByUrl('/account/update-profile');
   }
   
   logout() {
@@ -164,9 +168,9 @@ export class MainLayoutComponent {
   }
 
   get avatar(){
-    const response = this.localStorageService.getUserStorage();
-    if(response && response && response.avatar){
-      return response.urlFoto;
+    const user = this.localStorageService.getUserStorage();
+    if(user && user.avatar){
+      return user.avatar.url;
     }
     return '/images/avatar.webp';
   }

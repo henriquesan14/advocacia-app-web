@@ -14,14 +14,18 @@ import { LocalstorageService } from '../../../shared/services/localstorage.servi
 import { ProfileService } from '../../../shared/services/profile.service';
 import { UpdateProfile } from '../../../core/models/update-profile.interface';
 import { ToastrService } from 'ngx-toastr';
-import { Usuario } from '../../../core/models/usuario.interface';
 import { ImageCompressorService } from '../../../shared/services/image-compressor.service';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'app-atualizar-perfil',
   standalone: true,
-  imports: [BtnVoltarComponent, NgxSpinnerModule, ReactiveFormsModule, FontAwesomeModule, BtnCadastrarComponent, NzToolTipModule, NgxMaskDirective],
+  imports: [BtnVoltarComponent, NgxSpinnerModule, ReactiveFormsModule, FontAwesomeModule, BtnCadastrarComponent, NzToolTipModule, NgxMaskDirective, NzFormModule,
+    NzInputModule, NzButtonModule
+  ],
   templateUrl: './atualizar-perfil.component.html',
   styleUrl: './atualizar-perfil.component.css'
 })
@@ -53,7 +57,7 @@ export class AtualizarPerfilComponent implements OnInit {
     if(this.avatar && this.avatar.id){
       return this.avatar.url
     }
-    return this.avatar && this.avatar.urlLocal ? this.avatar.urlLocal : 'assets/images/avatar.webp';
+    return this.avatar && this.avatar.urlLocal ? this.avatar.urlLocal : '/images/avatar.webp';
   }
 
   async submit(){
