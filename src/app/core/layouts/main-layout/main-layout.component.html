@@ -12,7 +12,7 @@
       </div>
       <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
         @for (item of menuItems; track item.title) {
-          <li  nz-submenu nzOpen [nzTitle]="item.title" [nzIcon]="item.icon">
+          <li  nz-submenu [nzTitle]="item.title" [nzIcon]="item.icon">
             <ul>
               @for (child of item.children; track child.label) {
                 <li  nz-menu-item nzMatchRouter>

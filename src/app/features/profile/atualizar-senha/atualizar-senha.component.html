@@ -1,0 +1,98 @@
+<h2 nz-typography nzTitle class="text-center">Alterar senha</h2>
+
+<div class="container">
+    <form nz-form [formGroup]="formUpdatePassword" (ngSubmit)="submit()" nzLayout="vertical">
+        <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label [nzRequired]="true" nzFor="senhaAtual">
+                        Senha atual
+                    </nz-form-label>
+
+                    <nz-form-control [nzErrorTip]="senhaAtualErrorTpl">
+
+                        <nz-input-group nzPrefixIcon="lock">
+                            <input nz-input id="senhaAtual" type="password" maxlength="100" formControlName="senhaAtual"
+                                placeholder="Senha atual" autocomplete="off" />
+                        </nz-input-group>
+                        <ng-template #senhaAtualErrorTpl>
+                            @if(getError('senhaAtual', 'required')){
+                            O campo é obrigatório
+                            }
+                        </ng-template>
+
+                    </nz-form-control>
+
+                </nz-form-item>
+            </nz-col>
+        </nz-row>
+
+        <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label [nzRequired]="true" nzFor="senha">
+                        Nova senha
+                    </nz-form-label>
+
+                    <nz-form-control [nzErrorTip]="senhaErrorTpl">
+
+                        <nz-input-group nzPrefixIcon="lock">
+                            <input nz-input id="senha" type="password" maxlength="100" formControlName="senha"
+                                placeholder="Senha" autocomplete="off" />
+                        </nz-input-group>
+                        <ng-template #senhaErrorTpl>
+                            @if(getError('senha', 'required')){
+                            O campo é obrigatório
+                            }
+
+                            @if(getError('senha', 'minlength')){
+                            O campo tem que ter 6 caracteres
+                            }
+                        </ng-template>
+
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+        </nz-row>
+
+        <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="12">
+                <nz-form-item>
+                    <nz-form-label [nzRequired]="true" nzFor="confirmSenha">
+                        Confirmação de senha
+                    </nz-form-label>
+
+                    <nz-form-control [nzErrorTip]="confirmSenhaErrorTpl">
+
+                        <nz-input-group nzPrefixIcon="lock">
+                            <input nz-input id="confirmSenha" type="password" maxlength="100"
+                                formControlName="confirmSenha" placeholder="Confirmação de senha" autocomplete="off" />
+                        </nz-input-group>
+                        <ng-template #confirmSenhaErrorTpl>
+                            @if(getError('confirmSenha', 'required')){
+                                O campo é obrigatório
+                            }
+
+                            @if(getError('confirmSenha', 'notMatch')){
+                                As senhas não conferem
+                            }
+                        </ng-template>
+
+                    </nz-form-control>
+                </nz-form-item>
+
+
+            </nz-col>
+        </nz-row>
+
+        <nz-form-item class="mt-1">
+            <nz-form-control>
+                <btn-cadastrar nz-button nzType="primary" title="Atualizar senha" class="me-1"></btn-cadastrar>
+                <btn-voltar></btn-voltar>
+            </nz-form-control>
+
+        </nz-form-item>
+    </form>
+</div>
+
+<ngx-spinner type="ball-clip-rotate-multiple"></ngx-spinner>
