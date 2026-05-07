@@ -1,0 +1,132 @@
+.notification-area {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    
+}
+
+.notification-area .fa-bell {
+    position: relative;
+    color: #767575;
+    font-size: 24px;
+    padding: 10px;
+}
+
+.notification-area .fa-bell:hover {
+    color: #1890ff;
+}
+
+.notification-count {
+    position: absolute;
+    top: 22px;
+    right: 2px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notifications-dropdown {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #f9f9f9;
+    width: 330px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+    max-height: 360px;
+    min-height: 100px;
+    overflow-y: auto;
+    scrollbar-width: thin; /* Para Firefox */
+    scrollbar-color: #001529 #f9f9f9; /* Para Firefox */
+}
+
+
+.notification-item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.5rem;
+  line-height: 2rem;
+  color: #000;
+  padding: 10px 10px;
+  cursor: pointer;
+}
+
+
+.notification-item .mid{
+    display: flex;
+    flex-direction: column;
+}
+
+.notification-item:hover {
+    background-color: #ededed;
+    text-decoration: none;
+    color: #000;
+}
+
+.notification-item .msg{
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.notification-item .horario{
+    font-size: 15px;
+}
+
+.fa-envelope {
+    font-size: 16px;
+}
+
+.open:hover{
+    color: #767ef3;
+}
+
+.icon-grau{
+    font-size: 16px;
+}
+
+.empty{
+    padding: 20px;
+    color: #767575;
+}
+
+.notifications-dropdown.no-scroll {
+    overflow-y: hidden; /* Hide scroll when no notifications */
+}
+
+.mark-all-read-button {
+    color: #5492d4;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: auto;
+}
+
+.mark-all-read-button span{
+    cursor: pointer;
+}
+
+.mark-all-read-button span:hover {
+    color: #024185;
+}
+
+@media (max-width: 450px) {
+    .notifications-dropdown {
+        width: 230px;
+    }
+}
+
+@media (max-width: 360px) {
+    .notifications-dropdown {
+        width: 200px;
+    }
+}

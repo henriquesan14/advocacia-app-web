@@ -1,0 +1,40 @@
+<div class="notification-area" (click)="toggleNotifications()">
+  <fa-icon  [icon]="faBell" class="fa-bell">
+  </fa-icon>
+  @if(notificationCount > 0){
+  <span class="notification-count">{{ notificationCount }}</span>
+  }
+  @if(showNotifications){
+  <div class="notifications-dropdown" (scroll)="onScroll($event)"
+    [ngClass]="{'no-scroll': responsePageNotificacoes.items.length === 0}">
+    <div class="mark-all-read-button">
+      <span (click)="marcarTodasComoLidas()">Marcar todas como lidas</span>
+    </div>
+    @for(notification of responsePageNotificacoes.items; track $index){
+    <div class="notification-item" (click)="redirect(notification.urlRedirect)">
+      <div class="left">
+        @if(notification.grauNotificacao == 'DANGER'){
+        <fa-icon class="icon-grau text-danger me-2" [icon]="faExclamationTriangle"></fa-icon>
+        }@else if(notification.grauNotificacao == 'ALERT'){
+        <fa-icon class="icon-grau text-warning me-2" [icon]="faExclamationCircle"></fa-icon>
+        }@else{
+        <fa-icon class="icon-grau text-info me-2" [icon]="faInfoCircle"></fa-icon>
+        }
+      </div>
+      <div class="mid">
+        <span class="msg">{{ notification.mensagem }}</span>
+        <span class="horario">{{horaFormatada(notification.createdAt)}}</span>
+      </div>
+      <div class="right">
+        <fa-icon class="fa-envelope" [ngClass]="{'open': !notification.lida}"
+          (click)="marcarComoLida(notification, $event)"
+          [icon]="notification.lida ? faEnvelopeOpen : faEnvelope"></fa-icon>
+      </div>
+    </div>
+    }@empty {
+    <p class="empty">Não há notificações</p>
+    }
+  </div>
+  }
+
+</div>

@@ -11,13 +11,15 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzDropdownMenuComponent, NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faFile } from '@fortawesome/free-solid-svg-icons';
+import { NotificationsComponent } from '../../../shared/components/notifications/notifications.component';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
   imports: [CommonModule, RouterLink, RouterOutlet, NzIconModule, NzLayoutModule, NzMenuModule, RouterModule, NzDropdownMenuComponent, NzDropDownModule, HasRoleDirective,
-    NzSpinModule, FontAwesomeModule, NzIconModule
+    NzSpinModule, FontAwesomeModule, NzIconModule, NotificationsComponent
   ],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss'
@@ -28,6 +30,7 @@ export class MainLayoutComponent {
   private router = inject(Router);
   private localStorageService = inject(LocalstorageService);
   private authService = inject(AuthService);
+  private notificationService = inject(NotificationService);
 
   isLoggingOut = false;
 
@@ -147,6 +150,7 @@ export class MainLayoutComponent {
     this.isLoggingOut = true;
     this.authService.logout().subscribe({
       next: () => {
+        this.notificationService.stopConnection();
         this.localStorageService.removeUsertorage();
         this.router.navigateByUrl('/login');
         this.isLoggingOut = false;

@@ -37,6 +37,7 @@
   
     <nz-layout>
       <nz-header>
+        
         <div class="app-header">
           <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
             <span class="trigger"
@@ -45,14 +46,17 @@
             </span>
           </span>
       
-          <!-- 🧑 Usuário / Menu -->
-          <div class="user-dropdown" nz-dropdown [nzDropdownMenu]="userMenu" nzTrigger="click">
-            <span class="user-info">
-              <img [src]="avatar" alt="avatar" class="avatar" />
-              <span class="username">{{nomeUsuario}}</span>
-              <i nz-icon nzType="down"></i>
-            </span>
-          </div>
+          <div class="header-right">
+            <app-notifications></app-notifications>
+
+            <div class="user-dropdown" nz-dropdown [nzDropdownMenu]="userMenu" nzTrigger="click">
+              <span class="user-info">
+                <img [src]="avatar" alt="avatar" class="avatar" />
+                <span class="username">{{nomeUsuario}}</span>
+                <i nz-icon nzType="down"></i>
+              </span>
+            </div>
+            </div>
       
           <nz-dropdown-menu #userMenu="nzDropdownMenu">
             <ul nz-menu>
