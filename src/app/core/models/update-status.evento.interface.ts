@@ -1,4 +1,4 @@
 export interface UpdateStatusEvento {
-    eventoId: number;
+    id: string;
     status: string;
 }

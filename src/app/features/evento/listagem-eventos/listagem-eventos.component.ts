@@ -113,6 +113,15 @@ export class ListagemEventosComponent implements OnInit, OnDestroy {
     });
   }
 
+  updateStatus(id: string, status: string){
+    this.eventoService.updateStatus({id, status}).subscribe({
+      next: () => {
+        this.toastr.success('Agenda atualizada!', 'Sucesso');
+        this.getEventos();
+      }
+    })
+  }
+
   submit(){
     if(this.formAgenda.get('dataEvento')?.value){
       this.getEventos();
