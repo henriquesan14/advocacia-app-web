@@ -6,6 +6,7 @@ import { AuthService } from "../../shared/services/auth.service";
 import { Router } from "@angular/router";
 import { BehaviorSubject, Observable, catchError, filter, finalize, switchMap, take, throwError } from "rxjs";
 import { Usuario } from "../models/usuario.interface";
+import { NotificationService } from "../../shared/services/notification.service";
 
 let isRefreshing = false;
 let refreshTokenSubject: BehaviorSubject<Usuario | null> = new BehaviorSubject<Usuario | null>(null);
@@ -16,6 +17,7 @@ export const AccessTokenInterceptor = (
 ): Observable<HttpEvent<unknown>> => {
   const localStorageService = inject(LocalstorageService);
   const authService = inject(AuthService);
+  const notificationService = inject(NotificationService);
   const router = inject(Router);
   const localUser = localStorageService.getUserStorage();
 
@@ -38,6 +40,7 @@ export const AccessTokenInterceptor = (
             return next(authReq);
           }),
           catchError((refreshErr) => {
+            notificationService.stopConnection();
             localStorageService.removeUsertorage();
             router.navigateByUrl('/');
             return throwError(() => refreshErr);

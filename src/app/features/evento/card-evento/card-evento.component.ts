@@ -7,11 +7,12 @@ import { NroProcessoPipe } from '../../../shared/pipes/nro-processo.pipe';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { Evento } from '../../../core/models/evento.interface';
+import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 
 @Component({
   selector: 'app-card-evento',
   standalone: true,
-  imports: [FontAwesomeModule, CommonModule, IconClienteComponent, NroProcessoPipe, NzButtonModule, NzToolTipModule],
+  imports: [FontAwesomeModule, CommonModule, IconClienteComponent, NroProcessoPipe, NzButtonModule, NzToolTipModule, HasRoleDirective],
   templateUrl: './card-evento.component.html',
   styleUrl: './card-evento.component.scss'
 })
@@ -19,6 +20,8 @@ export class CardEventoComponent {
   @Input() evento!: Evento;
   @Output() editar = new EventEmitter<string>();
   @Output() excluir = new EventEmitter<string>();
+  @Output() concluir = new EventEmitter<string>();
+  @Output() cancelar = new EventEmitter<string>();
 
   faClock = faClock;
   faCalendar = faCalendarDay;
@@ -26,7 +29,7 @@ export class CardEventoComponent {
   faPencil = faPencil;
   faTrash = faTrash;
   faCheckCircle = faCheckCircle;
-    faTimes = faTimesCircle;
+  faTimes = faTimesCircle;
 
   getTextoReduzido(texto: string): string {
     return texto.length > 60 ? texto.substring(0, 60) + '...' : texto;
@@ -38,5 +41,13 @@ export class CardEventoComponent {
 
   onExcluir() {
     this.excluir.emit(this.evento.id);
+  }
+
+  onConcluir() {
+    this.concluir.emit(this.evento.id);
+  }
+
+  onCancelar(){
+    this.cancelar.emit(this.evento.id);
   }
 }

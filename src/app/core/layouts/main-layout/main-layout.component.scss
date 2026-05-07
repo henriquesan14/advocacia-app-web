@@ -125,3 +125,10 @@
       }
     }
   }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-right: 16px;
+  }

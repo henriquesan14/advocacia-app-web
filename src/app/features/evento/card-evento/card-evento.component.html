@@ -1,4 +1,4 @@
-<li (click)="onEditar()"  class="list-group-item card-evento">
+<li (click)="onEditar()" class="list-group-item card-evento">
     <div class="left">
         <span class="data">
             <fa-icon class="me-1" [icon]="faCalendar"></fa-icon>{{evento.dataEvento | date: 'dd/MM/yyyy'}}
@@ -7,74 +7,87 @@
             <fa-icon class="me-1" [icon]="faClock"></fa-icon>{{(evento.dataEvento | date: 'HH:mm')}}
         </span>
         @if(!evento.presencial && evento.tipo == 'AUDIENCIA'){
-            <fa-icon [icon]="faVideo"></fa-icon>
+        <fa-icon [icon]="faVideo"></fa-icon>
         }
     </div>
-    
+
     <div class="right">
         <span [ngClass]="{
             'evento-concluido': evento.status === 'CONCLUIDO',
             'evento-cancelado': evento.status === 'CANCELADO'
         }" class="titulo">
             @if(evento.status == 'CONCLUIDO'){
-                <fa-icon [icon]="faCheckCircle"></fa-icon>
+            <fa-icon [icon]="faCheckCircle"></fa-icon>
             }
             @if(evento.status == 'CANCELADO'){
-                <fa-icon [icon]="faTimes"></fa-icon>
+            <fa-icon [icon]="faTimes"></fa-icon>
             }
-            
+
             {{getTextoReduzido(evento.titulo)}}
         </span>
 
         <span><b>Tipo: </b> {{evento.tipo}}</span>
-        
+
         @if(evento.processo){
-            <span>
-                <b>Autor: </b>
-                {{ evento.processo.autores[0].nome }}
-                @if(evento.processo.autores.length > 1){
-                    e Outros
-                }
-                @if(evento.processo.autores[0].isCliente){
-                    <icon-cliente></icon-cliente>
-                }
-            </span>
-            <span>
-                <b>Réu: </b>
-                {{ evento.processo.reus[0].nome }}
-                @if(evento.processo.reus.length > 1){
-                    e Outros
-                }
-                @if(evento.processo.reus[0].isCliente){
-                    <icon-cliente></icon-cliente>
-                }
-            </span>
-        }
-        
-        @if(evento.processo){
-            <span><b>Nro. Processo:</b> {{evento.processo.nroProcesso | nroProcesso}}</span>
+        <span>
+            <b>Autor: </b>
+            {{ evento.processo.autores[0].nome }}
+            @if(evento.processo.autores.length > 1){
+            e Outros
+            }
+            @if(evento.processo.autores[0].isCliente){
+            <icon-cliente></icon-cliente>
+            }
+        </span>
+        <span>
+            <b>Réu: </b>
+            {{ evento.processo.reus[0].nome }}
+            @if(evento.processo.reus.length > 1){
+            e Outros
+            }
+            @if(evento.processo.reus[0].isCliente){
+            <icon-cliente></icon-cliente>
+            }
+        </span>
         }
 
-        
+        @if(evento.processo){
+        <span><b>Nro. Processo:</b> {{evento.processo.nroProcesso | nroProcesso}}</span>
+        }
+
+
         <span><b>Responsável:</b> {{evento.responsavel.nome}}</span>
-        
-        
+
+
         @if(evento.local){
-            <span><b>Local: </b>{{evento.local}}</span>
+        <span><b>Local: </b>{{evento.local}}</span>
         }
         @if(evento.tipo == 'AUDIENCIA' && !evento.presencial){
-            <a target="_blank" [href]="evento.linkAudiencia" class="link-reuniao" (click)="$event.stopPropagation()">Ir a reunião</a>
+        <a target="_blank" [href]="evento.linkAudiencia" class="link-reuniao" (click)="$event.stopPropagation()">Ir a
+            reunião</a>
         }
     </div>
 
     <div class="end">
-        <button nz-button nzType="primary" nz-tooltip="Editar" hasRole="LISTAR_EVENTO" (click)="onEditar();$event.stopPropagation()" class="me-1">
+        <button nz-button nzType="primary" nz-tooltip="Editar" hasRole="LISTAR_EVENTO"
+            (click)="onEditar();$event.stopPropagation()" class="me-1">
             <fa-icon [icon]="faPencil"></fa-icon>
-            
         </button>
-        <button nz-button nzType="primary" nzDanger nz-tooltip="Excluir" hasRole="EXCLUIR_EVENTO" (click)="onExcluir();$event.stopPropagation()" class="btn btn-danger">
+
+
+        @if(evento.status == 'AGENDADO'){
+            <button nz-button nzType="primary" nz-tooltip="Concluir" hasRole="EDITAR_EVENTO"
+                (click)="onConcluir();$event.stopPropagation()" class="btn btn-danger me-1">
+                <fa-icon [icon]="faCheckCircle"></fa-icon>
+            </button>
+            <button nz-button nzType="primary" nzDanger nz-tooltip="Cancelar" hasRole="EDITAR_EVENTO"
+                (click)="onCancelar();$event.stopPropagation()" class="btn btn-danger me-1">
+                <fa-icon [icon]="faTimes"></fa-icon>
+            </button>
+        }
+        <button nz-button nzType="primary" nzDanger nz-tooltip="Excluir" hasRole="EXCLUIR_EVENTO"
+            (click)="onExcluir();$event.stopPropagation()" class="btn btn-danger">
             <fa-icon [icon]="faTrash"></fa-icon>
-            
         </button>
     </div>
 </li>
