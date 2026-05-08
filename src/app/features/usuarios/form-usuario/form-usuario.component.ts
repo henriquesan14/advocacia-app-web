@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, inject, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GrupoService } from '../../../shared/services/grupo.service';
 import { Grupo } from '../../../core/models/grupo.interface';
@@ -11,27 +11,23 @@ import { UsuariosService } from '../../../shared/services/usuarios.service';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { Avatar } from '../../../core/models/avatar.interface';
-import { DataService } from '../../../shared/services/data-service';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import { AvatarService } from '../../../shared/services/avatar.service';
 import { Subject, takeUntil } from 'rxjs';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { ToastrService } from 'ngx-toastr';
-import { NZ_MODAL_DATA, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { BtnNovoComponent } from '../../../shared/components/btn-novo/btn-novo.component';
 import { FormGrupoComponent } from '../../grupo/form-grupo/form-grupo.component';
 import { NzDrawerModule, NzDrawerService } from 'ng-zorro-antd/drawer';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { ImageCompressorService } from '../../../shared/services/image-compressor.service';
 
 @Component({
   selector: 'app-form-usuario',
   standalone: true,
-  imports: [ ReactiveFormsModule, BtnCadastrarComponent, NgxMaskDirective, HasRoleDirective, FontAwesomeModule, NzToolTipModule, NgxSpinnerModule, NzFormModule, NzInputModule,
+  imports: [ReactiveFormsModule, BtnCadastrarComponent, NgxMaskDirective, HasRoleDirective, FontAwesomeModule, NzToolTipModule, NgxSpinnerModule, NzFormModule, NzInputModule,
     NzSelectModule, BtnNovoComponent, NzDrawerModule, NzButtonModule
   ],
   templateUrl: './form-usuario.component.html',
@@ -41,20 +37,19 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   form!: FormGroup;
   grupos: Grupo[] = [];
-  
+
   @ViewChild('fileInput') fileInput: any;
 
   faTrash = faTrash;
 
-  avatar!: Avatar | undefined;
   loading = false;
   mask: string = '';
 
   private drawerService = inject(NzDrawerService);
-  
-  constructor(private formBuilder: FormBuilder, 
-    private grupoService: GrupoService, private usuarioService: UsuariosService, private dataService: DataService, private spinner: NgxSpinnerService,
-    private avatarService: AvatarService, private toastr: ToastrService, private imageCompressorService: ImageCompressorService, private modalRef: NzModalRef, @Inject(NZ_MODAL_DATA) public data: { usuarioId: string }){
+
+  constructor(private formBuilder: FormBuilder,
+    private grupoService: GrupoService, private usuarioService: UsuariosService, private spinner: NgxSpinnerService, private toastr: ToastrService,
+    private modalRef: NzModalRef, @Inject(NZ_MODAL_DATA) public data: { usuarioId: string }) {
   }
 
   ngOnInit(): void {
@@ -63,14 +58,14 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
       email: [null, [Validators.required, Validators.email]],
       senha: [null, this.data && this.data.usuarioId ? null : [Validators.required, Validators.minLength(6)]],
       confirmSenha: [null, this.data && this.data.usuarioId ? null : [Validators.required]],
-      grupoId:['', Validators.required],
-      telefone:[null, [Validators.required, Validators.minLength(11)]],
-      documento:[null, [Validators.minLength(11)]],
+      grupoId: ['', Validators.required],
+      telefone: [null, [Validators.required, Validators.minLength(11)]],
+      documento: [null, [Validators.minLength(11)]],
     }, {
-      validators: ConfirmPasswordValidators.confirmPasswordValidator
+      validators: ConfirmPasswordValidators.confirmPasswordValidator()
     });
     this.getGrupos();
-    if(this.data && this.data.usuarioId){
+    if (this.data && this.data.usuarioId) {
       this.getUsuario();
     }
   }
@@ -88,41 +83,40 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
     }
     return false;
   }
-  
 
-  getGrupos(){
+
+  getGrupos() {
     this.grupoService.getGrupos(null)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (res) => {
-        this.grupos = res;
-      },
-    });
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.grupos = res;
+        },
+      });
   }
 
-  getUsuario(){
+  getUsuario() {
     this.loading = true;
     this.usuarioService.getUsuarioById(this.data.usuarioId)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (res) => {
-        this.avatar = res.avatar;
-        this.form.get('nome')?.setValue(res.nome);
-        this.form.get('email')?.setValue(res.email);
-        this.form.get('grupoId')?.setValue(res.grupoId);
-        this.form.get('telefone')?.setValue(res.telefone);
-        this.form.get('documento')?.setValue(res.documento);
-      },
-      error: () => {
-        this.loading = false;
-      },
-      complete: () => {
-        this.loading = false;
-      }
-    })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.form.get('nome')?.setValue(res.nome);
+          this.form.get('email')?.setValue(res.email);
+          this.form.get('grupoId')?.setValue(res.grupoId);
+          this.form.get('telefone')?.setValue(res.telefone);
+          this.form.get('documento')?.setValue(res.documento);
+        },
+        error: () => {
+          this.loading = false;
+        },
+        complete: () => {
+          this.loading = false;
+        }
+      })
   }
 
-  openModalFormGrupo(){
+  openModalFormGrupo() {
     const width = window.innerWidth;
     let drawerWidth: number;
 
@@ -133,13 +127,13 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
     } else {
       drawerWidth = 500; // Desktop
     }
-    
+
     const drawerRef = this.drawerService.create({
       nzTitle: 'Novo Grupo',
       nzContent: FormGrupoComponent,
       nzWidth: drawerWidth,
     });
-  
+
     drawerRef.afterClose.subscribe((shouldRefresh: boolean) => {
       if (shouldRefresh) {
         this.getGrupos();
@@ -148,57 +142,23 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
   }
 
 
-  async submit(){
-    if(this.avatar &&  this.avatar.file){
-    const compressedFile = await this.imageCompressorService.compressImage(this.avatar.file, 800, 800, 0.8);
-    const compressedFileObj = new File([compressedFile], this.avatar.file.name, {
-      type: this.avatar.file.type,
-      lastModified: Date.now()
-    });
-
-    if(this.data && this.data.usuarioId){
+  submit() {
+    if (this.form.valid) {
       const usuario = <Usuario>{
-        avatar: this.avatar,
-        id: this.data.usuarioId,
         ...this.form.value
       };
-    }
-
-      this.dataService.pushFileToStorage(compressedFileObj, "avatars").subscribe({
-        next: (res) => {
-          this.avatar!.url = res.url;
-          this.avatar!.path = res.path;
-          // this.cadastrarUsuario();
-        },
-        error: () => {
-          this.spinner.hide();
-          this.toastr.error('Erro ao fazer upload da imagem', 'Error');
-        },
-        complete: () => {
-          this.spinner.hide();
-        }
-      });
-    }
-
-    
-
-    if(this.form.valid){
-      const usuario = <Usuario>{
-        avatar: this.avatar,
-        ...this.form.value
-      };
-      if(this.data && this.data.usuarioId){
+      if (this.data && this.data.usuarioId) {
         usuario.id = this.data.usuarioId;
         this.updateUsuario(usuario);
         return;
       }
       this.cadastrarUsuario(usuario);
-    }else{
+    } else {
       FormUtils.markFormGroupTouched(this.form);
     }
   }
 
-  cadastrarUsuario(usuario: Usuario){
+  cadastrarUsuario(usuario: Usuario) {
     this.usuarioService.addUsuario(usuario).subscribe({
       next: () => {
         this.toastr.success('Usuário adicionado!', 'Sucesso');
@@ -207,7 +167,7 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
     })
   }
 
-  updateUsuario(usuario: Usuario){
+  updateUsuario(usuario: Usuario) {
     this.usuarioService.updateUsuario(usuario).subscribe({
       next: () => {
         this.toastr.success('Usuário atualizado!', 'Sucesso');
@@ -216,65 +176,20 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
     })
   }
 
-  selectFile(): void {
-    this.fileInput.nativeElement.click();
-  }
-
-  // Método chamado quando um arquivo é selecionado
-  onFileSelected(event: any): void {
-    const file = event.target.files[0];
-    if (file) {
-      const urlLocal = URL.createObjectURL(file);
-      this.avatar = { nome: file.name, urlLocal, file };
-    }  
-  }
-
-  async deleteAvatar(){
-    this.fileInput.nativeElement.value = '';
-    if(this.avatar?.id){
-      this.spinner.show();
-      this.avatarService.deleteAvatar(this.avatar.id).subscribe({
-        next: async () => {
-          try{
-            await this.dataService.deleteFile(this.avatar?.path!);
-            this.avatar = undefined;
-          }catch(e){
-            this.spinner.hide();
-          }finally{
-            this.spinner.hide();
-          }
-        },
-        error: () => {
-          this.spinner.hide();
-        }
-      })
-    }else{
-      this.avatar = undefined;
-    }
-  }
-
-
-  isInvalidAndTouched(fieldName: string){
+  isInvalidAndTouched(fieldName: string) {
     return FormUtils.isInvalidAndTouched(this.form, fieldName);
   }
 
-  getError(field: string, validation: string){
+  getError(field: string, validation: string) {
     return this.form.get(field)?.hasError(validation);
   }
 
   onInputChange(): void {
     const cleanValue = this.form.get('documento')?.value;
-    if (cleanValue.length <= 11) {
+    if (cleanValue && cleanValue.length <= 11) {
       this.mask = '000.000.000-009'; // CPF
     } else {
       this.mask = '00.000.000/0000-00'; // CNPJ
     }
-  }
-
-  get avatarSelecionado(){
-    if(this.avatar && this.avatar.id){
-      return this.avatar.url
-    }
-    return this.avatar && this.avatar.urlLocal ? this.avatar.urlLocal : '/images/avatar.webp';
   }
 }
