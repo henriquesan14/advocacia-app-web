@@ -8,36 +8,29 @@
 
         <!-- Avatar -->
         <div class="mb-4 text-center box-avatar">
+            <div class="avatar-wrapper">
+                <img ngbTooltip="Selecione uma imagem" #avatarImage id="avatar" [src]="avatarSelecionado"
+                    alt="Editar Avatar" (click)="fileInput.click()">
 
-            <img
-                ngbTooltip="Selecione uma imagem"
-                #avatarImage
-                id="avatar"
-                [src]="avatarSelecionado"
-                alt="Editar Avatar"
-                (click)="fileInput.click()">
+                <button nz-button nzType="primary" nzShape="circle" type="button" class="avatar-edit-button"
+                    (click)="fileInput.click()">
 
-            <input
-                type="file"
-                id="fileInput"
-                #fileInput
-                style="display: none;"
-                (change)="onFileSelected($event)"
+                    <fa-icon [icon]="faPencil"></fa-icon>
+
+                </button>
+            </div>
+
+            <input type="file" id="fileInput" #fileInput style="display: none;" (change)="onFileSelected($event)"
                 accept="image/*">
 
-            @if(avatar && (avatar.urlLocal || avatar.url)){
-                <div class="mt-2">
-                    <button
-                        nz-button
-                        nzDanger
-                        nzType="default"
-                        type="button"
-                        (click)="deleteAvatar()">
+            @if(avatar && avatar.url){
+            <div class="mt-2">
+                <button nz-button nzDanger nzType="default" type="button" (click)="deleteAvatar()">
 
-                        <fa-icon [icon]="faTrash"></fa-icon>
-                        Remover
-                    </button>
-                </div>
+                    <fa-icon [icon]="faTrash"></fa-icon>
+                    Remover
+                </button>
+            </div>
             }
 
         </div>
@@ -53,9 +46,7 @@
 
                 <nz-form-item>
 
-                    <nz-form-label
-                        [nzRequired]="true"
-                        nzFor="nome">
+                    <nz-form-label [nzRequired]="true" nzFor="nome">
 
                         Nome
 
@@ -63,17 +54,11 @@
 
                     <nz-form-control [nzErrorTip]="nomeErrorTpl">
 
-                        <input
-                            nz-input
-                            id="nome"
-                            type="text"
-                            maxlength="100"
-                            formControlName="nome"
-                            placeholder="Nome">
+                        <input nz-input id="nome" type="text" maxlength="100" formControlName="nome" placeholder="Nome">
 
                         <ng-template #nomeErrorTpl>
                             @if(getError('nome', 'required')){
-                                O campo é obrigatório
+                            O campo é obrigatório
                             }
                         </ng-template>
 
@@ -88,9 +73,7 @@
 
                 <nz-form-item>
 
-                    <nz-form-label
-                        [nzRequired]="true"
-                        nzFor="email">
+                    <nz-form-label [nzRequired]="true" nzFor="email">
 
                         Email
 
@@ -98,23 +81,17 @@
 
                     <nz-form-control [nzErrorTip]="emailErrorTpl">
 
-                        <input
-                            nz-input
-                            id="email"
-                            type="email"
-                            maxlength="100"
-                            formControlName="email"
-                            placeholder="Email"
-                            autocomplete="true">
+                        <input nz-input id="email" type="email" maxlength="100" formControlName="email"
+                            placeholder="Email" autocomplete="true">
 
                         <ng-template #emailErrorTpl>
 
                             @if(getError('email', 'required')){
-                                O campo é obrigatório
+                            O campo é obrigatório
                             }
 
                             @if(getError('email', 'email')){
-                                O campo tem que ser um email válido
+                            O campo tem que ser um email válido
                             }
 
                         </ng-template>
@@ -134,9 +111,7 @@
 
                 <nz-form-item>
 
-                    <nz-form-label
-                        [nzRequired]="true"
-                        nzFor="telefone">
+                    <nz-form-label [nzRequired]="true" nzFor="telefone">
 
                         Telefone
 
@@ -144,18 +119,12 @@
 
                     <nz-form-control [nzErrorTip]="telefoneErrorTpl">
 
-                        <input
-                            nz-input
-                            mask="(00) 00000-0000"
-                            id="telefone"
-                            type="text"
-                            maxlength="100"
-                            formControlName="telefone"
-                            placeholder="Telefone">
+                        <input nz-input mask="(00) 00000-0000" id="telefone" type="text" maxlength="100"
+                            formControlName="telefone" placeholder="Telefone">
 
                         <ng-template #telefoneErrorTpl>
                             @if(getError('telefone', 'required')){
-                                O campo é obrigatório
+                            O campo é obrigatório
                             }
                         </ng-template>
 
@@ -169,11 +138,7 @@
 
         <nz-form-item class="mt-2">
             <nz-form-control>
-                <btn-cadastrar
-                    nz-button
-                    nzType="primary"
-                    title="Atualizar perfil"
-                    class="me-1">
+                <btn-cadastrar nz-button nzType="primary" title="Atualizar perfil" class="me-1">
                 </btn-cadastrar>
                 <btn-voltar></btn-voltar>
             </nz-form-control>

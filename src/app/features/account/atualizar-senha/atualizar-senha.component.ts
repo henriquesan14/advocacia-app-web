@@ -5,7 +5,7 @@ import { FormUtils } from '../../../shared/utils/form.utils';
 import { BtnCadastrarComponent } from '../../../shared/components/btn-cadastrar/btn-cadastrar.component';
 import { BtnVoltarComponent } from '../../../shared/components/btn-voltar/btn-voltar.component';
 import { ConfirmPasswordValidators } from '../../../shared/validators/confirm-password.validator';
-import { ProfileService } from '../../../shared/services/profile.service';
+import { AccountService } from '../../../shared/services/account.service';
 import { ToastrService } from 'ngx-toastr';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -21,7 +21,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 export class AtualizarSenhaComponent implements OnInit {
   formUpdatePassword!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService, private profileService: ProfileService, private toastr: ToastrService){
+  constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService, private accountService: AccountService, private toastr: ToastrService){
 
   }
 
@@ -41,7 +41,7 @@ export class AtualizarSenhaComponent implements OnInit {
   submit(){
     if(this.formUpdatePassword.valid){
       this.spinner.show();
-      this.profileService.atualizarSenha({
+      this.accountService.atualizarSenha({
         senhaAtual: this.formUpdatePassword.get('senhaAtual')?.value,
         senhaNova: this.formUpdatePassword.get('senha')?.value
       }).subscribe({

@@ -89,6 +89,7 @@ export class ModalFormDespesaComponent implements OnInit, OnDestroy {
   }
 
   submit(){
+    console.log(this.form)
     if(this.form.valid){
       const rawValue = this.form.get('valor')?.value;
       let valorSemPrefixo = rawValue.toString();
