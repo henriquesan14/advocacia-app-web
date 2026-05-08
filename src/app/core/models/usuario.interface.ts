@@ -11,6 +11,6 @@ export interface Usuario {
   urlFoto: string;
   grupo: Grupo;
   grupoId: number;
-  avatar: Avatar;
+  avatar?: Avatar;
   createdAt: string;
 }

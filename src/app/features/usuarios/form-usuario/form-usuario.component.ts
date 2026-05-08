@@ -26,6 +26,7 @@ import { BtnNovoComponent } from '../../../shared/components/btn-novo/btn-novo.c
 import { FormGrupoComponent } from '../../grupo/form-grupo/form-grupo.component';
 import { NzDrawerModule, NzDrawerService } from 'ng-zorro-antd/drawer';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { ImageCompressorService } from '../../../shared/services/image-compressor.service';
 
 @Component({
   selector: 'app-form-usuario',
@@ -45,7 +46,7 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
 
   faTrash = faTrash;
 
-  avatar!: Avatar | null;
+  avatar!: Avatar | undefined;
   loading = false;
   mask: string = '';
 
@@ -53,7 +54,7 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
   
   constructor(private formBuilder: FormBuilder, 
     private grupoService: GrupoService, private usuarioService: UsuariosService, private dataService: DataService, private spinner: NgxSpinnerService,
-    private avatarService: AvatarService, private toastr: ToastrService, private modalService: NzModalService, private modalRef: NzModalRef, @Inject(NZ_MODAL_DATA) public data: { usuarioId: string }){
+    private avatarService: AvatarService, private toastr: ToastrService, private imageCompressorService: ImageCompressorService, private modalRef: NzModalRef, @Inject(NZ_MODAL_DATA) public data: { usuarioId: string }){
   }
 
   ngOnInit(): void {
@@ -146,7 +147,41 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
     });
   }
 
-  submit(){
+
+  async submit(){
+    if(this.avatar &&  this.avatar.file){
+    const compressedFile = await this.imageCompressorService.compressImage(this.avatar.file, 800, 800, 0.8);
+    const compressedFileObj = new File([compressedFile], this.avatar.file.name, {
+      type: this.avatar.file.type,
+      lastModified: Date.now()
+    });
+
+    if(this.data && this.data.usuarioId){
+      const usuario = <Usuario>{
+        avatar: this.avatar,
+        id: this.data.usuarioId,
+        ...this.form.value
+      };
+    }
+
+      this.dataService.pushFileToStorage(compressedFileObj, "avatars").subscribe({
+        next: (res) => {
+          this.avatar!.url = res.url;
+          this.avatar!.path = res.path;
+          // this.cadastrarUsuario();
+        },
+        error: () => {
+          this.spinner.hide();
+          this.toastr.error('Erro ao fazer upload da imagem', 'Error');
+        },
+        complete: () => {
+          this.spinner.hide();
+        }
+      });
+    }
+
+    
+
     if(this.form.valid){
       const usuario = <Usuario>{
         avatar: this.avatar,
@@ -202,7 +237,7 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
         next: async () => {
           try{
             await this.dataService.deleteFile(this.avatar?.path!);
-            this.avatar = null;
+            this.avatar = undefined;
           }catch(e){
             this.spinner.hide();
           }finally{
@@ -214,7 +249,7 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
         }
       })
     }else{
-      this.avatar = null;
+      this.avatar = undefined;
     }
   }
 
