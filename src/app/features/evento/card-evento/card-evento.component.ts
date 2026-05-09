@@ -50,4 +50,13 @@ export class CardEventoComponent {
   onCancelar(){
     this.cancelar.emit(this.evento.id);
   }
+
+  getTypeColor(){
+    if(this.evento.tipo == 'AUDIENCIA'){
+      return '#c3e1fd';
+    }else if(this.evento.tipo == 'PRAZO'){
+      return '#fdc5c5';
+    }
+    return '#e6e5e5';
+  }
 }

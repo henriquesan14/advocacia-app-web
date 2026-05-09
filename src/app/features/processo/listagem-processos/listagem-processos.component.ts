@@ -122,21 +122,6 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
     return Object.values(formValues).some(value => value && value !== '');
   }
 
-  getDias(data: string){
-    const dateObject = new Date(data);
-
-    // Data atual
-    const currentDate = new Date();
-
-    // Calcula a diferença em milissegundos
-    const differenceInMilliseconds = currentDate.getTime() - dateObject.getTime();
-
-    // Convertendo milissegundos para dias
-    const millisecondsInADay = 1000 * 60 * 60 * 24;
-    const differenceInDays = Math.floor(differenceInMilliseconds / millisecondsInADay);
-    return differenceInDays;
-  }
-
   ngOnInit(): void {
     const userRoles = this.localStorageService.getUserStorage().grupo.permissoes.map(p => p.nome);
     this.hasPermissionAllProcessos = userRoles.includes('LISTAR_PROCESSO');

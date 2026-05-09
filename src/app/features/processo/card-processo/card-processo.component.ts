@@ -18,7 +18,6 @@ export class CardProcessoComponent {
   faTrash = faTrash;
   faEye = faEye;
   @Input() processo: any;
-  @Input() getDias!: (data: string) => number;
 
   @Output() visualizar = new EventEmitter<string>();
   @Output() reiniciar = new EventEmitter<string>();

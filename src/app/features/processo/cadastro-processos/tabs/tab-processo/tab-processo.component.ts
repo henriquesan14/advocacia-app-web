@@ -276,16 +276,16 @@ export class TabProcessoComponent implements OnInit, OnDestroy {
     });
   }
 
-  get donoNomeControl(): FormControl {
-    return this.formProcesso.get('donoNome') as FormControl;
+  get donoControl(): FormControl {
+    return this.formProcesso.get('donoId') as FormControl;
   }
 
-  get responsavelNomeControl(): FormControl {
-    return this.formProcesso.get('responsavelNome') as FormControl;
+  get responsavelControl(): FormControl {
+    return this.formProcesso.get('responsavelId') as FormControl;
   }
 
-  get comarcaNomeControl(): FormControl {
-    return this.formProcesso.get('comarcaNome') as FormControl;
+  get comarcaControl(): FormControl {
+    return this.formProcesso.get('comarcaId') as FormControl;
   }
 
   isInvalidAndTouched(fieldName: string) {

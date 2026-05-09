@@ -43,7 +43,7 @@
         <nz-form-control>
           <select-autocomplete [valorInicial]="formAudiencia.get('responsavelNome')?.value" [shouldReset]="false" [title]="'Selecione a responsável do processo'" [filterBy]="'nome'"
             (selectedEvent)="responsavelSelected($event)" (changeEvent)="onChangeResponsavel($event)"
-            (deselectEvent)="responsavelDeselected()" [items]="responsaveis"></select-autocomplete>
+            (deselectEvent)="responsavelDeselected()" [items]="responsaveis" [invalid]="responsavelControl.invalid && responsavelControl.touched"></select-autocomplete>
           @if(responsavelControl.invalid && responsavelControl.touched){
           <div>
             <span class="text-danger">

@@ -29,10 +29,10 @@
         <nz-form-control [nzSpan]="24">
           <select-autocomplete [valorInicial]="formProcesso.get('donoNome')?.value" [shouldReset]="false" [title]="'Selecione o dono do processo'" [filterBy]="'nome'"
             (selectedEvent)="donoSelected($event)" (changeEvent)="onChangeDono($event)"
-            (deselectEvent)="donoDeselected()" [items]="donos"></select-autocomplete>
-          @if(donoNomeControl.invalid && donoNomeControl.touched){
+            (deselectEvent)="donoDeselected()" [items]="donos" [invalid]="donoControl.invalid && donoControl.touched"></select-autocomplete>
+          @if(donoControl.invalid && donoControl.touched){
           <div>
-            @if(donoNomeControl.hasError('required')){
+            @if(donoControl.hasError('required')){
             <span class="text-danger">
               O campo é obrigatório.
             </span>
@@ -50,10 +50,10 @@
         <nz-form-control [nzSpan]="24">
           <select-autocomplete [valorInicial]="formProcesso.get('responsavelNome')?.value" [shouldReset]="false" [title]="'Selecione o responsável do processo'" [filterBy]="'nome'"
             (selectedEvent)="responsavelSelected($event)" (changeEvent)="onChangeResponsavel($event)"
-            (deselectEvent)="responsavelDeselected()" [items]="responsaveis"></select-autocomplete>
-          @if(responsavelNomeControl.invalid && responsavelNomeControl.touched){
+            (deselectEvent)="responsavelDeselected()" [items]="responsaveis" [invalid]="responsavelControl.invalid && responsavelControl.touched"></select-autocomplete>
+          @if(responsavelControl.invalid && responsavelControl.touched){
           <div>
-            @if(responsavelNomeControl.hasError('required')){
+            @if(responsavelControl.hasError('required')){
             <span class="text-danger">
               O campo é obrigatório.
             </span>
@@ -122,10 +122,10 @@
         <nz-form-control [nzSpan]="24">
           <select-autocomplete [valorInicial]="formProcesso.get('comarcaNome')?.value" [shouldReset]="false" [title]="'Selecione a comarca do processo'" [filterBy]="'nome'"
             (selectedEvent)="comarcaSelected($event)" (changeEvent)="onChangeComarca($event)"
-            (deselectEvent)="comarcaDeselected()" [items]="comarcas"></select-autocomplete>
-          @if(comarcaNomeControl.invalid && comarcaNomeControl.touched){
+            (deselectEvent)="comarcaDeselected()" [items]="comarcas" [invalid]="comarcaControl.invalid && comarcaControl.touched"></select-autocomplete>
+          @if(comarcaControl.invalid && comarcaControl.touched){
           <div>
-            @if(comarcaNomeControl.hasError('required')){
+            @if(comarcaControl.hasError('required')){
             <span class="text-danger">
               O campo é obrigatório.
             </span>

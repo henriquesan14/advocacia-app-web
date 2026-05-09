@@ -42,5 +42,6 @@ export interface Processo {
     sistema: Sistema
     documentos: Documento[]
     dataUltimoHistorico: string;
+    diasSemMovimentacao: number;
   }
   

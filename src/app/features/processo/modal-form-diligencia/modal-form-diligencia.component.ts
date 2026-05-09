@@ -49,8 +49,8 @@ export class ModalFormDiligenciaComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       titulo: [null, Validators.required],
       descricao: [null, Validators.required],
-      dataDiligencia: [new Date(), Validators.required],
-      horaDiligencia: [new Date(), Validators.required],
+      dataDiligencia: [null, Validators.required],
+      horaDiligencia: [null, Validators.required],
       responsavelId: [null, Validators.required],
       responsavelNome: [null],
       local: [null, Validators.required],

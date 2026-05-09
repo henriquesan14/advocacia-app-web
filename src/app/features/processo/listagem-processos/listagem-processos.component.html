@@ -192,11 +192,11 @@
                 @for (processo of responsePageProcessos.items; track processo.id) {
                 <tr>
                     <td>
-                        @if(getDias(processo.dataUltimoHistorico || processo.createdAt) > 20){
+                        @if(processo.diasSemMovimentacao > 20){
                         <fa-icon nzType="danger" class="text-danger" [icon]="faExclamationTriangle"></fa-icon>
                         }
-                        @else if(getDias(processo.dataUltimoHistorico || processo.createdAt) >= 10 &&
-                        getDias(processo.dataUltimoHistorico || processo.createdAt) <= 20){ <fa-icon
+                        @else if(processo.diasSemMovimentacao >= 10 &&
+                        processo.diasSemMovimentacao <= 20){ <fa-icon
                             class="text-warning" [icon]="faExclamationCircle"></fa-icon>
                             }
                     </td>
@@ -296,7 +296,7 @@
                     </td>
                     }
                     <td>
-                        {{ getDias(processo.dataUltimoHistorico || processo.createdAt) }}
+                        {{ processo.diasSemMovimentacao }}
                     </td>
 
                     @if(includesField('Observacao')){
@@ -325,7 +325,7 @@
 
     <div class="mobile-only">
         @for(processo of responsePageProcessos.items; track processo.id){
-        <app-card-processo [processo]="processo" [getDias]="getDias" (visualizar)="visualizarProcesso($event)" (reiniciar)="resetarDataHistorico($event)" (excluir)="deleteProcesso($event)">
+        <app-card-processo [processo]="processo" (visualizar)="visualizarProcesso($event)" (reiniciar)="resetarDataHistorico($event)" (excluir)="deleteProcesso($event)">
         </app-card-processo>
         }
         <div class="d-flex justify-content-between align-items-center p-2">
@@ -417,11 +417,11 @@
                                 @for (processo of processosSobAprovacao; track processo.id) {
                                 <tr>
                                     <td>
-                                        @if(getDias(processo.dataUltimoHistorico || processo.createdAt) > 20){
+                                        @if(processo.diasSemMovimentacao > 20){
                                         <fa-icon class="text-danger" [icon]="faExclamationTriangle"></fa-icon>
                                         }
-                                        @else if(getDias(processo.dataUltimoHistorico || processo.createdAt) >= 10 &&
-                                        getDias(processo.dataUltimoHistorico || processo.createdAt) <= 20){ <fa-icon
+                                        @else if(processo.diasSemMovimentacao >= 10 &&
+                                        processo.diasSemMovimentacao <= 20){ <fa-icon
                                             class="text-warning" [icon]="faExclamationCircle"></fa-icon>
                                             }
                                     </td>
@@ -511,7 +511,7 @@
                                     </td>
                                     }
                                     <td>
-                                        {{ getDias(processo.dataUltimoHistorico || processo.createdAt) }}
+                                        {{ processo.diasSemMovimentacao }}
                                     </td>
 
                                     @if(includesField('Observacao')){
@@ -541,7 +541,7 @@
 
                         <div class="mobile-only">
                             @for(processo of processosSobAprovacao; track processo.id){
-                                <app-card-processo [processo]="processo" [getDias]="getDias" (visualizar)="visualizarProcesso($event)">
+                                <app-card-processo [processo]="processo" (visualizar)="visualizarProcesso($event)">
                                 </app-card-processo>
                                 }
                         </div>

@@ -14,6 +14,8 @@ export class FormUtils {
     static markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach(control => {
         control.markAsTouched();
+        control.markAsDirty();
+        control.updateValueAndValidity();
 
         if (control instanceof FormGroup) {
         this.markFormGroupTouched(control);
