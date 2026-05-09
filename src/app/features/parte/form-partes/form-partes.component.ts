@@ -49,7 +49,7 @@ export class FormPartesComponent implements OnInit, OnDestroy {
     this.formPartes = this.formBuilder.group({
       nome: [null, [Validators.required, Validators.maxLength(100)]],
       tipoPessoa: ['PESSOA_FISICA'],
-      cpfCnpj: [null],
+      cpfCnpj: [null, Validators.required],
       dataNascimento: [null, [futureDateValidator()]],
       telefone: [null],
       email: [null, [Validators.email]],
@@ -65,7 +65,7 @@ export class FormPartesComponent implements OnInit, OnDestroy {
       }, { validators: enderecoValidator() }),
     });
     this.getEstados();
-    if(this.data.parteId){
+    if(this.data && this.data.parteId){
       this.getParte();
     }
   }
