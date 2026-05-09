@@ -52,7 +52,7 @@
                     <select-autocomplete [valorInicial]="form.get('responsavelNome')?.value" [shouldReset]="false" [title]="'Selecione a responsável do processo'"
                         [filterBy]="'nome'" (selectedEvent)="responsavelSelected($event)"
                         (changeEvent)="onChangeResponsavel($event)" (deselectEvent)="responsavelDeselected()"
-                        [items]="responsaveis"></select-autocomplete>
+                        [items]="responsaveis" [invalid]="responsavelControl.invalid && responsavelControl.touched"></select-autocomplete>
                     @if(responsavelControl.invalid && responsavelControl.touched){
                     <div>
                         <span class="text-danger">

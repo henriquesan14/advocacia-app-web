@@ -54,13 +54,15 @@
       <nz-form-item>
         <nz-form-label nzRequired>Responsável</nz-form-label>
         <nz-form-control>
-          <select-autocomplete [valorInicial]="formEvento.get('responsavelNome')?.value" [shouldReset]="false" [title]="'Selecione a responsável do processo'" [filterBy]="'nome'"
+          <select-autocomplete [valorInicial]="formEvento.get('responsavelNome')?.value" [shouldReset]="false"
+            [title]="'Selecione o responsável do processo'" [filterBy]="'nome'"
             (selectedEvent)="responsavelSelected($event)" (changeEvent)="onChangeResponsavel($event)"
-            (deselectEvent)="responsavelDeselected()" [items]="responsaveis"></select-autocomplete>
+            (deselectEvent)="responsavelDeselected()" [items]="responsaveis"
+            [invalid]="responsavelControl.invalid && responsavelControl.touched"></select-autocomplete>
           @if(responsavelControl.invalid && responsavelControl.touched){
           <div>
             <span class="text-danger">
-              O campo é obrigatório.
+              O campo é obrigatório
             </span>
           </div>
           }

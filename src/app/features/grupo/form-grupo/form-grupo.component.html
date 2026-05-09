@@ -3,9 +3,18 @@
   <div nz-row>
     <div nz-col [nzSpan]="24">
       <nz-form-item>
-        <nz-form-label [nzFor]="'nome'" [nzRequired]="true">Nome</nz-form-label>
-        <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
-          <input nz-input id="nome" formControlName="nome" maxlength="50" placeholder="Nome" />
+        <nz-form-label nzFor="nome" nzRequired >Nome</nz-form-label>
+        <nz-form-control
+          [nzValidateStatus]="formGrupo.get('nome')!"
+          nzErrorTip="O campo é obrigatório"
+        >
+          <input
+            nz-input
+            id="nome"
+            formControlName="nome"
+            maxlength="50"
+            placeholder="Nome"
+          />
         </nz-form-control>
       </nz-form-item>
     </div>

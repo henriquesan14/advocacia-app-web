@@ -8,7 +8,6 @@
     border-radius: 2px;
     height: 32.44px;
     border: 1px solid #d9d9d9;
-    box-shadow: 0 0 10px #eceaea;
     padding-left: 10px;
     cursor: text;
 }
@@ -20,7 +19,7 @@
 }
 
 .input #placeholder{
-    color: #888888;   
+    color: #BFBFBF;   
     font-size: 14px; 
     opacity: 1;
 }
@@ -35,7 +34,6 @@
 
 .autocomplete .input:hover {
     border-color: #40a9ff;
-    box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.2);
 }
 
 
@@ -116,4 +114,20 @@ width: 8px;
 -webkit-border-radius: 10px;
 border-radius: 10px;
 background-color: #2980b9;
+}
+
+.border-danger{
+    border: 1px solid #ff4d4f;
+    box-shadow: none;
+}
+
+
+.border-danger:hover {
+    border: 1px solid #ff4d4f !important;
+    box-shadow: none !important;
+}
+
+.border-danger.focused{
+    border: 1px solid #ff4d4f !important;
+    box-shadow: 0 0 0 2px rgba(255,77,79, .2) !important;
 }

@@ -20,6 +20,7 @@ export class SelectAutocompleteComponent {
   @Input() valorInicial!: string;
   @Input() icon!: IconDefinition;
   @Input() checkBy!: string;
+  @Input() invalid: boolean = false;
 
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;
   @ViewChild('optionsList') optionsList!: ElementRef<HTMLDivElement>;

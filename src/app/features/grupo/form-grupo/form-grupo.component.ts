@@ -80,6 +80,7 @@ export class FormGrupoComponent implements OnInit, OnDestroy {
   }
 
   inicializarFormulario(): void {
+    console.log('foi')
     const formControls: { [key: string]: any } = {}; // Definir tipo explícito
 
     this.permissoes.forEach(categoria => {
@@ -89,7 +90,7 @@ export class FormGrupoComponent implements OnInit, OnDestroy {
     });
 
     this.formGrupo = this.formBuilder.group({
-      nome: ['', Validators.required],
+      nome: [null, Validators.required],
       sobAprovacao: [false],
       ...formControls
     });

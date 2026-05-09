@@ -1,5 +1,5 @@
 <div class="autocomplete" #autoComplete>
-    <div class="input" [class.focused]="visible" (click)="toggleVisible()">
+    <div class="input" [ngClass]="{'border-danger': invalid}" [class.focused]="visible" (click)="toggleVisible()">
         @if(valorInicial && !selectedItem){
             <span >
                 {{valorInicial}}

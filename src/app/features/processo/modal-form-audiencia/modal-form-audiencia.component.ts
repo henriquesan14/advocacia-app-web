@@ -49,8 +49,8 @@ export class ModalFormAudienciaComponent implements OnInit, OnDestroy {
     this.formAudiencia = this.formBuilder.group({
       titulo: [null, Validators.required],
       descricao: [null, Validators.required],
-      dataAudiencia: [new Date(), Validators.required],
-      horaAudiencia: [new Date(), Validators.required],
+      dataAudiencia: [null, Validators.required],
+      horaAudiencia: [null, Validators.required],
       linkAudiencia: [null],
       local: [null, Validators.required],
       responsavelId: [null, Validators.required],

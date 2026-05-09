@@ -1,5 +1,5 @@
 <li (click)="onEditar()" class="list-group-item card-evento">
-    <div class="left">
+    <div class="left" [ngStyle]="{ 'background-color': getTypeColor() }">
         <span class="data">
             <fa-icon class="me-1" [icon]="faCalendar"></fa-icon>{{evento.dataEvento | date: 'dd/MM/yyyy'}}
         </span>
@@ -62,7 +62,7 @@
         @if(evento.local){
         <span><b>Local: </b>{{evento.local}}</span>
         }
-        @if(evento.tipo == 'AUDIENCIA' && !evento.presencial){
+        @if(evento.tipo == 'AUDIENCIA' && !evento.presencial && evento.linkAudiencia){
         <a target="_blank" [href]="evento.linkAudiencia" class="link-reuniao" (click)="$event.stopPropagation()">Ir a
             reunião</a>
         }
