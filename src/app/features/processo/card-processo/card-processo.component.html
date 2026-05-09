@@ -4,10 +4,10 @@
         <strong>Nro: {{ processo.nroProcesso | nroProcesso }}</strong>
       </div>
       <div class="dias" [ngClass]="{
-        'text-danger': getDias(processo.dataUltimoHistorico || processo.createdAt) > 20,
-        'text-warning': getDias(processo.dataUltimoHistorico || processo.createdAt) >= 10
+        'text-danger': processo.diasSemMovimentacao > 20,
+        'text-warning': processo.diasSemMovimentacao >= 10
       }">
-        {{ getDias(processo.dataUltimoHistorico || processo.createdAt) }} dias
+        {{ processo.diasSemMovimentacao }} dias
       </div>
     </div>
   
