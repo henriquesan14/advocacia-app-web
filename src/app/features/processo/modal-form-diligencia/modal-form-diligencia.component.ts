@@ -122,7 +122,6 @@ export class ModalFormDiligenciaComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    console.log(this.form, this.diaInteiro)
     if (this.form.valid) {
       if (!this.data.processoId) {
         const diligencia = {

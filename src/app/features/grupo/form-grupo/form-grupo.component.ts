@@ -80,7 +80,6 @@ export class FormGrupoComponent implements OnInit, OnDestroy {
   }
 
   inicializarFormulario(): void {
-    console.log('foi')
     const formControls: { [key: string]: any } = {}; // Definir tipo explícito
 
     this.permissoes.forEach(categoria => {
