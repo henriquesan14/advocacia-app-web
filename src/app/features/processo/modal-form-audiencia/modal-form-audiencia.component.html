@@ -72,7 +72,7 @@
     <div nz-col [nzSpan]="12">
       <nz-form-item>
         <nz-form-label nzRequired>Data da audiência</nz-form-label>
-        <nz-form-control>
+        <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
           <input nz-input type="date" formControlName="dataAudiencia"
             nzPlaceHolder="Selecione a data">
         </nz-form-control>
@@ -82,7 +82,7 @@
     <div nz-col [nzSpan]="12">
       <nz-form-item>
         <nz-form-label nzRequired>Hora da audiência</nz-form-label>
-        <nz-form-control>
+        <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
           <input nz-input type="time" formControlName="horaAudiencia">
         </nz-form-control>
       </nz-form-item>

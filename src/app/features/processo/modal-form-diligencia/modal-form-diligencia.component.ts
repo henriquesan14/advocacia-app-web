@@ -50,7 +50,7 @@ export class ModalFormDiligenciaComponent implements OnInit, OnDestroy {
       titulo: [null, Validators.required],
       descricao: [null, Validators.required],
       dataDiligencia: [null, Validators.required],
-      horaDiligencia: [null, Validators.required],
+      horaDiligencia: [null, !this.diaInteiro ? Validators.required : null],
       responsavelId: [null, Validators.required],
       responsavelNome: [null],
       local: [null, Validators.required],
@@ -122,6 +122,7 @@ export class ModalFormDiligenciaComponent implements OnInit, OnDestroy {
   }
 
   submit() {
+    console.log(this.form, this.diaInteiro)
     if (this.form.valid) {
       if (!this.data.processoId) {
         const diligencia = {
@@ -230,6 +231,17 @@ export class ModalFormDiligenciaComponent implements OnInit, OnDestroy {
 
   toggleDiaInteiro(event: any) {
     this.diaInteiro = event;
+
+    const horaControl = this.form.get('horaDiligencia');
+
+    if (this.diaInteiro) {
+      horaControl?.clearValidators();
+      horaControl?.setValue(null);
+    } else {
+      horaControl?.setValidators([Validators.required]);
+    }
+
+    horaControl?.updateValueAndValidity();
   }
 
   togglePresencial(event: any) {
