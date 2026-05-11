@@ -192,11 +192,11 @@
                 @for (processo of responsePageProcessos.items; track processo.id) {
                 <tr>
                     <td>
-                        @if(processo.diasSemMovimentacao > 20){
+                        @if(processo.diasSemMovimentacao > diasAvisoSemMovimentacaoMax){
                         <fa-icon nzType="danger" class="text-danger" [icon]="faExclamationTriangle"></fa-icon>
                         }
-                        @else if(processo.diasSemMovimentacao >= 10 &&
-                        processo.diasSemMovimentacao <= 20){ <fa-icon
+                        @else if(processo.diasSemMovimentacao >= diasAvisoSemMovimentacao &&
+                        processo.diasSemMovimentacao <= diasAvisoSemMovimentacaoMax){ <fa-icon
                             class="text-warning" [icon]="faExclamationCircle"></fa-icon>
                             }
                     </td>
@@ -417,11 +417,11 @@
                                 @for (processo of processosSobAprovacao; track processo.id) {
                                 <tr>
                                     <td>
-                                        @if(processo.diasSemMovimentacao > 20){
+                                        @if(processo.diasSemMovimentacao > diasAvisoSemMovimentacaoMax){
                                         <fa-icon class="text-danger" [icon]="faExclamationTriangle"></fa-icon>
                                         }
-                                        @else if(processo.diasSemMovimentacao >= 10 &&
-                                        processo.diasSemMovimentacao <= 20){ <fa-icon
+                                        @else if(processo.diasSemMovimentacao >= diasAvisoSemMovimentacao &&
+                                        processo.diasSemMovimentacao <= diasAvisoSemMovimentacaoMax){ <fa-icon
                                             class="text-warning" [icon]="faExclamationCircle"></fa-icon>
                                             }
                                     </td>

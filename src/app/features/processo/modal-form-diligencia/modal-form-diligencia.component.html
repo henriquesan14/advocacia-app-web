@@ -54,11 +54,11 @@
                         (changeEvent)="onChangeResponsavel($event)" (deselectEvent)="responsavelDeselected()"
                         [items]="responsaveis" [invalid]="responsavelControl.invalid && responsavelControl.touched"></select-autocomplete>
                     @if(responsavelControl.invalid && responsavelControl.touched){
-                    <div>
-                        <span class="text-danger">
-                            O campo é obrigatório.
-                        </span>
-                    </div>
+                        <div>
+                            <span class="text-danger">
+                                O campo é obrigatório.
+                            </span>
+                        </div>
                     }
                 </nz-form-control>
             </nz-form-item>
@@ -70,7 +70,7 @@
         <div nz-col [nzSpan]="12" [nzSm]="12" [nzMd]="12" [nzLg]="12">
             <nz-form-item>
                 <nz-form-label nzRequired>Data da diligência</nz-form-label>
-                <nz-form-control>
+                <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
                     <input nz-input type="date" formControlName="dataDiligencia"
                         nzPlaceHolder="Selecione a data">
                 </nz-form-control>
@@ -81,7 +81,7 @@
         <div nz-col [nzSpan]="12" [nzSm]="12" [nzMd]="12" [nzLg]="12">
             <nz-form-item>
                 <nz-form-label nzRequired>Hora da diligência</nz-form-label>
-                <nz-form-control>
+                <nz-form-control [nzErrorTip]="'O campo é obrigatório'">
                     <input nz-input type="time" formControlName="horaDiligencia">
                 </nz-form-control>
             </nz-form-item>

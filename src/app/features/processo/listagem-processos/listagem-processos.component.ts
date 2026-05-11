@@ -89,6 +89,8 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
   savedPageNumber?: number;
   savedPageSize?: number;
   confirmModal?: NzModalRef;
+  diasAvisoSemMovimentacao = 5;
+  diasAvisoSemMovimentacaoMax = 10;
 
   constructor(private processoService: ProcessosService, private formBuilder: FormBuilder, private situacaoService: SituacaoProcessoService,
     private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService, private competenciaService: CompetenciaService,
