@@ -16,11 +16,13 @@ import { ToastrService } from 'ngx-toastr';
 import { ProcessosService } from '../../../../../shared/services/processos.service';
 import { SelectAutocompleteComponent } from '../../../../../shared/components/select-autocomplete/select-autocomplete.component';
 import { IconClienteComponent } from '../../../../../shared/components/icon-cliente/icon-cliente.component';
+import { HasRoleDirective } from '../../../../../shared/directives/has-role.directive';
 
 @Component({
   selector: 'tab-autores',
   standalone: true,
-  imports: [BtnNovoComponent, NzFormModule, NzInputModule, NzTableModule, ReactiveFormsModule, NzButtonModule, FontAwesomeModule, SelectAutocompleteComponent, IconClienteComponent],
+  imports: [BtnNovoComponent, NzFormModule, NzInputModule, NzTableModule, ReactiveFormsModule, NzButtonModule, FontAwesomeModule, SelectAutocompleteComponent,
+     IconClienteComponent, HasRoleDirective],
   templateUrl: './tab-autores.component.html',
   styleUrl: './tab-autores.component.scss'
 })

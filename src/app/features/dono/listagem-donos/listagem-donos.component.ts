@@ -18,12 +18,13 @@ import { DatePipe } from '@angular/common';
 import { Dono } from '../../../core/models/dono.interface';
 import { DonoService } from '../../../shared/services/dono.service';
 import { ModalFormDonoComponent } from '../modal-form-dono/modal-form-dono.component';
+import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 
 @Component({
   selector: 'app-listagem-donos',
   standalone: true,
   imports: [BtnNovoComponent, ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, BtnPesquisarComponent, BtnLimparComponent, NzTableModule, NzButtonModule, FontAwesomeModule, NzToolTipModule, DatePipe,
-    NzModalModule
+    NzModalModule, HasRoleDirective
   ],
   templateUrl: './listagem-donos.component.html',
   styleUrl: './listagem-donos.component.scss'

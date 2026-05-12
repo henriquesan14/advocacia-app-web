@@ -9,11 +9,12 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 
 @Component({
   selector: 'app-modal-config-field-processos',
   standalone: true,
-  imports: [ReactiveFormsModule, BtnCadastrarComponent, NgxSpinnerModule, NzFormModule, NzButtonModule, NzInputModule, NzCheckboxModule],
+  imports: [ReactiveFormsModule, BtnCadastrarComponent, NgxSpinnerModule, NzFormModule, NzButtonModule, NzInputModule, NzCheckboxModule, HasRoleDirective],
   templateUrl: './config-field-processos.component.html',
   styleUrl: './config-field-processos.component.css'
 })

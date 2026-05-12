@@ -91,7 +91,11 @@
 
   <div class="row mt-3">
     <div class="col-sm-12">
-      <btn-cadastrar [title]="data.audiencia && data.audiencia.id ? 'Atualizar' : 'Cadastrar'"></btn-cadastrar>
+      @if(data && data.audiencia) {
+        <btn-cadastrar hasRole="EDITAR_PROCESSO" [title]="'Atualizar'"></btn-cadastrar>
+      } @else {
+        <btn-cadastrar hasRole="CADASTRAR_PROCESSO" [title]="'Cadastrar'"></btn-cadastrar>
+      }
     </div>
   </div>
 </form>

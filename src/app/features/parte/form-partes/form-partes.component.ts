@@ -26,7 +26,8 @@ import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 @Component({
   selector: 'app-form-partes',
   standalone: true,
-  imports: [ReactiveFormsModule, NgxMaskDirective, NzButtonModule, NgxSpinnerModule, HasRoleDirective, NzFormModule, NzInputModule, NzRadioModule, NzSelectModule, NzCheckboxModule],
+  imports: [ReactiveFormsModule, NgxMaskDirective, NzButtonModule, NgxSpinnerModule, HasRoleDirective, NzFormModule, NzInputModule, NzRadioModule, NzSelectModule, 
+    NzCheckboxModule],
   templateUrl: './form-partes.component.html',
   styleUrl: './form-partes.component.css'
 })

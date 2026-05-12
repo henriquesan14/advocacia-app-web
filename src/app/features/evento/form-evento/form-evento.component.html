@@ -156,7 +156,11 @@
 
   <div nz-row class="mt-3">
     <div nz-col [nzSpan]="24">
-      <btn-cadastrar hasRole="EDITAR_EVENTO" [title]="data.eventoId ? 'Atualizar' : 'Cadastrar'"></btn-cadastrar>
+      @if(data && data.eventoId){
+      <btn-cadastrar hasRole="EDITAR_EVENTO" [title]="'Atualizar'"></btn-cadastrar>
+      }@else {
+      <btn-cadastrar hasRole="CADASTRAR_EVENTO" [title]="'Cadastrar'"></btn-cadastrar>
+      }
     </div>
   </div>
 </form>

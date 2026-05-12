@@ -1,6 +1,6 @@
 <h2 nz-title class="text-center">Sistemas</h2>
 <div class="container mt-3">
-    <btn-novo hasRole="CADASTRAR_DONO" (clickEvent)="openFormSistema()" title="Novo Sistema"></btn-novo>
+    <btn-novo hasRole="CADASTRAR_SISTEMA" (clickEvent)="openFormSistema()" title="Novo Sistema"></btn-novo>
 
     <form [formGroup]="filtroForm" nz-form (ngSubmit)="getSistemas()" nzLayout="vertical" class="mt-2">
         <div nz-row [nzGutter]="16">

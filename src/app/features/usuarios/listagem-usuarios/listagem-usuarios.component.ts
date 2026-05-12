@@ -21,11 +21,13 @@ import { BtnPesquisarComponent } from '../../../shared/components/btn-pesquisar/
 import { BtnLimparComponent } from '../../../shared/components/btn-limpar/btn-limpar.component';
 import { FormUsuarioComponent } from '../form-usuario/form-usuario.component';
 import { BtnNovoComponent } from '../../../shared/components/btn-novo/btn-novo.component';
+import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 
 @Component({
   selector: 'app-listagem-usuarios',
   standalone: true,
-  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NzModalModule, NzTableModule, DatePipe, NzButtonModule, NzToolTipModule, FontAwesomeModule, BtnPesquisarComponent, BtnLimparComponent, BtnNovoComponent],
+  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NzModalModule, NzTableModule, DatePipe, NzButtonModule, NzToolTipModule, FontAwesomeModule, 
+    BtnPesquisarComponent, BtnLimparComponent, BtnNovoComponent, HasRoleDirective],
   templateUrl: './listagem-usuarios.component.html',
   styleUrl: './listagem-usuarios.component.scss'
 })

@@ -14,11 +14,12 @@ import { ToastrService } from 'ngx-toastr';
 import { Despesa } from '../../../core/models/despesa.interface';
 import { DatePipe } from '@angular/common';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 
 @Component({
   selector: 'app-modal-form-despesa',
   standalone: true,
-  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NgxMaskDirective, BtnCadastrarComponent, NzButtonModule],
+  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NgxMaskDirective, BtnCadastrarComponent, NzButtonModule, HasRoleDirective],
   templateUrl: './modal-form-despesa.component.html',
   styleUrl: './modal-form-despesa.component.scss',
   providers: [DatePipe]

@@ -16,7 +16,7 @@ import { BtnLimparComponent } from '../../../shared/components/btn-limpar/btn-li
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { CurrencyPipe, DatePipe, NgClass } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { NroProcessoPipe } from '../../../shared/pipes/nro-processo.pipe';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
@@ -26,7 +26,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
   selector: 'app-listagem-despesas',
   standalone: true,
   imports: [BtnNovoComponent, ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, BtnPesquisarComponent, BtnLimparComponent, NzTableModule, NzButtonModule, FontAwesomeModule, NzToolTipModule, DatePipe,
-      NzModalModule, CurrencyPipe, DatePipe, NgClass, NroProcessoPipe, NzToolTipModule, HasRoleDirective, NzTagModule],
+      NzModalModule, CurrencyPipe, DatePipe, NroProcessoPipe, NzToolTipModule, HasRoleDirective, NzTagModule],
   templateUrl: './listagem-despesas.component.html',
   styleUrl: './listagem-despesas.component.scss'
 })

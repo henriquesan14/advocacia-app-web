@@ -16,7 +16,6 @@ import { BtnNovoComponent } from '../../../shared/components/btn-novo/btn-novo.c
 import { BtnPesquisarComponent } from '../../../shared/components/btn-pesquisar/btn-pesquisar.component';
 import { BtnLimparComponent } from '../../../shared/components/btn-limpar/btn-limpar.component';
 import { CpfCnpjPipe } from '../../../shared/pipes/cpf-cnpj.pipe';
-import { HideCpfPipe } from '../../../shared/pipes/hide-cpf.pipe';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DatePipe } from '@angular/common';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
@@ -25,14 +24,14 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { ModalFormAudienciaComponent } from '../../processo/modal-form-audiencia/modal-form-audiencia.component';
 import { FormPartesComponent } from '../form-partes/form-partes.component';
+import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 
 @Component({
   selector: 'app-listagem-partes',
   standalone: true,
-  imports: [ReactiveFormsModule, NzFormModule, NzTableModule, NgxMaskDirective, BtnNovoComponent, BtnPesquisarComponent, BtnLimparComponent, CpfCnpjPipe, HideCpfPipe, FontAwesomeModule, DatePipe, NzPaginationModule, NzSelectModule, NgxSpinnerModule,
-    FormsModule, NzModalModule, NzButtonModule, NzInputModule, NzCheckboxModule, NzToolTipModule
+  imports: [ReactiveFormsModule, NzFormModule, NzTableModule, NgxMaskDirective, BtnNovoComponent, BtnPesquisarComponent, BtnLimparComponent, CpfCnpjPipe, FontAwesomeModule, DatePipe, NzPaginationModule, NzSelectModule, NgxSpinnerModule,
+    FormsModule, NzModalModule, NzButtonModule, NzInputModule, NzCheckboxModule, NzToolTipModule, HasRoleDirective
   ],
   templateUrl: './listagem-partes.component.html',
   styleUrl: './listagem-partes.component.scss'
