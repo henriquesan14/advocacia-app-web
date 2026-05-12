@@ -1,0 +1,192 @@
+<div class="kanban-container">
+  <form nz-form [formGroup]="formFiltro" nzLayout="vertical">
+    <div nz-col [nzSpan]="6">
+      <nz-form-item>
+          <nz-form-label for="responsavelId">Responsável</nz-form-label>
+          <nz-form-control>
+              <nz-select id="responsavelId" formControlName="responsavelId">
+                  <nz-option [nzValue]="''" nzLabel="Selecione..." nzDisabled></nz-option>
+                    @for(responsavel of responsaveis; track $index){
+                      <nz-option [nzValue]="responsavel.id" [nzLabel]="responsavel.nome"></nz-option>
+                    }
+              </nz-select>
+          </nz-form-control>
+      </nz-form-item>
+    </div>
+  </form>
+
+  <div nz-row [nzGutter]="16">
+
+    <!-- PENDENTES -->
+    <div nz-col [nzSpan]="8">
+
+      <nz-card>
+
+        <div class="kanban-title">
+          <span>Pendentes</span>
+          <nz-badge [nzCount]="pendentes.length"></nz-badge>
+        </div>
+
+        <div
+          cdkDropList
+          id="pendentes"
+          [cdkDropListData]="pendentes"
+          [cdkDropListConnectedTo]="[
+            'emAndamento',
+            'concluidas'
+          ]"
+          class="drop-list"
+          (cdkDropListDropped)="drop($event)">
+
+          <div
+            *ngFor="let item of pendentes"
+            cdkDrag
+            class="task-card">
+
+            <nz-card nzSize="small">
+
+              <div class="task-header">
+                <nz-tag [nzColor]="getUrgenciaColor(item.urgencia)">
+                  {{ item.urgencia }}
+                </nz-tag>
+              </div>
+
+              <h4>{{ item.titulo }}</h4>
+
+              <p class="descricao">
+                {{ item.descricao }}
+              </p>
+
+              <div class="info">
+                <strong>Requerido por:</strong>
+                {{ item.createdByUser.nome }}
+              </div>
+
+              <div class="info">
+                <strong>Responsável:</strong>
+                {{ item.responsavel.nome }}
+              </div>
+
+            </nz-card>
+
+          </div>
+
+        </div>
+
+      </nz-card>
+
+    </div>
+
+    <!-- EM ANDAMENTO -->
+    <div nz-col [nzSpan]="8">
+
+      <nz-card>
+
+        <div class="kanban-title">
+          <span>Em andamento</span>
+          <nz-badge [nzCount]="emAndamento.length"></nz-badge>
+        </div>
+
+        <div
+          cdkDropList
+          id="emAndamento"
+          [cdkDropListData]="emAndamento"
+          [cdkDropListConnectedTo]="[
+            'pendentes',
+            'concluidas'
+          ]"
+          class="drop-list"
+          (cdkDropListDropped)="drop($event)">
+
+          <div
+            *ngFor="let item of emAndamento"
+            cdkDrag
+            class="task-card">
+
+            <nz-card nzSize="small">
+
+              <div class="task-header">
+                <nz-tag nzColor="processing">
+                  EM ANDAMENTO
+                </nz-tag>
+              </div>
+
+              <h4>{{ item.titulo }}</h4>
+
+              <p class="descricao">
+                {{ item.descricao }}
+              </p>
+
+              <div class="info">
+                <strong>Responsável:</strong>
+                {{ item.responsavel.nome }}
+              </div>
+
+            </nz-card>
+
+          </div>
+
+        </div>
+
+      </nz-card>
+
+    </div>
+
+    <!-- CONCLUÍDAS -->
+    <div nz-col [nzSpan]="8">
+
+      <nz-card>
+
+        <div class="kanban-title">
+          <span>Concluídas</span>
+          <nz-badge [nzCount]="concluidas.length"></nz-badge>
+        </div>
+
+        <div
+          cdkDropList
+          id="concluidas"
+          [cdkDropListData]="concluidas"
+          [cdkDropListConnectedTo]="[
+            'pendentes',
+            'emAndamento'
+          ]"
+          class="drop-list"
+          (cdkDropListDropped)="drop($event)">
+
+          <div
+            *ngFor="let item of concluidas"
+            cdkDrag
+            class="task-card">
+
+            <nz-card nzSize="small">
+
+              <div class="task-header">
+                <nz-tag nzColor="success">
+                  CONCLUÍDA
+                </nz-tag>
+              </div>
+
+              <h4>{{ item.titulo }}</h4>
+
+              <p class="descricao">
+                {{ item.descricao }}
+              </p>
+
+              <div class="info">
+                <strong>Responsável:</strong>
+                {{ item.responsavel.nome }}
+              </div>
+
+            </nz-card>
+
+          </div>
+
+        </div>
+
+      </nz-card>
+
+    </div>
+
+  </div>
+
+</div>

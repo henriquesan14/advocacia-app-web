@@ -33,6 +33,7 @@ export const routes: Routes = [
       { path: 'despesas', loadChildren: () => import('./features/despesa/despesa.routes').then(m => m.DESPESA_ROUTES) },
       { path: 'ganhos', loadChildren: () => import('./features/ganho/ganho.routes').then(m => m.GANHO_ROUTES) },
       { path: 'account', loadChildren: () => import('./features/account/profile.routes').then(mod => mod.PROFILE_ROUTES)},
+      { path: 'todo', loadChildren: () => import('./features/todo/todo.routes').then(mod => mod.TODO_ROUTES)},
     ],
     canActivate: [AuthGuard],
   },
