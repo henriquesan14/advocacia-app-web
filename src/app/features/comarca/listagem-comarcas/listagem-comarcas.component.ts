@@ -20,12 +20,13 @@ import { ToastrService } from 'ngx-toastr';
 import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { DatePipe } from '@angular/common';
 import { ModalFormComarcaComponent } from '../modal-form-comarca/modal-form-comarca.component';
+import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 
 @Component({
   selector: 'app-listagem-comarcas',
   standalone: true,
   imports: [BtnNovoComponent, ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, BtnPesquisarComponent, BtnLimparComponent, NzTableModule, NzButtonModule, FontAwesomeModule, NzToolTipModule, DatePipe,
-    NzModalModule
+    NzModalModule, HasRoleDirective
   ],
   templateUrl: './listagem-comarcas.component.html',
   styleUrl: './listagem-comarcas.component.scss'

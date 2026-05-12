@@ -41,7 +41,11 @@
           </nz-tabset>
 
           <div class="container mt-2">
-            <btn-cadastrar [title]="processoId ? 'Atualizar' : 'Cadastrar'" class="me-1" hasRole="CADASTRAR_PROCESSO" (clickEvent)="onSubmit()"></btn-cadastrar>
+            @if(processoId) {
+              <btn-cadastrar title="Atualizar" class="me-1" hasRole="EDITAR_PROCESSO" (clickEvent)="onSubmit()"></btn-cadastrar>
+            } @else {
+              <btn-cadastrar title="Cadastrar" class="me-1" hasRole="CADASTRAR_PROCESSO" (clickEvent)="onSubmit()"></btn-cadastrar>
+            }
             <btn-voltar></btn-voltar>
           </div>
         </form>

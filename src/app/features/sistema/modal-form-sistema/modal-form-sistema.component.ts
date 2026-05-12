@@ -10,11 +10,12 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { Subject, takeUntil } from 'rxjs';
+import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 
 @Component({
   selector: 'app-modal-form-sistema',
   standalone: true,
-  imports: [ NgxSpinnerModule, ReactiveFormsModule, BtnCadastrarComponent, NzFormModule, NzInputModule, NzButtonModule],
+  imports: [ NgxSpinnerModule, ReactiveFormsModule, BtnCadastrarComponent, NzFormModule, NzInputModule, NzButtonModule, HasRoleDirective],
   templateUrl: './modal-form-sistema.component.html',
   styleUrl: './modal-form-sistema.component.css'
 })

@@ -42,11 +42,11 @@
       <td>{{ grupo.sobAprovacao ? 'Sim' : 'Não' }}</td>
       <td>{{ grupo.createdAt | date: 'dd/MM/yyyy' }}</td>
       <td>
-        <button hasRole="'LISTAR_GRUPO'" nzSize="small" nz-button nzType="primary" nz-tooltip="Visualizar"
+        <button hasRole="LISTAR_GRUPO" nzSize="small" nz-button nzType="primary" nz-tooltip="Visualizar"
           (click)="openFormGrupo(grupo.id)" class="me-1">
           <fa-icon [icon]="faEye"></fa-icon>
         </button>
-        <button hasRole="'EXCLUIR_GRUPO'" nzSize="small" nz-button nzType="default" nzDanger nz-tooltip="Excluir"
+        <button hasRole="EXCLUIR_GRUPO" nzSize="small" nz-button nzType="default" nzDanger nz-tooltip="Excluir"
           (click)="deleteGrupo(grupo.id)">
           <fa-icon [icon]="faTrash"></fa-icon>
         </button>

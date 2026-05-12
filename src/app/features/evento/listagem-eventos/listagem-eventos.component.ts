@@ -22,12 +22,13 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { CardEventoComponent } from '../card-evento/card-evento.component';
 import { FormEventoComponent } from '../form-evento/form-evento.component';
+import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 
 @Component({
   selector: 'app-listagem-eventos',
   standalone: true,
   imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, BtnPesquisarComponent, BtnLimparComponent, FontAwesomeModule, BtnNovoComponent, CommonModule,
-    NgxSpinnerModule, NzPaginationModule, NzModalModule, NzButtonModule, CardEventoComponent
+    NgxSpinnerModule, NzPaginationModule, NzModalModule, NzButtonModule, CardEventoComponent, HasRoleDirective
   ],
   templateUrl: './listagem-eventos.component.html',
   styleUrl: './listagem-eventos.component.scss',

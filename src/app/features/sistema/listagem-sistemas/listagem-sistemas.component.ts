@@ -18,12 +18,13 @@ import { DatePipe } from '@angular/common';
 import { ModalFormSistemaComponent } from '../modal-form-sistema/modal-form-sistema.component';
 import { Sistema } from '../../../core/models/sistema.interface';
 import { SistemaService } from '../../../shared/services/sistema.service';
+import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 
 @Component({
   selector: 'app-listagem-sistemas',
   standalone: true,
   imports: [BtnNovoComponent, ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, BtnPesquisarComponent, BtnLimparComponent, NzTableModule, NzButtonModule, FontAwesomeModule, NzToolTipModule, DatePipe,
-    NzModalModule
+    NzModalModule, HasRoleDirective
   ],
   templateUrl: './listagem-sistemas.component.html',
   styleUrl: './listagem-sistemas.component.scss'

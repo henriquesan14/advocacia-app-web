@@ -11,11 +11,12 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { DiligenciaService } from '../../../../../shared/services/diligencia.service';
 import { ToastrService } from 'ngx-toastr';
+import { HasRoleDirective } from '../../../../../shared/directives/has-role.directive';
 
 @Component({
   selector: 'tab-diligencias',
   standalone: true,
-  imports: [BtnNovoComponent, NzTableModule, FontAwesomeModule, DatePipe, NzButtonModule, NzToolTipModule],
+  imports: [BtnNovoComponent, NzTableModule, FontAwesomeModule, DatePipe, NzButtonModule, NzToolTipModule, HasRoleDirective],
   templateUrl: './tab-diligencias.component.html',
   styleUrl: './tab-diligencias.component.scss'
 })

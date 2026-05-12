@@ -10,11 +10,12 @@ import { DatePipe } from '@angular/common';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { AudienciaService } from '../../../../../shared/services/audiencia.service';
 import { ToastrService } from 'ngx-toastr';
+import { HasRoleDirective } from '../../../../../shared/directives/has-role.directive';
 
 @Component({
   selector: 'tab-audiencias',
   standalone: true,
-  imports: [BtnNovoComponent, NzTableModule, FontAwesomeModule, DatePipe, NzButtonModule],
+  imports: [BtnNovoComponent, NzTableModule, FontAwesomeModule, DatePipe, NzButtonModule, HasRoleDirective],
   templateUrl: './tab-audiencias.component.html',
   styleUrl: './tab-audiencias.component.scss'
 })

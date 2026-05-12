@@ -38,106 +38,106 @@ export class MainLayoutComponent {
     {
       title: 'Dashboard',
       icon: 'bar-chart',
-      permission: 'VISUALIZAR_DASHBOARD',
+      permission: 'LISTAR_DASHBOARD',
       children: [
-        { label: 'Visualizar', link: 'dashboard', permission: 'VISUALIZAR_DASHBOARD' },
+        { label: 'Visualizar', link: 'dashboard', permission: 'LISTAR_DASHBOARD' },
       ]
     },
     {
       title: 'Processos',
       icon: 'file-add',
-      permission: 'VISUALIZAR_PROCESSO',
+      permission: 'LISTAR_PROCESSO',
       children: [
-        { label: 'Visualizar', link: 'processos/list', permission: 'CADASTRAR_PROCESSO' },
-        { label: 'Novo', link: 'processos/cadastro', permission: 'VISUALIZAR_PROCESSO' },
+        { label: 'Visualizar', link: 'processos/list', permission: 'LISTAR_PROCESSO' },
+        { label: 'Novo', link: 'processos/cadastro', permission: 'CADASTRAR_PROCESSO' },
       ]
     },
     {
       title: 'Agenda',
       icon: 'calendar',
-      permission: 'VISUALIZAR_EVENTO',
+      permission: 'LISTAR_EVENTO',
       children: [
-        { label: 'Visualizar', link: 'eventos/list', permission: 'CADASTRAR_EVENTO' },
+        { label: 'Visualizar', link: 'eventos/list', permission: 'LISTAR_EVENTO' },
       ]
     },
     {
       title: 'Partes',
       icon: 'user',
-      permission: 'VISUALIZAR_PARTE',
+      permission: 'LISTAR_PARTE',
       children: [
-        { label: 'Visualizar', link: 'partes/list', permission: 'VISUALIZAR_PARTE', },
+        { label: 'Visualizar', link: 'partes/list', permission: 'LISTAR_PARTE', },
       ]
     },
     {
       title: 'Usuários',
       icon: 'user-add',
-      permission: 'VISUALIZAR_USUARIO',
+      permission: 'LISTAR_USUARIO',
       children: [
-        { label: 'Visualizar', link: 'usuarios/list', permission: 'VISUALIZAR_USUARIO', },
+        { label: 'Visualizar', link: 'usuarios/list', permission: 'LISTAR_USUARIO', },
       ]
     },
     {
       title: 'Grupos',
       icon: 'usergroup-add',
-      permission: 'VISUALIZAR_GRUPO',
+      permission: 'LISTAR_GRUPO',
       children: [
-        { label: 'Visualizar', link: 'grupos/list', permission: 'VISUALIZAR_GRUPO', },
+        { label: 'Visualizar', link: 'grupos/list', permission: 'LISTAR_GRUPO', },
       ]
     },
     {
       title: 'Comarcas',
       icon: 'bank',
-      permission: 'VISUALIZAR_COMARCA',
+      permission: 'LISTAR_COMARCA',
       children: [
-        { label: 'Visualizar', link: 'comarcas/list', permission: 'VISUALIZAR_COMARCA', },
+        { label: 'Visualizar', link: 'comarcas/list', permission: 'LISTAR_COMARCA', },
       ]
     },
     {
       title: 'Competências',
       icon: 'tag',
-      permission: 'VISUALIZAR_COMPETENCIA',
+      permission: 'LISTAR_COMPETENCIA',
       children: [
-        { label: 'Visualizar', link: 'competencias/list', permission: 'VISUALIZAR_COMPETENCIA', },
+        { label: 'Visualizar', link: 'competencias/list', permission: 'LISTAR_COMPETENCIA', },
       ]
     },
     {
       title: 'Situações',
       icon: 'flag',
-      permission: 'VISUALIZAR_SITUACAO',
+      permission: 'LISTAR_SITUACAO',
       children: [
-        { label: 'Visualizar', link: 'situacoes/list', permission: 'VISUALIZAR_SITUACAO', },
+        { label: 'Visualizar', link: 'situacoes/list', permission: 'LISTAR_SITUACAO', },
       ]
     },
     {
       title: 'Donos',
       icon: 'trophy',
-      permission: 'VISUALIZAR_DONO',
+      permission: 'LISTAR_DONO',
       children: [
-        { label: 'Visualizar', link: 'donos/list', permission: 'VISUALIZAR_DONO', },
+        { label: 'Visualizar', link: 'donos/list', permission: 'LISTAR_DONO', },
       ]
     },
     {
       title: 'Sistemas',
       icon: 'desktop',
-      permission: 'VISUALIZAR_SISTEMA',
+      permission: 'LISTAR_SISTEMA',
       children: [
-        { label: 'Visualizar', link: 'sistemas/list', permission: 'VISUALIZAR_SISTEMA', },
+        { label: 'Visualizar', link: 'sistemas/list', permission: 'LISTAR_SISTEMA', },
       ]
     },
     {
       title: 'Despesas',
       icon: 'barcode',
-      permission: 'VISUALIZAR_DESPESA',
+      permission: 'LISTAR_DESPESA',
       children: [
-        { label: 'Visualizar', link: 'despesas/list', permission: 'VISUALIZAR_DESPESA', },
+        { label: 'Visualizar', link: 'despesas/list', permission: 'LISTAR_DESPESA', },
       ]
     },
     {
       title: 'Ganhos',
       icon: 'dollar',
-      permission: 'VISUALIZAR_GANHO',
+      permission: 'LISTAR_GANHO',
       children: [
-        { label: 'Visualizar', link: 'ganhos/list', permission: 'VISUALIZAR_GANHO', },
+        { label: 'Visualizar', link: 'ganhos/list', permission: 'LISTAR_GANHO', },
       ]
     },
   ]

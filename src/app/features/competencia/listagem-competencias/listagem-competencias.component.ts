@@ -18,12 +18,13 @@ import { DatePipe } from '@angular/common';
 import { ModalFormCompetenciaComponent } from '../modal-form-competencia/modal-form-competencia.component';
 import { CompetenciaService } from '../../../shared/services/competencia.service';
 import { Competencia } from '../../../core/models/competencia.interface';
+import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 
 @Component({
   selector: 'app-listagem-competencias',
   standalone: true,
   imports: [BtnNovoComponent, ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, BtnPesquisarComponent, BtnLimparComponent, NzTableModule, NzButtonModule, FontAwesomeModule, NzToolTipModule, DatePipe,
-    NzModalModule
+    NzModalModule, HasRoleDirective
   ],
   templateUrl: './listagem-competencias.component.html',
   styleUrl: './listagem-competencias.component.scss'

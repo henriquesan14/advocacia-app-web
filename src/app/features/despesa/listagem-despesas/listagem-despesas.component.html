@@ -105,12 +105,12 @@
                         <fa-icon [icon]="faCheck">
                         </fa-icon>
                     </button>
-                    <button hasRole="LISTAR_COMARCA" nz-tooltip="Visualizar" nz-button nzType="primary" nzSize="small"
+                    <button hasRole="LISTAR_DESPESA" nz-tooltip="Visualizar" nz-button nzType="primary" nzSize="small"
                         class="me-1" (click)="openFormDespesa(despesa.id)">
                         <fa-icon [icon]="faEye"></fa-icon>
                     </button>
 
-                    <button hasRole="EXCLUIR_COMARCA" nz-tooltip="Excluir" nz-button nzType="default" nzDanger
+                    <button hasRole="EXCLUIR_DESPESA" nz-tooltip="Excluir" nz-button nzType="default" nzDanger
                         nzSize="small" (click)="deleteDespesa(despesa.id)">
                         <fa-icon [icon]="faTrash"></fa-icon>
                     </button>

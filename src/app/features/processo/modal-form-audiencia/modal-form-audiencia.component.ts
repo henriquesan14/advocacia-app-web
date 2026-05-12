@@ -15,12 +15,13 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { SelectAutocompleteComponent } from '../../../shared/components/select-autocomplete/select-autocomplete.component';
+import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 
 @Component({
   selector: 'app-modal-form-audiencia',
   standalone: true,
   imports: [ReactiveFormsModule, BtnCadastrarComponent, NgxSpinnerModule,
-    ToggleButtonComponent, NzFormModule, NzInputModule, NzGridModule, SelectAutocompleteComponent
+    ToggleButtonComponent, NzFormModule, NzInputModule, NzGridModule, SelectAutocompleteComponent, HasRoleDirective
   ],
   templateUrl: './modal-form-audiencia.component.html',
   styleUrl: './modal-form-audiencia.component.css',

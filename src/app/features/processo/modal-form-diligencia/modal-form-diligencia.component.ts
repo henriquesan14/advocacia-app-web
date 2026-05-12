@@ -17,11 +17,13 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { SelectAutocompleteComponent } from '../../../shared/components/select-autocomplete/select-autocomplete.component';
+import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 
 @Component({
   selector: 'app-modal-form-diligencia',
   standalone: true,
-  imports: [ReactiveFormsModule, BtnCadastrarComponent, NgxSpinnerModule, ToggleButtonComponent, NzFormModule, NzInputModule, NzButtonModule, NzGridModule, SelectAutocompleteComponent
+  imports: [ReactiveFormsModule, BtnCadastrarComponent, NgxSpinnerModule, ToggleButtonComponent, NzFormModule, NzInputModule, NzButtonModule, NzGridModule,
+     SelectAutocompleteComponent, HasRoleDirective
   ],
   templateUrl: './modal-form-diligencia.component.html',
   styleUrl: './modal-form-diligencia.component.css',
@@ -122,7 +124,6 @@ export class ModalFormDiligenciaComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    console.log(this.form, this.diaInteiro)
     if (this.form.valid) {
       if (!this.data.processoId) {
         const diligencia = {

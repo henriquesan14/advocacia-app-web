@@ -5,11 +5,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEye, faRefresh, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NroProcessoPipe } from '../../../shared/pipes/nro-processo.pipe';
+import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 
 @Component({
   selector: 'app-card-processo',
   standalone: true,
-  imports: [CommonModule, IconClienteComponent, FontAwesomeModule, NzButtonModule, NroProcessoPipe],
+  imports: [CommonModule, IconClienteComponent, FontAwesomeModule, NzButtonModule, NroProcessoPipe, HasRoleDirective],
   templateUrl: './card-processo.component.html',
   styleUrl: './card-processo.component.scss'
 })

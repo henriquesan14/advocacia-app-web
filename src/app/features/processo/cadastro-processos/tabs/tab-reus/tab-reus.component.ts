@@ -16,11 +16,13 @@ import { ProcessosService } from '../../../../../shared/services/processos.servi
 import { ToastrService } from 'ngx-toastr';
 import { SelectAutocompleteComponent } from '../../../../../shared/components/select-autocomplete/select-autocomplete.component';
 import { IconClienteComponent } from '../../../../../shared/components/icon-cliente/icon-cliente.component';
+import { HasRoleDirective } from '../../../../../shared/directives/has-role.directive';
 
 @Component({
   selector: 'tab-reus',
   standalone: true,
-  imports: [BtnNovoComponent, ReactiveFormsModule, NzFormModule, NzInputModule, NzTableModule, NzButtonModule, FontAwesomeModule, SelectAutocompleteComponent, IconClienteComponent],
+  imports: [BtnNovoComponent, ReactiveFormsModule, NzFormModule, NzInputModule, NzTableModule, NzButtonModule, FontAwesomeModule, SelectAutocompleteComponent,
+     IconClienteComponent, HasRoleDirective],
   templateUrl: './tab-reus.component.html',
   styleUrl: './tab-reus.component.scss'
 })

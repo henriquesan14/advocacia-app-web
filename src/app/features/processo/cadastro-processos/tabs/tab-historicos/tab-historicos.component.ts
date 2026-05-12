@@ -6,11 +6,12 @@ import { HistoricoService } from '../../../../../shared/services/historico.servi
 import { ToastrService } from 'ngx-toastr';
 import { ResponsePage } from '../../../../../core/models/response-page.interface';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { HasRoleDirective } from '../../../../../shared/directives/has-role.directive';
 
 @Component({
   selector: 'tab-historicos',
   standalone: true,
-  imports: [FormHistoricoComponent, CardHistoricoComponent, NzPaginationModule],
+  imports: [FormHistoricoComponent, CardHistoricoComponent, NzPaginationModule, HasRoleDirective],
   templateUrl: './tab-historicos.component.html',
   styleUrl: './tab-historicos.component.scss'
 })

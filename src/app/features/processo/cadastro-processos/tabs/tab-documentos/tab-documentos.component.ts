@@ -9,11 +9,13 @@ import { ToastrService } from 'ngx-toastr';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DataService } from '../../../../../shared/services/data-service';
+import { HasRoleDirective } from '../../../../../shared/directives/has-role.directive';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @Component({
   selector: 'tab-documentos',
   standalone: true,
-  imports: [UploadFileComponent, NzTableModule, FontAwesomeModule, NzButtonModule],
+  imports: [UploadFileComponent, NzTableModule, FontAwesomeModule, NzButtonModule, HasRoleDirective, NzToolTipModule],
   templateUrl: './tab-documentos.component.html',
   styleUrl: './tab-documentos.component.scss'
 })

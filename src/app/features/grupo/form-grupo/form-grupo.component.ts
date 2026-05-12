@@ -14,11 +14,12 @@ import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { Grupo } from '../../../core/models/grupo.interface';
 import { ToastrService } from 'ngx-toastr';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';
+import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 
 @Component({
   selector: 'app-form-grupo',
   standalone: true,
-  imports: [ReactiveFormsModule, NzFormModule, BtnCadastrarComponent, NzInputModule, NzCheckboxModule, NzButtonModule],
+  imports: [ReactiveFormsModule, NzFormModule, BtnCadastrarComponent, NzInputModule, NzCheckboxModule, NzButtonModule, HasRoleDirective],
   templateUrl: './form-grupo.component.html',
   styleUrl: './form-grupo.component.scss'
 })
@@ -80,7 +81,6 @@ export class FormGrupoComponent implements OnInit, OnDestroy {
   }
 
   inicializarFormulario(): void {
-    console.log('foi')
     const formControls: { [key: string]: any } = {}; // Definir tipo explícito
 
     this.permissoes.forEach(categoria => {

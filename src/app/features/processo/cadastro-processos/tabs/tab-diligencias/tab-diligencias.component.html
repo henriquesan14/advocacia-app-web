@@ -30,7 +30,7 @@
               <fa-icon [icon]="faPencil"></fa-icon>
             </button>
             }
-            <button nz-button nzType="default" nzDanger nzSize="small" (click)="deleteDiligencia(diligencia.id, $index)"
+            <button hasRole="EDITAR_PROCESSO" nz-button nzType="default" nzDanger nzSize="small" (click)="deleteDiligencia(diligencia.id, $index)"
               nz-tooltip="Excluir">
               <fa-icon [icon]="faTrash"></fa-icon>
             </button>
