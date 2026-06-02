@@ -57,7 +57,7 @@ export class FormEventoComponent implements OnInit, OnDestroy {
       tipo: ['', [Validators.required]],
       descricao: [null, [Validators.required]],
       dataEvento: [null, Validators.required],
-      horaEvento: [null, Validators.required],
+      horaEvento: [null, [Validators.required, !this.diaInteiro ? Validators.required : null]],
       local: [null, Validators.required],
       nroProcesso:[null],
       linkAudiencia: [null],
@@ -159,6 +159,17 @@ export class FormEventoComponent implements OnInit, OnDestroy {
 
   toggleDiaInteiro(event: any) {
     this.diaInteiro = event;
+
+    const horaControl = this.formEvento.get('horaEvento');
+
+    if (this.diaInteiro) {
+      horaControl?.clearValidators();
+      horaControl?.setValue(null);
+    } else {
+      horaControl?.setValidators([Validators.required]);
+    }
+
+    horaControl?.updateValueAndValidity();
   }
 
   togglePresencial(event: any) {
