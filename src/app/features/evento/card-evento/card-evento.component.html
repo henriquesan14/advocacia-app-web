@@ -52,7 +52,16 @@
         }
 
         @if(evento.processo){
-        <span><b>Nro. Processo:</b> {{evento.processo.nroProcesso | nroProcesso}}</span>
+            <span class="nro-processo">
+                <b>Nro. Processo:</b>
+
+                <a
+                    [routerLink]="['/processos', evento.processo.id]"
+                    (click)="$event.stopPropagation()"
+                    class="link-processo">
+                    {{ evento.processo.nroProcesso | nroProcesso }}
+                </a>
+            </span>
         }
 
 

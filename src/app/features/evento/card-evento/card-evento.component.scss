@@ -70,6 +70,16 @@
   color: #ff4d4f;
 }
 
+.link-processo {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.link-processo:hover {
+    color: #0d6efd; /* azul, por exemplo */
+}
+
 @media (max-width: 970px) {
     .card-compromisso {
         flex-direction: column;
