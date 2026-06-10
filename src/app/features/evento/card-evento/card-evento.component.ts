@@ -56,6 +56,8 @@ export class CardEventoComponent {
       return '#c3e1fd';
     }else if(this.evento.tipo == 'PRAZO'){
       return '#fdc5c5';
+    }else if(this.evento.tipo == 'HONORARIO'){
+      return '#d2f7db';
     }
     return '#e6e5e5';
   }

@@ -45,6 +45,7 @@
             <nz-option nzValue="AUDIENCIA" nzLabel="Audiência"></nz-option>
             <nz-option nzValue="DILIGENCIA" nzLabel="Diligência"></nz-option>
             <nz-option nzValue="PRAZO" nzLabel="Prazo"></nz-option>
+            <nz-option nzValue="HONORARIO" nzLabel="Honorario"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
@@ -76,7 +77,7 @@
       <nz-form-item>
         <nz-form-label [nzFor]="'nroProcesso'">Nº Processo</nz-form-label>
         <nz-form-control>
-          <input nz-input formControlName="nroProcesso" id="nroProcesso" placeholder="Processo"
+          <input mask="0000000.00.0000.0.00.0000" nz-input formControlName="nroProcesso" id="nroProcesso" placeholder="Nº Processo"
             [readonly]="data.eventoId" />
         </nz-form-control>
       </nz-form-item>

@@ -19,12 +19,13 @@ import { ToastrService } from 'ngx-toastr';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { SelectAutocompleteComponent } from '../../../shared/components/select-autocomplete/select-autocomplete.component';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-form-evento',
   standalone: true,
   imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, BtnCadastrarComponent, NgxSpinnerModule, ToggleButtonComponent,
-    IconClienteComponent, SelectAutocompleteComponent, HasRoleDirective
+    IconClienteComponent, SelectAutocompleteComponent, HasRoleDirective, NgxMaskDirective
   ],
   templateUrl: './form-evento.component.html',
   styleUrl: './form-evento.component.scss'
