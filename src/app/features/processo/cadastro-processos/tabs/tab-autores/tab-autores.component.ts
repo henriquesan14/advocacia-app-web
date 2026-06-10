@@ -3,7 +3,7 @@ import { BtnNovoComponent } from '../../../../../shared/components/btn-novo/btn-
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzTableModule } from 'ng-zorro-antd/table';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { PartesService } from '../../../../../shared/services/partes.service';
 import { Parte } from '../../../../../core/models/parte.interface';
@@ -38,6 +38,8 @@ export class TabAutoresComponent implements OnInit, OnDestroy {
   @Input() processoId?: string;
 
   @Output() autoresChange = new EventEmitter<Parte[]>();
+
+  @Input({ required: true }) formProcesso!: FormGroup;
 
   modalService = inject(NzModalService);
   toastr = inject(ToastrService);
@@ -93,8 +95,9 @@ export class TabAutoresComponent implements OnInit, OnDestroy {
         })
       }else{
         this.autoresSelecionados.push(autor);
-            this.autorNomeControl.setValue('');
-            this.autoresChange.emit(this.autoresSelecionados);
+        this.autorNomeControl.setValue('');
+        this.autoresChange.emit(this.autoresSelecionados);
+        this.formProcesso.markAsDirty();
       }
     }
   }

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { BtnNovoComponent } from '../../../../../shared/components/btn-novo/btn-novo.component';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -38,6 +38,8 @@ export class TabReusComponent implements OnInit, OnDestroy {
   @Input() processoId?: string;
 
   @Output() reusChange = new EventEmitter<Parte[]>();
+
+  @Input({ required: true }) formProcesso!: FormGroup;
 
   modalService = inject(NzModalService);
   toastr = inject(ToastrService);
@@ -95,6 +97,7 @@ export class TabReusComponent implements OnInit, OnDestroy {
         this.reusSelecionados.push(reu);
         this.reuNomeControl.setValue('');
         this.reusChange.emit(this.reusSelecionados);
+        this.formProcesso.markAsDirty();
       }
     }
   }

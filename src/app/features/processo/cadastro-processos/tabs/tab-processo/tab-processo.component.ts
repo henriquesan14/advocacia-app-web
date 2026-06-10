@@ -135,6 +135,7 @@ export class TabProcessoComponent implements OnInit, OnDestroy {
       donoId: dono.id,
       donoNome: dono.nome
     });
+    this.formProcesso.markAsDirty();
   }
 
   donoDeselected() {
@@ -142,6 +143,7 @@ export class TabProcessoComponent implements OnInit, OnDestroy {
       donoId: null,
       donoNome: null
     });
+    this.formProcesso.markAsDirty();
   }
 
   responsavelSelected(resonsavel: Usuario) {
@@ -149,6 +151,7 @@ export class TabProcessoComponent implements OnInit, OnDestroy {
       responsavelId: resonsavel.id,
       responsavelNome: resonsavel.nome
     });
+    this.formProcesso.markAsDirty();
   }
 
   responsavelDeselected() {
@@ -156,6 +159,7 @@ export class TabProcessoComponent implements OnInit, OnDestroy {
       responsavelId: null,
       responsavelNome: null
     });
+    this.formProcesso.markAsDirty();
   }
 
   comarcaSelected(comarca: Comarca) {
@@ -163,6 +167,7 @@ export class TabProcessoComponent implements OnInit, OnDestroy {
       comarcaId: comarca.id,
       comarcaNome: comarca.nome
     });
+    this.formProcesso.markAsDirty();
   }
 
   comarcaDeselected() {
@@ -170,6 +175,7 @@ export class TabProcessoComponent implements OnInit, OnDestroy {
       comarcaId: null,
       comarcaNome: null
     });
+    this.formProcesso.markAsDirty();
   }
 
   onChangeDono(event: any) {
