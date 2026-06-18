@@ -1,0 +1,38 @@
+<nz-spin [nzSpinning]="loadingMovimentacoes">
+
+  @if (erroMovimentacoes) {
+
+    <nz-result
+      nzStatus="warning"
+      [nzTitle]="mensagemErro">
+    </nz-result>
+
+  } @else {
+
+    <nz-timeline>
+
+      @for(mov of movimentacoes; track $index){
+
+        <nz-timeline-item>
+
+          <strong>
+            {{ mov.dataHora | date:'dd/MM/yyyy HH:mm' }}
+          </strong>
+
+          <br>
+
+          {{ mov.nome }}
+
+          <div class="text-muted">
+            {{ mov.orgaoJulgador.nome }}
+          </div>
+
+        </nz-timeline-item>
+
+      }
+
+    </nz-timeline>
+
+  }
+
+</nz-spin>

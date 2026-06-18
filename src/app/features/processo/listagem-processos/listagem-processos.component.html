@@ -308,6 +308,9 @@
                             (click)="visualizarProcesso(processo.id)" nz-button nzType="primary" nzSize="small">
                             <fa-icon [icon]="faEye"></fa-icon>
                         </button>
+                        <button (click)="visualizarMovimentacoes(processo.nroProcesso)" hasRole="LISTAR_PROCESSO" nz-tooltip="movimentações" nz-button class="me-1" nzSize="small">
+                            <fa-icon [icon]="faList"></fa-icon>
+                        </button>
                         <button (click)="resetarDataHistorico(processo.id)" hasRole="EDITAR_PROCESSO" nz-tooltip="Reiniciar contador" class="me-1" nz-button
                             nzType="default" nzSize="small">
                             <fa-icon [icon]="faRefresh"></fa-icon>
@@ -325,7 +328,7 @@
 
     <div class="mobile-only">
         @for(processo of responsePageProcessos.items; track processo.id){
-        <app-card-processo [processo]="processo" (visualizar)="visualizarProcesso($event)" (reiniciar)="resetarDataHistorico($event)" (excluir)="deleteProcesso($event)">
+        <app-card-processo [processo]="processo" (visualizar)="visualizarProcesso($event)" (reiniciar)="resetarDataHistorico($event)" (excluir)="deleteProcesso($event)" (visualizarMovimentacoes)="visualizarMovimentacoes($event)">
         </app-card-processo>
         }
         <div class="d-flex justify-content-between align-items-center p-2">
@@ -523,6 +526,9 @@
                                             nz-button nzType="primary" class="me-1">
                                             <fa-icon [icon]="faEye"></fa-icon>
                                         </button>
+                                        <button (click)="visualizarMovimentacoes(processo.nroProcesso)" hasRole="LISTAR_PROCESSO" nz-tooltip="movimentações" nz-button class="me-1" nzSize="small">
+                                            <fa-icon [icon]="faList"></fa-icon>
+                                        </button>
                                         <button hasRole="APROVAR_PROCESSO" type="button" nz-tooltip="Aprovar"
                                             (click)="aprovarProcesso(processo.id)" nz-button nzType="default"
                                             class="me-1">
@@ -541,7 +547,7 @@
 
                         <div class="mobile-only">
                             @for(processo of processosSobAprovacao; track processo.id){
-                                <app-card-processo [processo]="processo" (visualizar)="visualizarProcesso($event)">
+                                <app-card-processo [processo]="processo" (visualizar)="visualizarProcesso($event)" (reiniciar)="resetarDataHistorico($event)" (excluir)="deleteProcesso($event)" (visualizarMovimentacoes)="visualizarMovimentacoes($event)">
                                 </app-card-processo>
                                 }
                         </div>
