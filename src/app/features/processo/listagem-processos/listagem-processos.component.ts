@@ -4,7 +4,7 @@ import { Processo } from '../../../core/models/processo.interface';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCheck, faCogs, faExclamationCircle, faExclamationTriangle, faEye, faPencil, faRefresh, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faCogs, faExclamationCircle, faExclamationTriangle, faEye, faList, faPencil, faRefresh, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, ParamMap, Router, RouterLink } from '@angular/router';
 import { ResponsePage } from '../../../core/models/response-page.interface';
@@ -42,6 +42,8 @@ import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { ConfigFieldProcessosComponent } from '../config-field-processos/config-field-processos.component';
 import { CardProcessoComponent } from '../card-processo/card-processo.component';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { DataJudService } from '../../../shared/services/data-jud.service';
+import { MovimentacoesProcessoComponent } from '../movimentacoes-processo/movimentacoes-processo.component';
 
 @Component({
   selector: 'app-listagem-processos',
@@ -75,6 +77,7 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
   faExclamationTriangle = faExclamationTriangle;
   faCogs = faCogs;
   faRefresh = faRefresh;
+  faList = faList;
   modalService = inject(NzModalService);
   situacoes: SituacaoProcesso[] = [];
   competencias: Competencia[] = [];
@@ -95,7 +98,8 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
   constructor(private processoService: ProcessosService, private formBuilder: FormBuilder, private situacaoService: SituacaoProcessoService,
     private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService, private competenciaService: CompetenciaService,
     private processoFieldConfigService: ProcessoFieldConfigService, private comarcaService: ComarcaService, private usuarioService: UsuariosService,
-    private localStorageService: LocalstorageService, private donoService: DonoService, private activatedRoute: ActivatedRoute, private filterProcessoService: FilterProcessoService){
+    private localStorageService: LocalstorageService, private donoService: DonoService, private activatedRoute: ActivatedRoute, private filterProcessoService: FilterProcessoService,
+    private dataJudService: DataJudService){
   }
 
   initForm(){
@@ -350,6 +354,22 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
             this.getProcessos();
           }
         })
+    });
+  }
+
+  visualizarMovimentacoes(nroProcesso: string){
+    const modal = this.modalService.create({
+      nzTitle: 'Movimentações',
+      nzContent: MovimentacoesProcessoComponent,
+      nzWidth: '600px',
+      nzFooter: null,
+      nzData: {
+        nroProcesso: nroProcesso
+      }
+    });
+
+    modal.afterClose.subscribe(() => {
+      this.getCompetencias();
     });
   }
 
