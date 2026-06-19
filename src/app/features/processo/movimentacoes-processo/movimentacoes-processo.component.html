@@ -21,10 +21,10 @@
 
           <br>
 
-          {{ mov.nome }}
+          {{ mov?.nome }}
 
           <div class="text-muted">
-            {{ mov.orgaoJulgador.nome }}
+            {{ mov.orgaoJulgador?.nome || 'Não informado' }}
           </div>
 
         </nz-timeline-item>
