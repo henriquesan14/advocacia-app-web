@@ -163,14 +163,18 @@ export class ListagemEventosComponent implements OnInit, OnDestroy {
     }
 
   captureScreen() {
+    
     const content = this.content.nativeElement;
+    const originalDisplay = content.style.display;
+    content.style.display = 'block';
 
     html2canvas(content).then(canvas => {
+      content.style.display = originalDisplay;
       // Converta o canvas em uma imagem base64
       const imageData = canvas.toDataURL('image/png');
 
-      const currentDate = new Date();
-      const formattedDate = currentDate.toISOString().slice(0,10);
+      const currentDate = new Date().toLocaleDateString();
+      const formattedDate = currentDate.slice(0,10);
 
       // Crie um link de download para a imagem
       const link = document.createElement('a');
