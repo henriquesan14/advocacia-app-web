@@ -7,10 +7,14 @@
   @if(showNotifications){
   <div class="notifications-dropdown" (scroll)="onScroll($event)"
     [ngClass]="{'no-scroll': responsePageNotificacoes.items.length === 0}">
-    <div class="mark-all-read-button">
-      <span (click)="marcarTodasComoLidas()">Marcar todas como lidas</span>
-    </div>
-    @for(notification of responsePageNotificacoes.items; track $index){
+    @if(notificationCount > 0){
+      <div class="mark-all-read-button">
+        <span (click)="marcarTodasComoLidas(); $event.stopPropagation()">
+          Marcar todas como lidas
+        </span>
+      </div>
+    }
+    @for(notification of responsePageNotificacoes.items; track notification.id){
     <div class="notification-item" (click)="redirect(notification.urlRedirect)">
       <div class="left">
         @if(notification.grauNotificacao == 'DANGER'){
