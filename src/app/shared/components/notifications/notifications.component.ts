@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBell, faCheck, faEnvelope, faEnvelopeOpen, faExclamationCircle, faExclamationTriangle, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { Subject, takeUntil } from 'rxjs';
+import { finalize, Subject, takeUntil } from 'rxjs';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { Notification } from '../../../core/models/notification.interface';
 import { DateUtils } from '../../../shared/utils/date.utils';
@@ -17,9 +17,11 @@ import { ResponsePage } from '../../../core/models/response-page.interface';
   styleUrl: './notifications.component.css'
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
+  private readonly unlisteners: Array<() => void> = [];
+
   showNotifications = false;
-  
+
   faBell = faBell;
   faEnvelope = faEnvelope;
   faEnvelopeOpen = faEnvelopeOpen;
@@ -31,157 +33,243 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     currentPage: 1,
     hasNext: false,
     hasPrevious: false,
-    items: [], // Inicializando como um array vazio
+    items: [],
     pageSize: 5,
     totalCount: 0,
     totalPages: 0
   };
 
-  notificationCount: number = 0;
-  loadingMore: boolean = false;
-  private audio: HTMLAudioElement;
+  notificationCount = 0;
+  loadingMore = false;
   notificacoesCarregada = false;
+
+  private readonly audio: HTMLAudioElement;
   private userInteracted = false;
 
-  constructor(private notificationService: NotificationService, private router: Router, private elementRef: ElementRef,
-    private renderer: Renderer2) {
-      this.audio = new Audio('/sounds/notification.mp3');
-    }
+  constructor(
+    private readonly notificationService: NotificationService,
+    private readonly router: Router,
+    private readonly elementRef: ElementRef,
+    private readonly renderer: Renderer2
+  ) {
+    this.audio = new Audio('/sounds/notification.mp3');
+  }
 
   ngOnInit(): void {
-    this.notificationService.notification$.subscribe(notification => {
+    this.notificationService.notification$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
         this.getCountNaoLidas();
-        this.getNotifications();
-        if (!this.notificacoesCarregada) {
-            this.notificacoesCarregada = true;
-        } else {
-            if (this.userInteracted) {
-                this.audio.play().catch(error => console.error('Erro ao tocar áudio:', error));
-            }
-        }
-    });
+        this.recarregarNotificacoes();
 
-    this.renderer.listen('document', 'click', this.userInteraction.bind(this));
-    this.renderer.listen('document', 'click', this.onClickOutside.bind(this));
+        if (!this.notificacoesCarregada) {
+          this.notificacoesCarregada = true;
+          return;
+        }
+
+        if (this.userInteracted) {
+          this.audio.play().catch(error => {
+            console.error('Erro ao tocar áudio:', error);
+          });
+        }
+      });
+
+    this.unlisteners.push(
+      this.renderer.listen('document', 'click', () => {
+        this.userInteracted = true;
+      })
+    );
+
+    this.unlisteners.push(
+      this.renderer.listen('document', 'click', event => {
+        this.onClickOutside(event);
+      })
+    );
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+
+    this.unlisteners.forEach(unlisten => unlisten());
   }
 
-  getNotifications(){
-    this.notificationService.getNotifications({
-      pageNumber: this.responsePageNotificacoes.currentPage,
-      pageSize: this.responsePageNotificacoes.pageSize
-    })
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (res) => {
-        if (this.responsePageNotificacoes.currentPage === 1) {
-          this.responsePageNotificacoes.items = res.items;
-        } else {
-          const existingIds = new Set(this.responsePageNotificacoes.items.map(item => item.id));
-          const newItems = res.items.filter(item => !existingIds.has(item.id));
-          this.responsePageNotificacoes.items = [...this.responsePageNotificacoes.items, ...newItems];
+  getNotifications(): void {
+    const requestedPage = this.responsePageNotificacoes.currentPage;
+
+    this.notificationService
+      .getNotifications({
+        pageNumber: requestedPage,
+        pageSize: this.responsePageNotificacoes.pageSize
+      })
+      .pipe(
+        takeUntil(this.destroy$),
+        finalize(() => {
+          this.loadingMore = false;
+        })
+      )
+      .subscribe({
+        next: res => {
+          if (requestedPage === 1) {
+            this.responsePageNotificacoes.items = res.items;
+          } else {
+            const existingIds = new Set(
+              this.responsePageNotificacoes.items.map(item => item.id)
+            );
+
+            const newItems = res.items.filter(
+              item => !existingIds.has(item.id)
+            );
+
+            this.responsePageNotificacoes.items = [
+              ...this.responsePageNotificacoes.items,
+              ...newItems
+            ];
+          }
+
+          this.responsePageNotificacoes.currentPage = res.currentPage;
+          this.responsePageNotificacoes.pageSize = res.pageSize;
+          this.responsePageNotificacoes.totalCount = res.totalCount;
+          this.responsePageNotificacoes.totalPages = res.totalPages;
+          this.responsePageNotificacoes.hasNext = res.hasNext;
+          this.responsePageNotificacoes.hasPrevious = res.hasPrevious;
+        },
+        error: err => {
+          console.error('Erro ao buscar notificações:', err);
+
+          if (requestedPage > 1) {
+            this.responsePageNotificacoes.currentPage--;
+          }
         }
-        this.responsePageNotificacoes.hasNext = res.hasNext;
-        this.loadingMore = false;
-      },
-      error: () => {
-        this.loadingMore = false;
-      }
-    })
+      });
   }
 
-  getCountNaoLidas(){
-    this.notificationService.getCountNaoLidas()
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (res) => {
-        this.notificationCount = res;
-      }
-    });
+  getCountNaoLidas(): void {
+    this.notificationService
+      .getCountNaoLidas()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: count => {
+          this.notificationCount = count;
+        },
+        error: err => {
+          console.error(
+            'Erro ao buscar quantidade de notificações não lidas:',
+            err
+          );
+        }
+      });
   }
 
   toggleNotifications(): void {
     this.showNotifications = !this.showNotifications;
   }
 
-
-  marcarComoLida(notification: Notification, event: Event): void {
+  marcarComoLida(
+    notification: Notification,
+    event: Event
+  ): void {
     event.stopPropagation();
-    if (!notification.lida) {
-      this.notificationService.marcarComoLida(notification.id).subscribe({
+
+    if (notification.lida) {
+      return;
+    }
+
+    this.notificationService
+      .marcarComoLida(notification.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
         next: () => {
-          // Atualize a notificação localmente
-          const notificationIndex = this.responsePageNotificacoes.items.findIndex(n => n.id === notification.id);
-          if (notificationIndex !== -1) {
-            this.responsePageNotificacoes.items[notificationIndex].lida = true;
-          }
-          this.getCountNaoLidas(); // Atualize a contagem de notificações não lidas
+          /*
+           * Como o backend ordena não lidas primeiro, marcar como lida
+           * pode mudar a posição da notificação. Por isso recarregamos
+           * desde a primeira página.
+           */
+          this.notificationCount = Math.max(
+            0,
+            this.notificationCount - 1
+          );
+
+          this.recarregarNotificacoes();
         },
-        error: (err) => {
-          console.error('Error marking notification as read:', err);
+        error: err => {
+          console.error(
+            'Erro ao marcar notificação como lida:',
+            err
+          );
         }
       });
-    }
   }
 
   marcarTodasComoLidas(): void {
-    const unreadNotificationIds = this.responsePageNotificacoes.items
-      .filter(notification => !notification.lida)
-      .map(notification => notification.id);
-  
-    if (unreadNotificationIds.length > 0) {
-      this.notificationService.marcarTodasComoLidas().subscribe({
+    if (this.notificationCount === 0) {
+      return;
+    }
+
+    this.notificationService
+      .marcarTodasComoLidas()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
         next: () => {
-          this.responsePageNotificacoes.items.forEach(notification => {
-            notification.lida = true;
-          });
-          this.getCountNaoLidas();
+          this.notificationCount = 0;
+          this.recarregarNotificacoes();
         },
-        error: (err) => {
-          console.error('Error marking all notifications as read:', err);
+        error: err => {
+          console.error(
+            'Erro ao marcar todas as notificações como lidas:',
+            err
+          );
         }
       });
-    }
   }
 
-  horaFormatada(data: string){
-    if(data){
-      return DateUtils.formatarData(data)
-    }
-    return null;
+  horaFormatada(data: string): string | null {
+    return data
+      ? DateUtils.formatarData(data)
+      : null;
   }
 
-  redirect(path: string){
-    const currentUrl = this.router.url;
-
-    this.router.navigateByUrl('/refresh', { skipLocationChange: true }).then(() => {
-      this.router.navigateByUrl(currentUrl).then(() => {
-        this.router.navigateByUrl(`/app/${path}`);
-      });
-    });
+  redirect(path: string): void {
+    this.showNotifications = false;
+    this.router.navigateByUrl(`/app/${path}`);
   }
 
-  onScroll(event: any): void {
-    const { scrollTop, scrollHeight, clientHeight } = event.target;
-    if (scrollTop + clientHeight >= scrollHeight - 5 && this.responsePageNotificacoes.hasNext && !this.loadingMore) {
-      this.loadingMore = true;
-      this.responsePageNotificacoes.currentPage++;
-      this.getNotifications();
+  onScroll(event: Event): void {
+    const element = event.target as HTMLElement;
+
+    const chegouAoFinal =
+      element.scrollTop + element.clientHeight >=
+      element.scrollHeight - 5;
+
+    if (
+      !chegouAoFinal ||
+      !this.responsePageNotificacoes.hasNext ||
+      this.loadingMore
+    ) {
+      return;
     }
+
+    this.loadingMore = true;
+    this.responsePageNotificacoes.currentPage++;
+    this.getNotifications();
+  }
+
+  private recarregarNotificacoes(): void {
+    this.responsePageNotificacoes.currentPage = 1;
+    this.responsePageNotificacoes.hasNext = false;
+    this.responsePageNotificacoes.hasPrevious = false;
+
+    this.getNotifications();
   }
 
   private onClickOutside(event: Event): void {
-    if (this.showNotifications && !this.elementRef.nativeElement.contains(event.target)) {
+    const target = event.target as Node;
+
+    if (
+      this.showNotifications &&
+      !this.elementRef.nativeElement.contains(target)
+    ) {
       this.showNotifications = false;
     }
-  }
-
-  private userInteraction(): void {
-      this.userInteracted = true;
-      this.renderer.listen('document', 'click', () => {});
   }
 }
