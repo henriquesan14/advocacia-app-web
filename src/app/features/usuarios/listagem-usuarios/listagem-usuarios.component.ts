@@ -151,5 +151,13 @@ export class ListagemUsuariosComponent implements OnInit, OnDestroy {
     }
     return 'images/avatar.webp';
   }
+
+  canEditUsuario(usuario: Usuario): boolean {
+    const currentUser = this.localStorageService.getUserStorage();
+    const targetIsPlatformAdmin = usuario.grupo?.nome === 'ADMIN-PLATFORM';
+    const currentUserIsPlatformAdmin = currentUser?.grupo?.nome === 'ADMIN-PLATFORM';
+
+    return !targetIsPlatformAdmin || currentUserIsPlatformAdmin;
+  }
   
 }
