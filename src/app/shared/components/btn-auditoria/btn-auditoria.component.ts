@@ -6,15 +6,17 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { Auditoria } from '../../../core/models/auditoria.interface';
 import { ModalAuditoriaComponent } from '../modal-auditoria/modal-auditoria.component';
+import { HasRoleDirective } from '../../directives/has-role.directive';
 
 @Component({
   selector: 'btn-auditoria',
   standalone: true,
-  imports: [FontAwesomeModule, NzButtonModule, NzToolTipModule],
+  imports: [FontAwesomeModule, NzButtonModule, NzToolTipModule, HasRoleDirective],
   templateUrl: './btn-auditoria.component.html'
 })
 export class BtnAuditoriaComponent {
   @Input({ required: true }) auditoria!: Auditoria;
+  @Input() tamanho: 'large' | 'default' | 'small' = 'small';
 
   protected readonly faClockRotateLeft = faClockRotateLeft;
   private readonly modalService = inject(NzModalService);

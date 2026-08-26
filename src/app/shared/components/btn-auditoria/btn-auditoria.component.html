@@ -1,7 +1,8 @@
 <button
   type="button"
+  hasRole="VER_AUDITORIA"
   nz-button
-  nzSize="small"
+  [nzSize]="tamanho"
   nz-tooltip="Auditoria"
   class="me-1"
   (click)="$event.stopPropagation(); abrir()">

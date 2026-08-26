@@ -94,7 +94,7 @@
                 <fa-icon [icon]="faTimes"></fa-icon>
             </button>
         }
-        <btn-auditoria [auditoria]="evento"></btn-auditoria>
+        <btn-auditoria [auditoria]="evento" tamanho="default"></btn-auditoria>
         <button nz-button nzType="primary" nzDanger nz-tooltip="Excluir" hasRole="EXCLUIR_EVENTO"
             (click)="onExcluir();$event.stopPropagation()" class="btn btn-danger">
             <fa-icon [icon]="faTrash"></fa-icon>

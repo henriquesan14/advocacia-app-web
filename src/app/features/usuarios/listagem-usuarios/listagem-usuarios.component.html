@@ -64,6 +64,16 @@
           <fa-icon [icon]="faEye">
           </fa-icon>
         </button>
+        <button
+          type="button"
+          nz-button
+          nzSize="small"
+          nz-tooltip="Impersonar"
+          hasRole="IMPERSONATE"
+          class="me-1"
+          (click)="impersonate(usuario)">
+          <fa-icon [icon]="faUserSecret"></fa-icon>
+        </button>
         <btn-auditoria [auditoria]="usuario"></btn-auditoria>
         <button hasRole="EXCLUIR_USUARIO" nzSize="small" nz-button nzType="default" nzDanger nz-tooltip="Excluir"
           (click)="deleteUsuario(usuario.id)">

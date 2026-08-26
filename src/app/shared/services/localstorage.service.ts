@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Usuario } from '../../core/models/usuario.interface';
+import { ImpersonationSession } from '../../core/models/impersonation.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +21,19 @@ export class LocalstorageService {
 
   removeUsertorage(){
     localStorage.removeItem('user');
+    localStorage.removeItem('impersonation');
+  }
+
+  setImpersonation(session: ImpersonationSession): void {
+    localStorage.setItem('impersonation', JSON.stringify(session));
+  }
+
+  getImpersonation(): ImpersonationSession | null {
+    const data = localStorage.getItem('impersonation');
+    return data ? JSON.parse(data) : null;
+  }
+
+  clearImpersonation(): void {
+    localStorage.removeItem('impersonation');
   }
 }

@@ -5,7 +5,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { Subject, takeUntil } from 'rxjs';
 import { Usuario } from '../../../core/models/usuario.interface';
-import { faEye, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faPencil, faTrash, faUserSecret } from '@fortawesome/free-solid-svg-icons';
 import { Grupo } from '../../../core/models/grupo.interface';
 import { UsuariosService } from '../../../shared/services/usuarios.service';
 import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
@@ -23,6 +23,8 @@ import { FormUsuarioComponent } from '../form-usuario/form-usuario.component';
 import { BtnNovoComponent } from '../../../shared/components/btn-novo/btn-novo.component';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 import { BtnAuditoriaComponent } from '../../../shared/components/btn-auditoria/btn-auditoria.component';
+import { AuthService } from '../../../shared/services/auth.service';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
   selector: 'app-listagem-usuarios',
@@ -39,13 +41,15 @@ export class ListagemUsuariosComponent implements OnInit, OnDestroy {
   faPencil = faPencil;
   faTrash = faTrash;
   faEye = faEye;
+  faUserSecret = faUserSecret;
   grupos: Grupo[] = [];
 
   private modalService = inject(NzModalService);
   confirmModal?: NzModalRef;
 
   constructor(private usuarioService: UsuariosService, private formBuilder: FormBuilder,
-    private grupoService: GrupoService, private toastr: ToastrService, private localStorageService: LocalstorageService){
+    private grupoService: GrupoService, private toastr: ToastrService, private localStorageService: LocalstorageService,
+    private authService: AuthService, private notificationService: NotificationService){
     this.filtroForm = this.formBuilder.group({
       nome: [null],
       grupoId: ['']
@@ -118,6 +122,26 @@ export class ListagemUsuariosComponent implements OnInit, OnDestroy {
             this.getUsuarios();
           }
         })
+    });
+  }
+
+  impersonate(usuario: Usuario): void {
+    this.confirmModal = this.modalService.confirm({
+      nzTitle: 'Impersonar usuário',
+      nzContent: `Deseja acessar o sistema como ${usuario.nome}?`,
+      nzOkText: 'Impersonar',
+      nzCancelText: 'Cancelar',
+      nzOnOk: () => this.authService.startImpersonation(usuario.id).subscribe({
+        next: (response) => {
+          this.notificationService.stopConnection();
+          this.localStorageService.setUserStorage(response.usuario);
+          this.localStorageService.setImpersonation({
+            actorUserId: response.actorUserId!,
+            actorUserName: response.actorUserName!
+          });
+          window.location.href = '/processos/list';
+        }
+      })
     });
   }
 
