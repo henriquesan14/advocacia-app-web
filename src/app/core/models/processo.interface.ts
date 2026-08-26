@@ -34,7 +34,9 @@ export interface Processo {
     aprovado: boolean
     createdAt: string;
     createdByUserId: number;
+    createdByUserName: string;
     updatedAt: string;
+    updatedByUserName: string;
     dias: number;
     observacao: string;
     segredoJustica: boolean;
@@ -44,4 +46,3 @@ export interface Processo {
     dataUltimoHistorico: string;
     diasSemMovimentacao: number;
   }
-  

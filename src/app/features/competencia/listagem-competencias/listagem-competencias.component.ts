@@ -19,12 +19,13 @@ import { ModalFormCompetenciaComponent } from '../modal-form-competencia/modal-f
 import { CompetenciaService } from '../../../shared/services/competencia.service';
 import { Competencia } from '../../../core/models/competencia.interface';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
+import { BtnAuditoriaComponent } from '../../../shared/components/btn-auditoria/btn-auditoria.component';
 
 @Component({
   selector: 'app-listagem-competencias',
   standalone: true,
   imports: [BtnNovoComponent, ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, BtnPesquisarComponent, BtnLimparComponent, NzTableModule, NzButtonModule, FontAwesomeModule, NzToolTipModule, DatePipe,
-    NzModalModule, HasRoleDirective
+    NzModalModule, HasRoleDirective, BtnAuditoriaComponent
   ],
   templateUrl: './listagem-competencias.component.html',
   styleUrl: './listagem-competencias.component.scss'

@@ -45,6 +45,7 @@
                         <fa-icon [icon]="faEye"></fa-icon>
                     </button>
 
+                    <btn-auditoria [auditoria]="competencia"></btn-auditoria>
                     <button hasRole="EXCLUIR_COMPETENCIA" nz-tooltip="Excluir" nz-button nzType="default" nzDanger
                         nzSize="small" (click)="deleteCompetencia(competencia.id)">
                         <fa-icon [icon]="faTrash"></fa-icon>

@@ -10,4 +10,6 @@ export interface Ganho {
     processo?: Processo;
     nroProcesso?: string;
     createdByUserId: number;
+    createdByUserName: string;
+    updatedByUserName: string;
 }

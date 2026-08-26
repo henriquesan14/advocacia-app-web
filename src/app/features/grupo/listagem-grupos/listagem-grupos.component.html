@@ -46,6 +46,7 @@
           (click)="openFormGrupo(grupo.id)" class="me-1">
           <fa-icon [icon]="faEye"></fa-icon>
         </button>
+        <btn-auditoria [auditoria]="grupo"></btn-auditoria>
         <button hasRole="EXCLUIR_GRUPO" nzSize="small" nz-button nzType="default" nzDanger nz-tooltip="Excluir"
           (click)="deleteGrupo(grupo.id)">
           <fa-icon [icon]="faTrash"></fa-icon>

@@ -82,6 +82,21 @@
           </nz-dropdown-menu>
         </div>
       </nz-header>
+      @if (impersonation; as session) {
+        <div class="impersonation-banner">
+          <span>
+            Você está acessando como <strong>{{ nomeUsuario }}</strong>, impersonado por
+            <strong>{{ session.actorUserName }}</strong>.
+          </span>
+          <button nz-button nzSize="small" [disabled]="isStoppingImpersonation" (click)="stopImpersonation()">
+            @if (isStoppingImpersonation) {
+              <nz-spin nzSize="small"></nz-spin>
+            } @else {
+              Encerrar impersonação
+            }
+          </button>
+        </div>
+      }
       <nz-content>
         <div class="inner-content">
           <router-outlet></router-outlet>

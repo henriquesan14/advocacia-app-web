@@ -4,6 +4,7 @@ import { Login } from '../../core/models/login.interface';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Usuario } from '../../core/models/usuario.interface';
+import { ImpersonationResponse } from '../../core/models/impersonation.interface';
 
 
 @Injectable({
@@ -24,6 +25,14 @@ export class AuthService {
 
   logout(){
     return this.http.post(`${this.API}/auth/logout`, {},);
+  }
+
+  startImpersonation(targetUserId: string): Observable<ImpersonationResponse> {
+    return this.http.post<ImpersonationResponse>(`${this.API}/platform/impersonations`, { targetUserId });
+  }
+
+  stopImpersonation(): Observable<ImpersonationResponse> {
+    return this.http.delete<ImpersonationResponse>(`${this.API}/platform/impersonations/current`);
   }
 
 }

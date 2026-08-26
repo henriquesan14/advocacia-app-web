@@ -6,6 +6,8 @@ export interface Documento {
     processoId?: string
     createdAt?: string
     createdByUserId?: number
+    createdByUserName?: string
+    updatedByUserName?: string
     file: File
     urlLocal?: string
     path?: string

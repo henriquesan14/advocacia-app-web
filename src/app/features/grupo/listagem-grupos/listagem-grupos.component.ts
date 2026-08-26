@@ -17,12 +17,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BtnNovoComponent } from '../../../shared/components/btn-novo/btn-novo.component';
 import { FormGrupoComponent } from '../form-grupo/form-grupo.component';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
+import { BtnAuditoriaComponent } from '../../../shared/components/btn-auditoria/btn-auditoria.component';
 
 @Component({
   selector: 'app-listagem-grupos',
   standalone: true,
   imports: [NzModalModule, ReactiveFormsModule, NzFormModule, NzInputModule, NzTableModule, BtnPesquisarComponent, BtnLimparComponent, NzButtonModule, DatePipe, FontAwesomeModule,
-     BtnNovoComponent, HasRoleDirective],
+     BtnNovoComponent, HasRoleDirective, BtnAuditoriaComponent],
   templateUrl: './listagem-grupos.component.html',
   styleUrl: './listagem-grupos.component.scss'
 })

@@ -26,12 +26,13 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { FormPartesComponent } from '../form-partes/form-partes.component';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
+import { BtnAuditoriaComponent } from '../../../shared/components/btn-auditoria/btn-auditoria.component';
 
 @Component({
   selector: 'app-listagem-partes',
   standalone: true,
   imports: [ReactiveFormsModule, NzFormModule, NzTableModule, NgxMaskDirective, BtnNovoComponent, BtnPesquisarComponent, BtnLimparComponent, CpfCnpjPipe, FontAwesomeModule, DatePipe, NzPaginationModule, NzSelectModule, NgxSpinnerModule,
-    FormsModule, NzModalModule, NzButtonModule, NzInputModule, NzCheckboxModule, NzToolTipModule, HasRoleDirective
+    FormsModule, NzModalModule, NzButtonModule, NzInputModule, NzCheckboxModule, NzToolTipModule, HasRoleDirective, BtnAuditoriaComponent
   ],
   templateUrl: './listagem-partes.component.html',
   styleUrl: './listagem-partes.component.scss'

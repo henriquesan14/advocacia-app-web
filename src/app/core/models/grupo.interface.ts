@@ -8,4 +8,6 @@ export interface Grupo {
   sobAprovacao: boolean;
   createdByUserId: number;
   createdAt: string;
+  createdByUserName: string;
+  updatedByUserName: string;
 }

@@ -45,6 +45,7 @@
                         <fa-icon [icon]="faEye"></fa-icon>
                     </button>
 
+                    <btn-auditoria [auditoria]="dono"></btn-auditoria>
                     <button hasRole="EXCLUIR_DONO" nz-tooltip="Excluir" nz-button nzType="default" nzDanger
                         nzSize="small" (click)="deleteDono(dono.id)">
                         <fa-icon [icon]="faTrash"></fa-icon>

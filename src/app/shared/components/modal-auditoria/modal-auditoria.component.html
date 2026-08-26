@@ -1,0 +1,18 @@
+<dl class="audit-grid">
+  <div>
+    <dt>Criado por</dt>
+    <dd>{{ auditoria.createdByUserName || 'Não informado' }}</dd>
+  </div>
+  <div>
+    <dt>Data de criação</dt>
+    <dd>{{ auditoria.createdAt ? (auditoria.createdAt | date: 'dd/MM/yyyy HH:mm') : 'Não informada' }}</dd>
+  </div>
+  <div>
+    <dt>Atualizado por</dt>
+    <dd>{{ auditoria.updatedByUserName || 'Não informado' }}</dd>
+  </div>
+  <div>
+    <dt>Data da atualização</dt>
+    <dd>{{ auditoria.updatedAt ? (auditoria.updatedAt | date: 'dd/MM/yyyy HH:mm') : 'Não informada' }}</dd>
+  </div>
+</dl>

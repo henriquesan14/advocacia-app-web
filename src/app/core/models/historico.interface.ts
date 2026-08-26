@@ -11,4 +11,6 @@ export interface Historico {
     resultadoSentenca?: string;
     createdAt: string;
     createdBy: string;
+    createdByUserName: string;
+    updatedByUserName: string;
 }

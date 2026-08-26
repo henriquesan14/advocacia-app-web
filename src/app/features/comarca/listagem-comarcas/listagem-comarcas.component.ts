@@ -21,12 +21,13 @@ import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { DatePipe } from '@angular/common';
 import { ModalFormComarcaComponent } from '../modal-form-comarca/modal-form-comarca.component';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
+import { BtnAuditoriaComponent } from '../../../shared/components/btn-auditoria/btn-auditoria.component';
 
 @Component({
   selector: 'app-listagem-comarcas',
   standalone: true,
   imports: [BtnNovoComponent, ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, BtnPesquisarComponent, BtnLimparComponent, NzTableModule, NzButtonModule, FontAwesomeModule, NzToolTipModule, DatePipe,
-    NzModalModule, HasRoleDirective
+    NzModalModule, HasRoleDirective, BtnAuditoriaComponent
   ],
   templateUrl: './listagem-comarcas.component.html',
   styleUrl: './listagem-comarcas.component.scss'

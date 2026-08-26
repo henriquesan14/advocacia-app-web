@@ -11,4 +11,8 @@ export interface Despesa {
     processoId?: number;
     nroProcesso?: string;
     processo?: Processo;
+    createdAt: string;
+    createdByUserName: string;
+    updatedAt?: string;
+    updatedByUserName: string;
 }

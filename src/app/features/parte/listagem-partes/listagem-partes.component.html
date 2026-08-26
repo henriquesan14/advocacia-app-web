@@ -60,6 +60,7 @@
                         <fa-icon [icon]="faEye"></fa-icon>
                     </button>
 
+                    <btn-auditoria [auditoria]="parte"></btn-auditoria>
                     <button class="me-1" nz-button nzType="default" nzDanger nzSize="small" hasRole="EXCLUIR_PARTE"
                         nz-tooltip="Excluir" (click)="deleteParte(parte.id)">
                         <fa-icon [icon]="faTrash"></fa-icon>

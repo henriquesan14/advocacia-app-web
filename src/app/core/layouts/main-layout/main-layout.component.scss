@@ -132,3 +132,22 @@
     gap: 16px;
     margin-right: 16px;
   }
+
+  .impersonation-banner {
+    align-items: center;
+    background: #fff7e6;
+    border-bottom: 1px solid #ffd591;
+    color: #873800;
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    padding: 10px 16px;
+  }
+
+  @media (max-width: 575px) {
+    .impersonation-banner {
+      align-items: stretch;
+      flex-direction: column;
+      text-align: center;
+    }
+  }

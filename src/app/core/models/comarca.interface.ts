@@ -6,4 +6,6 @@ export interface Comarca {
     estado: Estado;
     estadoId: number;
     createdAt: string;
+    createdByUserName: string;
+    updatedByUserName: string;
 }

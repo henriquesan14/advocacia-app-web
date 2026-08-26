@@ -13,13 +13,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faFile } from '@fortawesome/free-solid-svg-icons';
 import { NotificationsComponent } from '../../../shared/components/notifications/notifications.component';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
   imports: [CommonModule, RouterLink, RouterOutlet, NzIconModule, NzLayoutModule, NzMenuModule, RouterModule, NzDropdownMenuComponent, NzDropDownModule, HasRoleDirective,
-    NzSpinModule, FontAwesomeModule, NzIconModule, NotificationsComponent
+    NzSpinModule, FontAwesomeModule, NzIconModule, NotificationsComponent, NzButtonModule
   ],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss'
@@ -33,6 +34,7 @@ export class MainLayoutComponent {
   private notificationService = inject(NotificationService);
 
   isLoggingOut = false;
+  isStoppingImpersonation = false;
 
   menuItems = [
     // {
@@ -160,6 +162,25 @@ export class MainLayoutComponent {
         this.isLoggingOut = false;
       }
     })
+  }
+
+  stopImpersonation(): void {
+    this.isStoppingImpersonation = true;
+    this.authService.stopImpersonation().subscribe({
+      next: (response) => {
+        this.notificationService.stopConnection();
+        this.localStorageService.setUserStorage(response.usuario);
+        this.localStorageService.clearImpersonation();
+        window.location.href = '/usuarios/list';
+      },
+      error: () => {
+        this.isStoppingImpersonation = false;
+      }
+    });
+  }
+
+  get impersonation() {
+    return this.localStorageService.getImpersonation();
   }
 
   get nomeUsuario(){

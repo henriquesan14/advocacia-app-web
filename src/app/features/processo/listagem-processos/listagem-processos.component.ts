@@ -44,13 +44,14 @@ import { CardProcessoComponent } from '../card-processo/card-processo.component'
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { DataJudService } from '../../../shared/services/data-jud.service';
 import { MovimentacoesProcessoComponent } from '../movimentacoes-processo/movimentacoes-processo.component';
+import { BtnAuditoriaComponent } from '../../../shared/components/btn-auditoria/btn-auditoria.component';
 
 @Component({
   selector: 'app-listagem-processos',
   standalone: true,
   imports: [ CommonModule , ReactiveFormsModule, FontAwesomeModule, NzToolTipModule, FormsModule,
     NgxMaskDirective, NroProcessoPipe, BtnPesquisarComponent, BtnLimparComponent, BtnNovoComponent, HasRoleDirective,
-  NgxSpinnerModule, IconClienteComponent, NzCollapseModule, NzTableModule, NzButtonModule, NzFormModule, NzInputModule, NzSelectModule, NzModalModule, CardProcessoComponent, NzPaginationModule],
+  NgxSpinnerModule, IconClienteComponent, NzCollapseModule, NzTableModule, NzButtonModule, NzFormModule, NzInputModule, NzSelectModule, NzModalModule, CardProcessoComponent, NzPaginationModule, BtnAuditoriaComponent],
   templateUrl: './listagem-processos.component.html',
   styleUrl: './listagem-processos.component.css'
 })

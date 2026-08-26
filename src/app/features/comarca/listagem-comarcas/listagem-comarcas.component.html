@@ -61,6 +61,7 @@
                         <fa-icon [icon]="faEye"></fa-icon>
                     </button>
 
+                    <btn-auditoria [auditoria]="comarca"></btn-auditoria>
                     <button hasRole="EXCLUIR_COMARCA" nz-tooltip="Excluir" nz-button nzType="default" nzDanger
                         nzSize="small" (click)="deleteComarca(comarca.id)">
                         <fa-icon [icon]="faTrash"></fa-icon>

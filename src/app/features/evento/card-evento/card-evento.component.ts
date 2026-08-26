@@ -9,11 +9,12 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { Evento } from '../../../core/models/evento.interface';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 import { RouterLink } from '@angular/router';
+import { BtnAuditoriaComponent } from '../../../shared/components/btn-auditoria/btn-auditoria.component';
 
 @Component({
   selector: 'app-card-evento',
   standalone: true,
-  imports: [FontAwesomeModule, CommonModule, IconClienteComponent, NroProcessoPipe, NzButtonModule, NzToolTipModule, HasRoleDirective, RouterLink],
+  imports: [FontAwesomeModule, CommonModule, IconClienteComponent, NroProcessoPipe, NzButtonModule, NzToolTipModule, HasRoleDirective, RouterLink, BtnAuditoriaComponent],
   templateUrl: './card-evento.component.html',
   styleUrl: './card-evento.component.scss'
 })
