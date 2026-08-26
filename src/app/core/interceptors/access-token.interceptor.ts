@@ -22,13 +22,14 @@ export const AccessTokenInterceptor = (
   const localUser = localStorageService.getUserStorage();
 
   const requestToAPI = req.url.startsWith(environment.apiUrlBase);
+  const refreshTokenRequest = req.url === `${environment.apiUrlBase}/auth/refresh-token`;
 
   const authReq = requestToAPI
     ? req.clone({ withCredentials: true })
     : req;
 
   const handle401 = (error: HttpErrorResponse): Observable<HttpEvent<any>> => {
-    if (error.status === 401 && localUser) {
+    if (error.status === 401 && localUser && !refreshTokenRequest) {
       if (!isRefreshing) {
         isRefreshing = true;
         refreshTokenSubject.next(null);
