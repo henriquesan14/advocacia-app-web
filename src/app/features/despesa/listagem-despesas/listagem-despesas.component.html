@@ -110,6 +110,7 @@
                         <fa-icon [icon]="faEye"></fa-icon>
                     </button>
 
+                    <btn-auditoria [auditoria]="despesa"></btn-auditoria>
                     <button hasRole="EXCLUIR_DESPESA" nz-tooltip="Excluir" nz-button nzType="default" nzDanger
                         nzSize="small" (click)="deleteDespesa(despesa.id)">
                         <fa-icon [icon]="faTrash"></fa-icon>

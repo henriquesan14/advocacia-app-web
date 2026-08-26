@@ -21,12 +21,13 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { ModalFormGanhoComponent } from '../modal-form-ganho/modal-form-ganho.component';
+import { BtnAuditoriaComponent } from '../../../shared/components/btn-auditoria/btn-auditoria.component';
 
 @Component({
   selector: 'app-listagem-ganhos',
   standalone: true,
   imports: [BtnNovoComponent, ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, BtnPesquisarComponent, BtnLimparComponent, NzTableModule, NzButtonModule, FontAwesomeModule, NzToolTipModule, DatePipe,
-        NzModalModule, CurrencyPipe, DatePipe, NroProcessoPipe, NzToolTipModule, HasRoleDirective, NzTagModule],
+        NzModalModule, CurrencyPipe, DatePipe, NroProcessoPipe, NzToolTipModule, HasRoleDirective, NzTagModule, BtnAuditoriaComponent],
   templateUrl: './listagem-ganhos.component.html',
   styleUrl: './listagem-ganhos.component.scss'
 })

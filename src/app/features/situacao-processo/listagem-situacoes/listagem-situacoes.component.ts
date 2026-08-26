@@ -19,12 +19,13 @@ import { SituacaoProcesso } from '../../../core/models/situacao-processo.interfa
 import { SituacaoProcessoService } from '../../../shared/services/situacao-processo.service';
 import { ModalFormSituacaoProcessoComponent } from '../modal-form-situacao-processo/modal-form-situacao-processo.component';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
+import { BtnAuditoriaComponent } from '../../../shared/components/btn-auditoria/btn-auditoria.component';
 
 @Component({
   selector: 'app-listagem-situacoes',
   standalone: true,
   imports: [BtnNovoComponent, ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, BtnPesquisarComponent, BtnLimparComponent, NzTableModule, NzButtonModule, FontAwesomeModule, NzToolTipModule, DatePipe,
-    NzModalModule, HasRoleDirective
+    NzModalModule, HasRoleDirective, BtnAuditoriaComponent
   ],
   templateUrl: './listagem-situacoes.component.html',
   styleUrl: './listagem-situacoes.component.scss'

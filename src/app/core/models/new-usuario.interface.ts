@@ -8,5 +8,7 @@ export interface NovoUsuario {
     grupoId: number;
     createdAt: string;
     createdByUserId: number;
+    createdByUserName: string;
+    updatedByUserName: string;
     avatar: Avatar;
 }

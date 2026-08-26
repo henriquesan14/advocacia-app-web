@@ -315,6 +315,7 @@
                             nzType="default" nzSize="small">
                             <fa-icon [icon]="faRefresh"></fa-icon>
                         </button>
+                        <btn-auditoria [auditoria]="processo"></btn-auditoria>
                         <button (click)="deleteProcesso(processo.id)" hasRole="EXCLUIR_PROCESSO" nz-tooltip="Excluir" nz-button nzDanger nzSize="small">
                             <fa-icon [icon]="faTrash"></fa-icon>
                         </button>
@@ -526,6 +527,7 @@
                                             nz-button nzType="primary" class="me-1">
                                             <fa-icon [icon]="faEye"></fa-icon>
                                         </button>
+                                        <btn-auditoria [auditoria]="processo"></btn-auditoria>
                                         <!-- <button (click)="visualizarMovimentacoes(processo.nroProcesso)" hasRole="LISTAR_PROCESSO" nz-tooltip="movimentações" nz-button class="me-1" nzSize="small">
                                             <fa-icon [icon]="faList"></fa-icon>
                                         </button> -->

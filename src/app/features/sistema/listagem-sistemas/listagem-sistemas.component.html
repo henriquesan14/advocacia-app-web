@@ -45,6 +45,7 @@
                         <fa-icon [icon]="faEye"></fa-icon>
                     </button>
 
+                    <btn-auditoria [auditoria]="sistema"></btn-auditoria>
                     <button hasRole="EXCLUIR_SISTEMA" nz-tooltip="Excluir" nz-button nzType="default" nzDanger
                         nzSize="small" (click)="deleteSistema(sistema.id)">
                         <fa-icon [icon]="faTrash"></fa-icon>

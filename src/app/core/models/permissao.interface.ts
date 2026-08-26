@@ -5,4 +5,6 @@ export interface Permissao {
   id: string;
   createdByUserId: number;
   createdAt: string;
+  createdByUserName: string;
+  updatedByUserName: string;
 }

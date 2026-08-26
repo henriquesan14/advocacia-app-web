@@ -64,6 +64,7 @@
           <fa-icon [icon]="faEye">
           </fa-icon>
         </button>
+        <btn-auditoria [auditoria]="usuario"></btn-auditoria>
         <button hasRole="EXCLUIR_USUARIO" nzSize="small" nz-button nzType="default" nzDanger nz-tooltip="Excluir"
           (click)="deleteUsuario(usuario.id)">
           <fa-icon [icon]="faTrash">

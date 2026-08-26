@@ -21,12 +21,13 @@ import { NroProcessoPipe } from '../../../shared/pipes/nro-processo.pipe';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { BtnAuditoriaComponent } from '../../../shared/components/btn-auditoria/btn-auditoria.component';
 
 @Component({
   selector: 'app-listagem-despesas',
   standalone: true,
   imports: [BtnNovoComponent, ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, BtnPesquisarComponent, BtnLimparComponent, NzTableModule, NzButtonModule, FontAwesomeModule, NzToolTipModule, DatePipe,
-      NzModalModule, CurrencyPipe, DatePipe, NroProcessoPipe, NzToolTipModule, HasRoleDirective, NzTagModule],
+      NzModalModule, CurrencyPipe, DatePipe, NroProcessoPipe, NzToolTipModule, HasRoleDirective, NzTagModule, BtnAuditoriaComponent],
   templateUrl: './listagem-despesas.component.html',
   styleUrl: './listagem-despesas.component.scss'
 })

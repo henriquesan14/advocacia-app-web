@@ -6,4 +6,6 @@ export interface Notification {
     grauNotificacao: string;
     lida: boolean;
     createdAt: string;
+    createdByUserName: string;
+    updatedByUserName: string;
 }

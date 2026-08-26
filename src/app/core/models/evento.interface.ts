@@ -18,4 +18,6 @@ export interface Evento {
     refId: number
     createdByUserId: number
     createdAt: string
+    createdByUserName: string
+    updatedByUserName: string
 }

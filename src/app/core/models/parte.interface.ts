@@ -12,4 +12,6 @@ export interface Parte {
     endereco:Endereco;
     createdAt: string;
     createdByUserId: number;
+    createdByUserName: string;
+    updatedByUserName: string;
 }

@@ -19,12 +19,13 @@ import { ModalFormSistemaComponent } from '../modal-form-sistema/modal-form-sist
 import { Sistema } from '../../../core/models/sistema.interface';
 import { SistemaService } from '../../../shared/services/sistema.service';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
+import { BtnAuditoriaComponent } from '../../../shared/components/btn-auditoria/btn-auditoria.component';
 
 @Component({
   selector: 'app-listagem-sistemas',
   standalone: true,
   imports: [BtnNovoComponent, ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, BtnPesquisarComponent, BtnLimparComponent, NzTableModule, NzButtonModule, FontAwesomeModule, NzToolTipModule, DatePipe,
-    NzModalModule, HasRoleDirective
+    NzModalModule, HasRoleDirective, BtnAuditoriaComponent
   ],
   templateUrl: './listagem-sistemas.component.html',
   styleUrl: './listagem-sistemas.component.scss'

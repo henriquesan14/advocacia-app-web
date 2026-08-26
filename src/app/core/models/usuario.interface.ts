@@ -13,4 +13,6 @@ export interface Usuario {
   grupoId: number;
   avatar?: Avatar;
   createdAt: string;
+  createdByUserName: string;
+  updatedByUserName: string;
 }

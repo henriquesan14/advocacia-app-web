@@ -22,12 +22,13 @@ import { BtnLimparComponent } from '../../../shared/components/btn-limpar/btn-li
 import { FormUsuarioComponent } from '../form-usuario/form-usuario.component';
 import { BtnNovoComponent } from '../../../shared/components/btn-novo/btn-novo.component';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
+import { BtnAuditoriaComponent } from '../../../shared/components/btn-auditoria/btn-auditoria.component';
 
 @Component({
   selector: 'app-listagem-usuarios',
   standalone: true,
   imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NzModalModule, NzTableModule, DatePipe, NzButtonModule, NzToolTipModule, FontAwesomeModule, 
-    BtnPesquisarComponent, BtnLimparComponent, BtnNovoComponent, HasRoleDirective],
+    BtnPesquisarComponent, BtnLimparComponent, BtnNovoComponent, HasRoleDirective, BtnAuditoriaComponent],
   templateUrl: './listagem-usuarios.component.html',
   styleUrl: './listagem-usuarios.component.scss'
 })

@@ -6,11 +6,12 @@ import { faEye, faList, faRefresh, faTrash } from '@fortawesome/free-solid-svg-i
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NroProcessoPipe } from '../../../shared/pipes/nro-processo.pipe';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
+import { BtnAuditoriaComponent } from '../../../shared/components/btn-auditoria/btn-auditoria.component';
 
 @Component({
   selector: 'app-card-processo',
   standalone: true,
-  imports: [CommonModule, IconClienteComponent, FontAwesomeModule, NzButtonModule, NroProcessoPipe, HasRoleDirective],
+  imports: [CommonModule, IconClienteComponent, FontAwesomeModule, NzButtonModule, NroProcessoPipe, HasRoleDirective, BtnAuditoriaComponent],
   templateUrl: './card-processo.component.html',
   styleUrl: './card-processo.component.scss'
 })
