@@ -14,12 +14,13 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
+import { BtnCadastrarComponent } from '../../../shared/components/btn-cadastrar/btn-cadastrar.component';
 
 @Component({
   selector: 'app-form-historico',
   standalone: true,
   imports: [FontAwesomeModule, ReactiveFormsModule, AvatarUsuarioComponent, CommonModule, NzFormModule, NzInputModule, NzButtonModule, NzSelectModule, NzRadioModule,
-    HasRoleDirective
+    HasRoleDirective, BtnCadastrarComponent
   ],
   templateUrl: './form-historico.component.html',
   styleUrl: './form-historico.component.css',

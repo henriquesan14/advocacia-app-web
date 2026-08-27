@@ -15,12 +15,13 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { BtnCadastrarComponent } from '../../../shared/components/btn-cadastrar/btn-cadastrar.component';
 
 @Component({
   selector: 'app-card-historico',
   standalone: true,
   imports: [ FontAwesomeModule, ReactiveFormsModule, FormsModule, CommonModule, HasRoleDirective, NzFormModule, NzInputModule, NzButtonModule, NzRadioModule, NzSelectModule,
-     NzGridModule, NzTagModule],
+     NzGridModule, NzTagModule, BtnCadastrarComponent],
   templateUrl: './card-historico.component.html',
   styleUrl: './card-historico.component.css'
 })

@@ -1,3 +1,4 @@
-<button (click)="onClick()" nz-button nzType="primary" type="submit">
+<button (click)="onClick()" nz-button nzType="primary" type="submit"
+    [nzSize]="size" [nzLoading]="isSubmitting" [disabled]="disabled || isSubmitting">
     <fa-icon [icon]="faCheck" class="me-1"></fa-icon>
     {{title}}</button>
