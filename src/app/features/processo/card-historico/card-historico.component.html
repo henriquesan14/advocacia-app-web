@@ -21,11 +21,8 @@
       </nz-form-item>
 
       <div>
-        <button nz-button [nzType]="'primary'" nzSize="small" htmlType="submit" [disabled]="!formHistorico.valid"
-          class="me-1 mt-2">
-          <fa-icon class="me-1" [icon]="faCheck"></fa-icon>
-          Salvar
-        </button>
+        <btn-cadastrar title="Salvar" size="small" [disabled]="!formHistorico.valid"
+          class="me-1 mt-2"></btn-cadastrar>
         <button nz-button nzType="default" nzDanger nzSize="small" type="button" (click)="cancelar()" class="mt-2">
           <fa-icon class="me-1" [icon]="faTimesCircle"></fa-icon>
           Cancelar

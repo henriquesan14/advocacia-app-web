@@ -5,7 +5,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { Subject, takeUntil } from 'rxjs';
 import { Usuario } from '../../../core/models/usuario.interface';
-import { faEye, faPencil, faTrash, faUserSecret } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightFromBracket, faEye, faPencil, faTrash, faUserSecret } from '@fortawesome/free-solid-svg-icons';
 import { Grupo } from '../../../core/models/grupo.interface';
 import { UsuariosService } from '../../../shared/services/usuarios.service';
 import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
@@ -42,6 +42,7 @@ export class ListagemUsuariosComponent implements OnInit, OnDestroy {
   faTrash = faTrash;
   faEye = faEye;
   faUserSecret = faUserSecret;
+  faArrowRightFromBracket = faArrowRightFromBracket;
   grupos: Grupo[] = [];
 
   private modalService = inject(NzModalService);
@@ -150,6 +151,27 @@ export class ListagemUsuariosComponent implements OnInit, OnDestroy {
       return usuario.avatar.url;
     }
     return 'images/avatar.webp';
+  }
+
+  forceLogout(usuario: Usuario): void {
+    this.confirmModal = this.modalService.confirm({
+      nzTitle: 'Forçar logout',
+      nzContent: `Deseja encerrar todas as sessões de ${usuario.nome}?`,
+      nzOkText: 'Encerrar sessões',
+      nzOkDanger: true,
+      nzCancelText: 'Cancelar',
+      nzOnOk: () => this.usuarioService.forceLogout(usuario.id).subscribe({
+        next: () => this.toastr.success('Sessões do usuário encerradas!', 'Sucesso')
+      })
+    });
+  }
+
+  canEditUsuario(usuario: Usuario): boolean {
+    const currentUser = this.localStorageService.getUserStorage();
+    const targetIsPlatformAdmin = usuario.grupo?.nome === 'ADMIN-PLATFORM';
+    const currentUserIsPlatformAdmin = currentUser?.grupo?.nome === 'ADMIN-PLATFORM';
+
+    return !targetIsPlatformAdmin || currentUserIsPlatformAdmin;
   }
   
 }

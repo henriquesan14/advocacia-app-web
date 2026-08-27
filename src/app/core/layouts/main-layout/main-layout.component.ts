@@ -79,6 +79,14 @@ export class MainLayoutComponent {
       ]
     },
     {
+      title: 'Auditoria',
+      icon: 'audit',
+      permission: 'VER_AUDITORIA',
+      children: [
+        { label: 'Logins', link: 'auditoria-login', permission: 'VER_AUDITORIA' },
+      ]
+    },
+    {
       title: 'Grupos',
       icon: 'usergroup-add',
       permission: 'LISTAR_GRUPO',

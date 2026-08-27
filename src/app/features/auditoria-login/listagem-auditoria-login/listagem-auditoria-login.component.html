@@ -1,0 +1,45 @@
+<h2 class="text-center">Auditoria de Login</h2>
+
+<form nz-form [formGroup]="form" (ngSubmit)="pesquisar()" nzLayout="vertical">
+  <div nz-row [nzGutter]="16">
+    <div nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label>Usuário</nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="usuario" placeholder="Nome ou e-mail" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="6">
+      <nz-form-item>
+        <nz-form-label>Data inicial</nz-form-label>
+        <nz-form-control><nz-date-picker formControlName="dataInicio" nzFormat="dd/MM/yyyy"></nz-date-picker></nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="6">
+      <nz-form-item>
+        <nz-form-label>Data final</nz-form-label>
+        <nz-form-control><nz-date-picker formControlName="dataFim" nzFormat="dd/MM/yyyy"></nz-date-picker></nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <div class="mb-3 d-flex gap-2">
+    <btn-pesquisar class="me-1"></btn-pesquisar>
+    <btn-limpar (clickEvent)="limpar()"></btn-limpar>
+  </div>
+</form>
+
+<nz-table [nzData]="audits" [nzLoading]="loading" [nzBordered]="true" nzSize="middle" [nzPageSize]="20">
+  <thead><tr><th>Data e hora</th><th>Usuário</th><th>E-mail</th><th>IP</th><th>Navegador/dispositivo</th></tr></thead>
+  <tbody>
+    @for (audit of audits; track audit.id) {
+      <tr>
+        <td>{{ audit.createdAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+        <td>{{ audit.usuarioNome }}</td>
+        <td>{{ audit.usuarioEmail }}</td>
+        <td>{{ audit.ipAddress }}</td>
+        <td nz-tooltip [nzTooltipTitle]="audit.userAgent">{{ audit.userAgent || 'Não identificado' }}</td>
+      </tr>
+    }
+  </tbody>
+</nz-table>
