@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { ResponsePage } from '../../../core/models/response-page.interface';
 import { Subject, takeUntil } from 'rxjs';
 import { Parte } from '../../../core/models/parte.interface';
-import { faCommentsDollar, faEye, faFileInvoiceDollar, faIdCard, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faIdCard, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { PartesService } from '../../../shared/services/partes.service';
 import { Router } from '@angular/router';
@@ -53,8 +53,6 @@ export class ListagemPartesComponent implements OnInit, OnDestroy {
   faTrash = faTrash;
   faEye = faEye;
   faIdCard = faIdCard;
-  faCommentsDollar = faCommentsDollar;
-  faFileInvoiceDollar = faFileInvoiceDollar;
   mask: string = '';
 
 
@@ -112,20 +110,6 @@ export class ListagemPartesComponent implements OnInit, OnDestroy {
         this.spinner.hide();
       }
     })
-  }
-
-  gerarCobranca(parte: Parte){
-    // const modalRef = this.modalService.open(ModalGerarCobrancaComponent, {
-    //   size: 'xl'
-    // });
-    // modalRef.componentInstance.parte = parte;
-  }
-
-  listarCobrancas(cpfCnpj: string){
-    // const modalRef = this.modalService.open(ListagemCobrancasClienteComponent, {
-    //   size: 'xl'
-    // });
-    // modalRef.componentInstance.cpfCnpj = cpfCnpj;
   }
 
   deleteParte(id: string){

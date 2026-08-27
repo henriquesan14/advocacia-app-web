@@ -35,7 +35,7 @@ export class LoginComponent {
       this.authService.login(this.loginForm.value).subscribe({
         next: (res) => {
           this.localStorageService.setUserStorage(res);
-          this.notificationService.startConnection(res.id);
+          this.notificationService.startConnection();
           this.router.navigate(['/processos/list']);
         },
         error: () => {
