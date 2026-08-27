@@ -3,12 +3,11 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { ResponsePage } from '../../../core/models/response-page.interface';
 import { Subject, takeUntil } from 'rxjs';
 import { Parte } from '../../../core/models/parte.interface';
-import { faEye, faIdCard, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { PartesService } from '../../../shared/services/partes.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NgxMaskDirective } from 'ngx-mask';
@@ -31,7 +30,7 @@ import { BtnAuditoriaComponent } from '../../../shared/components/btn-auditoria/
 @Component({
   selector: 'app-listagem-partes',
   standalone: true,
-  imports: [ReactiveFormsModule, NzFormModule, NzTableModule, NgxMaskDirective, BtnNovoComponent, BtnPesquisarComponent, BtnLimparComponent, CpfCnpjPipe, FontAwesomeModule, DatePipe, NzPaginationModule, NzSelectModule, NgxSpinnerModule,
+  imports: [ReactiveFormsModule, NzFormModule, NzTableModule, NgxMaskDirective, BtnNovoComponent, BtnPesquisarComponent, BtnLimparComponent, CpfCnpjPipe, FontAwesomeModule, DatePipe, NzPaginationModule, NzSelectModule,
     FormsModule, NzModalModule, NzButtonModule, NzInputModule, NzCheckboxModule, NzToolTipModule, HasRoleDirective, BtnAuditoriaComponent
   ],
   templateUrl: './listagem-partes.component.html',
@@ -52,16 +51,13 @@ export class ListagemPartesComponent implements OnInit, OnDestroy {
   faPencil = faPencil;
   faTrash = faTrash;
   faEye = faEye;
-  faIdCard = faIdCard;
   mask: string = '';
 
 
   private modalService = inject(NzModalService);
   confirmModal?: NzModalRef;
 
-  constructor(private parteService: PartesService, private formBuilder: FormBuilder, private router: Router, private toastr: ToastrService,
-    private spinner: NgxSpinnerService
-  ){
+  constructor(private parteService: PartesService, private formBuilder: FormBuilder, private router: Router, private toastr: ToastrService) {
     this.filtroForm = this.formBuilder.group({
       nome: [null],
       cpfCnpj: [null],
@@ -84,32 +80,17 @@ export class ListagemPartesComponent implements OnInit, OnDestroy {
       pageSize: this.responsePagePartes.pageSize,
       ...this.filtroForm.value
     };
-    this.parteService.getPartes(params).subscribe({
+    this.parteService.getPartes(params)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
       next: (res) => {
         this.responsePagePartes = res;
       }
-    });
+      });
   }
 
   editarParte(id: string){
     this.router.navigateByUrl(`/app/partes/${id}`);
-  }
-
-  generateUser(parteId: string){
-    this.spinner.show();
-    this.parteService.generateUser(parteId)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: () => {
-        this.toastr.success('Usuário gerado!', 'Sucesso');
-      },
-      error: () => {
-        this.spinner.hide();
-      },
-      complete: () => {
-        this.spinner.hide();
-      }
-    })
   }
 
   deleteParte(id: string){

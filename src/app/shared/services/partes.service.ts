@@ -39,7 +39,4 @@ export class PartesService {
     return this.http.delete(`${this.API}/parte/${id}`);
   }
 
-  generateUser(parteId: string){
-    return this.http.post(`${this.API}/parte/generateUser`, {parteId});
-  }
 }
