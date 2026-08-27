@@ -3,7 +3,6 @@ import { inject } from "@angular/core";
 import { LocalstorageService } from "../../shared/services/localstorage.service";
 import { environment } from "../../../environments/environment";
 import { AuthService } from "../../shared/services/auth.service";
-import { Router } from "@angular/router";
 import { BehaviorSubject, Observable, catchError, filter, finalize, switchMap, take, throwError } from "rxjs";
 import { Usuario } from "../models/usuario.interface";
 import { NotificationService } from "../../shared/services/notification.service";
@@ -18,7 +17,6 @@ export const AccessTokenInterceptor = (
   const localStorageService = inject(LocalstorageService);
   const authService = inject(AuthService);
   const notificationService = inject(NotificationService);
-  const router = inject(Router);
   const localUser = localStorageService.getUserStorage();
 
   const requestToAPI = req.url.startsWith(environment.apiUrlBase);
@@ -43,7 +41,7 @@ export const AccessTokenInterceptor = (
           catchError((refreshErr) => {
             notificationService.stopConnection();
             localStorageService.removeUsertorage();
-            router.navigateByUrl('/');
+            window.location.replace('/');
             return throwError(() => refreshErr);
           }),
           finalize(() => {
