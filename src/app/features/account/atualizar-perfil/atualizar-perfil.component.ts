@@ -5,7 +5,6 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Avatar } from '../../../core/models/avatar.interface';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AvatarService } from '../../../shared/services/avatar.service';
-import { DataService } from '../../../shared/services/data-service';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FormUtils } from '../../../shared/utils/form.utils';
 import { BtnCadastrarComponent } from '../../../shared/components/btn-cadastrar/btn-cadastrar.component';
@@ -38,7 +37,7 @@ export class AtualizarPerfilComponent implements OnInit {
 
   @ViewChild('fileInput') fileInput: any;
 
-  constructor(private formBuilder: FormBuilder, private avatarService: AvatarService, private dataService: DataService, private spinner: NgxSpinnerService,
+  constructor(private formBuilder: FormBuilder, private avatarService: AvatarService, private spinner: NgxSpinnerService,
     private localStorageService: LocalstorageService, private accountService: AccountService, private toastr: ToastrService,
     private imageCompressorService: ImageCompressorService) {
 

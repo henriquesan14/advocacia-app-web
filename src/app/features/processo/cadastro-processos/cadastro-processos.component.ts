@@ -10,7 +10,6 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { BtnCadastrarComponent } from '../../../shared/components/btn-cadastrar/btn-cadastrar.component';
 import { BtnVoltarComponent } from '../../../shared/components/btn-voltar/btn-voltar.component';
-import { DataService } from '../../../shared/services/data-service';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 import { existingProcessValidator } from '../../../shared/validators/existing-process.validator';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
@@ -66,7 +65,7 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
   autoresSelecionados: Parte[] = [];
 
   constructor(private formBuilder: FormBuilder, private spinner: NgxSpinnerService, private processoService: ProcessosService,
-    private toastr: ToastrService, private router: Router, private dataService: DataService, private activatedRoute: ActivatedRoute, private datePipe: DatePipe) {
+    private toastr: ToastrService, private router: Router, private activatedRoute: ActivatedRoute, private datePipe: DatePipe) {
   }
 
   canDeactivate(): boolean {
@@ -251,7 +250,6 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
   async cadastrarProcesso() {
     this.spinner.show();
     try {
-      await this.uploadToStorage();
       let processo = <Processo>{
         ...this.formProcesso.value,
         dataDistribuicao: this.formProcesso.value.dataDistribuicao,
@@ -268,8 +266,7 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
           this.formProcesso.markAsPristine();
           this.router.navigateByUrl('/processos/list');
         },
-        error: async () => {
-          await this.deleteFiles();
+        error: () => {
           this.spinner.hide();
         },
         complete: () => {
@@ -278,7 +275,7 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
       });
     } catch (e) {
       this.spinner.hide();
-      this.toastr.error('Erro ao fazer upload dos documentos', 'Error');
+      this.toastr.error('Erro ao cadastrar processo', 'Error');
     } finally {
       this.spinner.hide();
     }
@@ -304,33 +301,4 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
     });
   }
 
-  async uploadToStorage(): Promise<void> {
-    if (this.documentos.length > 0) {
-      const uploadPromises = this.documentos.map(documento => {
-        return new Promise<void>((resolve, reject) => {
-          this.dataService.pushFileToStorage(documento.file, "documentos").subscribe({
-            next: (res) => {
-              documento.url = res.url;
-              documento.path = res.path;
-              resolve();
-            },
-            error: () => {
-              this.toastr.error('Erro ao fazer upload do arquivo', 'Error');
-              reject();
-            }
-          });
-        });
-      });
-
-      await Promise.all(uploadPromises);
-    }
-  }
-
-
-  async deleteFiles() {
-    for (let documento of this.documentos) {
-      await this.dataService.deleteFile(documento.path!);
-    }
-  }
-  
 }

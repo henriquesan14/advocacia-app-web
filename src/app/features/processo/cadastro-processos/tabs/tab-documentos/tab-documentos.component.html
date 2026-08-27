@@ -1,12 +1,6 @@
 <div class="container">
     <h3>Documentos</h3>
   
-    <div class="row" hasRole="CADASTRAR_PROCESSO">
-      <div class="col-12">
-        <app-upload-file (filesDropped)="onFilesDropped($event)"></app-upload-file>
-      </div>
-    </div>
-  
     <nz-table
       [nzData]="documentos"
       [nzShowPagination]="false"
@@ -18,7 +12,6 @@
         <tr>
           <th>Nome</th>
           <th>Tipo</th>
-          <th>Ações</th>
         </tr>
       </thead>
       <tbody>
@@ -28,19 +21,6 @@
               <a [href]="documento.url || documento.urlLocal" target="_blank">{{ documento.nome }}</a>
             </td>
             <td>{{ documento.tipo }}</td>
-            <td>
-              <button
-                hasRole="EDITAR_PROCESSO"
-                nz-button
-                nzType="default"
-                nzDanger
-                nzSize="small"
-                (click)="deleteDocumento(documento, $index)"
-                nz-tooltip="Excluir"
-              >
-                <fa-icon [icon]="faTrash"></fa-icon>
-              </button>
-            </td>
           </tr>
         }
       </tbody>
@@ -49,4 +29,4 @@
     <ng-template #emptyState>
       <div class="text-muted mt-3">Não há nenhum documento</div>
     </ng-template>
-  </div>    
+  </div>
