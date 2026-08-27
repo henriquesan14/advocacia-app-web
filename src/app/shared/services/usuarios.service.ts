@@ -47,4 +47,8 @@ export class UsuariosService {
   deleteUsuario(usuarioId: string){
     return this.http.delete(`${this.API}/usuario/${usuarioId}`);
   }
+
+  forceLogout(usuarioId: string){
+    return this.http.post<void>(`${this.API}/usuario/${usuarioId}/force-logout`, {});
+  }
 }

@@ -76,6 +76,17 @@
           (click)="impersonate(usuario)">
           <fa-icon [icon]="faUserSecret"></fa-icon>
         </button>
+        <button
+          type="button"
+          nz-button
+          nzSize="small"
+          nzDanger
+          nz-tooltip="Forçar logout"
+          hasRole="IMPERSONATE"
+          class="me-1"
+          (click)="forceLogout(usuario)">
+          <fa-icon [icon]="faArrowRightFromBracket"></fa-icon>
+        </button>
         <btn-auditoria [auditoria]="usuario"></btn-auditoria>
         @if (canEditUsuario(usuario)) {
           <button hasRole="EXCLUIR_USUARIO" nzSize="small" nz-button nzType="default" nzDanger nz-tooltip="Excluir"
