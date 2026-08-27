@@ -18,9 +18,9 @@ export class NotificationService {
   constructor(private http: HttpClient) {
   }
 
-  startConnection(userId: string): void {
+  startConnection(): void {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`${environment.urlHub}/hubs/notifications?userId=${userId}`)
+      .withUrl(`${environment.urlHub}/hubs/notifications`, { withCredentials: true })
       .withAutomaticReconnect()
       .build();
 
@@ -29,9 +29,7 @@ export class NotificationService {
     });
 
     this.hubConnection.start()
-      .then(() => {
-        this.joinGroup(userId);
-      })
+      .then(() => {})
       .catch(err => console.error('Error while starting SignalR connection: ' + err));
   }
 
@@ -40,21 +38,6 @@ export class NotificationService {
       this.hubConnection.stop()
         .catch(err => console.error('Error while stopping SignalR connection: ' + err));
     }
-  }
-
-  joinGroup(userId: string): void {
-    if (this.hubConnection.state === signalR.HubConnectionState.Connected) {
-      this.hubConnection.invoke('JoinGroup', userId)
-        .then(() => {})
-        .catch(err => console.error('Error while joining group: ' + err));
-    } else {
-      console.error('Cannot join group: SignalR connection is not in the connected state.');
-    }
-  }
-
-  leaveGroup(userId: string): void {
-    this.hubConnection.invoke('LeaveGroup', userId)
-      .catch(err => console.error('Error while leaving group: ' + err));
   }
 
   sendNotification(notificacao: any){
