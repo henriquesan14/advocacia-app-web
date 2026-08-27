@@ -17,6 +17,7 @@ import { provideNgxMask } from 'ngx-mask';
 import { CredentialsInterceptor } from './core/interceptors/credentials.interceptor';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { RequestLoadingInterceptor } from './core/interceptors/request-loading.interceptor';
+import { CsrfTokenInterceptor } from './core/interceptors/csrf-token.interceptor';
 
 registerLocaleData(pt);
 
@@ -29,7 +30,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideToastr(),
     provideNgxMask(),
-    provideHttpClient(withInterceptors([CredentialsInterceptor, RequestLoadingInterceptor, AccessTokenInterceptor, ErrorHandlerInterceptor])),
+    provideHttpClient(withInterceptors([CredentialsInterceptor, CsrfTokenInterceptor, RequestLoadingInterceptor, AccessTokenInterceptor, ErrorHandlerInterceptor])),
     provideCharts(withDefaultRegisterables())
   ],
     
