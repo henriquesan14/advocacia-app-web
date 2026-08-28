@@ -197,6 +197,13 @@
     </div>
   </div>
 
+  <div class="privacy-option mb-3" [class.privacy-option-active]="formProcesso.get('segredoJustica')?.value">
+    <div>
+      <div class="privacy-option-title">Segredo de justiça</div>
+    </div>
+    <nz-switch formControlName="segredoJustica" nzCheckedChildren="Sim" nzUnCheckedChildren="Não"></nz-switch>
+  </div>
+
   <!-- Observação -->
   <nz-form-item>
     <nz-form-label>Observação</nz-form-label>
