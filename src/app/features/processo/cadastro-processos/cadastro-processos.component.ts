@@ -104,7 +104,8 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
       competenciaId: [null, Validators.required],
       sistemaId: [null, Validators.required],
       dataDistribuicao: [null],
-      observacao: [null]
+      observacao: [null],
+      segredoJustica: [false]
     });
 
     this.activatedRoute.params.subscribe(params => {
@@ -133,7 +134,8 @@ export class CadastroProcessosComponent implements OnInit, CanComponentDeactivat
           competenciaId: processo.competencia?.id,
           sistemaId: processo.sistema?.id,
           dataDistribuicao: processo.dataDistribuicao ? processo.dataDistribuicao.split('T')[0] : null,
-          observacao: processo.observacao
+          observacao: processo.observacao,
+          segredoJustica: processo.segredoJustica
         });
   
         this.autoresSelecionados = processo.autores ?? [];

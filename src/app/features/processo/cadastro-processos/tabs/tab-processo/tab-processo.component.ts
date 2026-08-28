@@ -28,11 +28,12 @@ import { ModalFormDonoComponent } from '../../../../dono/modal-form-dono/modal-f
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { SelectAutocompleteComponent } from '../../../../../shared/components/select-autocomplete/select-autocomplete.component';
 import { HasRoleDirective } from '../../../../../shared/directives/has-role.directive';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 @Component({
   selector: 'tab-processo',
   standalone: true,
-  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NgxMaskDirective, BtnNovoComponent, SelectAutocompleteComponent, HasRoleDirective],
+  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NzSwitchModule, NgxMaskDirective, BtnNovoComponent, SelectAutocompleteComponent, HasRoleDirective],
   templateUrl: './tab-processo.component.html',
   styleUrl: './tab-processo.component.scss'
 })

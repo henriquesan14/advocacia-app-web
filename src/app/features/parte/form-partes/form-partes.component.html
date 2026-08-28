@@ -89,12 +89,13 @@
       </nz-form-item>
     </nz-col>
 
-    <nz-col [nzSpan]="24">
-      <nz-form-item>
-        <nz-form-control>
-          <label nz-checkbox formControlName="isCliente">É nosso cliente?</label>
-        </nz-form-control>
-      </nz-form-item>
+    <nz-col [nzSpan]="24" class="mb-3">
+      <div class="client-option" [class.client-option-active]="formPartes.get('isCliente')?.value">
+        <div>
+          <div class="client-option-title">Cliente do escritório</div>
+        </div>
+        <nz-switch formControlName="isCliente" nzCheckedChildren="Sim" nzUnCheckedChildren="Não"></nz-switch>
+      </div>
     </nz-col>
   </nz-row>
 

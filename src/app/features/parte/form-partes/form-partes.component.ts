@@ -20,7 +20,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { BtnCadastrarComponent } from '../../../shared/components/btn-cadastrar/btn-cadastrar.component';
 
@@ -28,7 +28,7 @@ import { BtnCadastrarComponent } from '../../../shared/components/btn-cadastrar/
   selector: 'app-form-partes',
   standalone: true,
   imports: [ReactiveFormsModule, NgxMaskDirective, NzButtonModule, NgxSpinnerModule, HasRoleDirective, NzFormModule, NzInputModule, NzRadioModule, NzSelectModule, 
-    NzCheckboxModule, BtnCadastrarComponent],
+    NzSwitchModule, BtnCadastrarComponent],
   templateUrl: './form-partes.component.html',
   styleUrl: './form-partes.component.css'
 })

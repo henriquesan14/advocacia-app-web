@@ -37,14 +37,6 @@ export class MainLayoutComponent {
   isStoppingImpersonation = false;
 
   menuItems = [
-    // {
-    //   title: 'Dashboard',
-    //   icon: 'bar-chart',
-    //   permission: 'LISTAR_DASHBOARD',
-    //   children: [
-    //     { label: 'Visualizar', link: 'dashboard', permission: 'LISTAR_DASHBOARD' },
-    //   ]
-    // },
     {
       title: 'Processos',
       icon: 'file-add',
@@ -134,22 +126,6 @@ export class MainLayoutComponent {
         { label: 'Visualizar', link: 'sistemas/list', permission: 'LISTAR_SISTEMA', },
       ]
     },
-    // {
-    //   title: 'Despesas',
-    //   icon: 'barcode',
-    //   permission: 'LISTAR_DESPESA',
-    //   children: [
-    //     { label: 'Visualizar', link: 'despesas/list', permission: 'LISTAR_DESPESA', },
-    //   ]
-    // },
-    // {
-    //   title: 'Ganhos',
-    //   icon: 'dollar',
-    //   permission: 'LISTAR_GANHO',
-    //   children: [
-    //     { label: 'Visualizar', link: 'ganhos/list', permission: 'LISTAR_GANHO', },
-    //   ]
-    // },
   ]
 
   goToUpdatePassword() {

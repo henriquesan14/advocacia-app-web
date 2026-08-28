@@ -5,7 +5,6 @@ export interface Grupo {
   id: string;
   nome: string;
   permissoes: Permissao[];
-  sobAprovacao: boolean;
   createdByUserId: number;
   createdAt: string;
   createdByUserName: string;

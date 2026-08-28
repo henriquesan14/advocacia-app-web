@@ -5,3 +5,25 @@ input#nome {
 input#nome::placeholder {
     text-transform: none;
 }
+
+.client-option {
+    align-items: center;
+    background: #fafafa;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    max-width: 360px;
+    padding: 8px 12px;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+.client-option-active {
+    background: #f6ffed;
+    border-color: #95de64;
+}
+
+.client-option-title {
+    color: rgba(0, 0, 0, 0.88);
+    font-weight: 600;
+}

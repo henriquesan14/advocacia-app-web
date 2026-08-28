@@ -4,7 +4,7 @@ import { Processo } from '../../../core/models/processo.interface';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCheck, faCogs, faExclamationCircle, faExclamationTriangle, faEye, faList, faPencil, faRefresh, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCogs, faExclamationCircle, faExclamationTriangle, faEye, faList, faPencil, faRefresh, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, ParamMap, Router, RouterLink } from '@angular/router';
 import { ResponsePage } from '../../../core/models/response-page.interface';
@@ -67,13 +67,10 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
       totalCount: 0,
       totalPages: 0
   };
-  processosSobAprovacao: Processo[] = [];
   processoFieldConfigs: ProcessoFieldConfig[] = [];
   faPencil = faPencil;
   faTrash = faTrash;
   faEye = faEye;
-  faCheck = faCheck;
-  faTimes = faTimes;
   faExclamationCircle = faExclamationCircle;
   faExclamationTriangle = faExclamationTriangle;
   faCogs = faCogs;
@@ -85,7 +82,6 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
   responsaveis: Usuario[] = [];
   donos: Dono[] = [];
   comarcas: Comarca[] = [];
-  processosSobAprovadoCollapsed: boolean = false;
   filtrosCollapsed: boolean = true;
   hasCollapsed = false;
   mask: string = '';
@@ -114,13 +110,6 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
       responsavelId: [''],
       donoId: ['']
     });
-  }
-
-  onChangeCollapse(){
-    if(!this.hasCollapsed){
-      this.getProcessosSobAprovacao();
-      this.hasCollapsed = true;
-    }
   }
 
   isFilterActive(): boolean {
@@ -178,7 +167,6 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
     const savedFilters = this.filterProcessoService.getFilters();
     if (savedFilters) {
       this.filtroForm.patchValue({
-        aprovado: true,
         ...savedFilters
       });
       this.savedPageNumber = savedFilters.pageNumber;
@@ -190,7 +178,6 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
   getProcessos() {
     this.spinner.show();
     const filtros = {
-      aprovado: true,
       ...this.filtroForm.value,
       pageNumber: this.savedPageNumber || this.responsePageProcessos.currentPage,
       pageSize: this.savedPageSize || this.responsePageProcessos.pageSize
@@ -239,20 +226,6 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
     });
   }
 
-  getProcessosSobAprovacao(){
-    this.processoService.getProcessos({
-      aprovado: false,
-      pageNumber: 1,
-      pageSize: 99999
-    })
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (res) => {
-        this.processosSobAprovacao = res.items;
-      }
-    });
-  }
-
   openConfiguracaoFields(){
     const modal = this.modalService.create({
       nzTitle: 'Configuração de campos',
@@ -268,9 +241,6 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
       if (result) {
         this.getProcessoFieldConfigs();
         this.getProcessos();
-        if(this.hasCollapsed){
-          this.getProcessosSobAprovacao();
-        }
       }
     });
   }
@@ -332,16 +302,6 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
     } else {
       this.mask = '00.000.000/0000-00'; // CNPJ
     }
-  }
-
-  aprovarProcesso(id: string){
-    this.processoService.aprovarProcesso(id).subscribe({
-      next: () => {
-        this.toastr.success('Processo aprovado!', 'Sucesso');
-        this.getProcessos();
-        this.getProcessosSobAprovacao();
-      }
-    })
   }
 
   resetarDataHistorico(id: string){
