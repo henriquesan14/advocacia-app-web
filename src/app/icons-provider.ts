@@ -1,8 +1,7 @@
 import {
   MenuFoldOutline,
   MenuUnfoldOutline,
-  FormOutline,
-  DashboardOutline
+  FormOutline
 } from '@ant-design/icons-angular/icons';
 
-export const icons = [MenuFoldOutline, MenuUnfoldOutline, DashboardOutline, FormOutline];
+export const icons = [MenuFoldOutline, MenuUnfoldOutline, FormOutline];

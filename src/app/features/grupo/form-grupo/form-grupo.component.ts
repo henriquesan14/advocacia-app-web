@@ -40,8 +40,7 @@ export class FormGrupoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.formGrupo = this.formBuilder.group({
-      nome: [null, Validators.required],
-      sobAprovacao: [false]
+      nome: [null, Validators.required]
     });
     this.getPermissoes();
 
@@ -58,7 +57,6 @@ export class FormGrupoComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.formGrupo.get('nome')?.setValue(res.nome);
-          this.formGrupo.get('sobAprovacao')?.setValue(res.sobAprovacao);
 
           res.permissoes.forEach(permissao => {
             if (this.formGrupo.contains(String(permissao.id))) {
@@ -91,7 +89,6 @@ export class FormGrupoComponent implements OnInit, OnDestroy {
 
     this.formGrupo = this.formBuilder.group({
       nome: [null, Validators.required],
-      sobAprovacao: [false],
       ...formControls
     });
 
@@ -119,12 +116,11 @@ export class FormGrupoComponent implements OnInit, OnDestroy {
   submit() {
     if (this.formGrupo.valid) {
       const permissoesSelecionadas = Object.keys(this.formGrupo.controls)
-        .filter(key => key !== 'nome' && key !== 'sobAprovacao' && this.formGrupo.get(key)?.value)
+        .filter(key => key !== 'nome' && this.formGrupo.get(key)?.value)
         .map(key => key, 10);
 
       const novoGrupo = {
         nome: this.formGrupo.get('nome')?.value,
-        sobAprovacao: this.formGrupo.get('sobAprovacao')?.value,
         permissoes: permissoesSelecionadas
       } as any;
       if (this.data && this.data.grupoId) {

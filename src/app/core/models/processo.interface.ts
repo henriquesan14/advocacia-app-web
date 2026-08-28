@@ -31,7 +31,6 @@ export interface Processo {
     responsavelProcesso: Usuario
     resposanvelId: number
     historico: Historico[]
-    aprovado: boolean
     createdAt: string;
     createdByUserId: number;
     createdByUserName: string;
