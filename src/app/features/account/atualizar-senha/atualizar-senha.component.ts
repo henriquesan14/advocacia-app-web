@@ -29,7 +29,7 @@ export class AtualizarSenhaComponent implements OnInit {
     this.formUpdatePassword = this.formBuilder.nonNullable.group(
       {
         senhaAtual: ['', Validators.required],
-        senha: ['', [Validators.required, Validators.minLength(6)]],
+        senha: ['', [Validators.required, Validators.minLength(10)]],
         confirmSenha: ['', Validators.required]
       },
       {
