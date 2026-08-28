@@ -56,7 +56,9 @@ export class FormUsuarioComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       nome: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
-      senha: [null, this.data && this.data.usuarioId ? null : [Validators.required, Validators.minLength(6)]],
+      senha: [null, this.data && this.data.usuarioId
+        ? [Validators.minLength(10)]
+        : [Validators.required, Validators.minLength(10)]],
       confirmSenha: [null, this.data && this.data.usuarioId ? null : [Validators.required]],
       grupoId: ['', Validators.required],
       telefone: [null, [Validators.required, Validators.minLength(11)]],
