@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Parte } from '../../core/models/parte.interface';
 import { environment } from '../../../environments/environment';
 import { ResponsePage } from '../../core/models/response-page.interface';
+import { Processo } from '../../core/models/processo.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,10 @@ export class PartesService {
 
   getParteById(id: string): Observable<Parte>{
     return this.http.get<Parte>(`${this.API}/parte/${id}`);
+  }
+
+  getProcessos(id: string): Observable<Processo[]> {
+    return this.http.get<Processo[]>(`${this.API}/parte/${id}/processos`);
   }
 
   updateParte(parte: Parte){

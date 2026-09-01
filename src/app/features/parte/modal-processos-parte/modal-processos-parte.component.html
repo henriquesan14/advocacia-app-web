@@ -1,0 +1,33 @@
+<div class="mb-2">
+  <span>{{ processos.length }} processo(s) vinculado(s).</span>
+</div>
+
+<nz-table #processosTable [nzData]="processos" [nzLoading]="loading" nzSize="small" [nzFrontPagination]="false">
+  <thead>
+    <tr>
+      <th>Nº do processo</th>
+      <th>Polo</th>
+      <th>Tipo de ação</th>
+      <th>Situação</th>
+      <th>Responsável</th>
+      <th>Ação</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (processo of processosTable.data; track processo.id) {
+      <tr>
+        <td>{{ processo.nroProcesso | nroProcesso }}</td>
+        <td>{{ getPolo(processo) }}</td>
+        <td>{{ processo.tipoAcao || '-' }}</td>
+        <td>{{ processo.situacao.descricao || '-' }}</td>
+        <td>{{ processo.responsavelProcesso.nome || '-' }}</td>
+        <td>
+          <button nz-button nzType="primary" nzSize="small" nz-tooltip="Abrir processo"
+            (click)="visualizarProcesso(processo.id)">
+            <fa-icon [icon]="faArrowRight"></fa-icon>
+          </button>
+        </td>
+      </tr>
+    }
+  </tbody>
+</nz-table>
