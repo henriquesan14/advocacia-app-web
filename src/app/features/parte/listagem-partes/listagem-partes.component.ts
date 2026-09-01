@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { ResponsePage } from '../../../core/models/response-page.interface';
 import { Subject, takeUntil } from 'rxjs';
 import { Parte } from '../../../core/models/parte.interface';
-import { faEye, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faFolderOpen, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { PartesService } from '../../../shared/services/partes.service';
 import { Router } from '@angular/router';
@@ -26,6 +26,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { FormPartesComponent } from '../form-partes/form-partes.component';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
 import { BtnAuditoriaComponent } from '../../../shared/components/btn-auditoria/btn-auditoria.component';
+import { ModalProcessosParteComponent } from '../modal-processos-parte/modal-processos-parte.component';
 
 @Component({
   selector: 'app-listagem-partes',
@@ -51,6 +52,7 @@ export class ListagemPartesComponent implements OnInit, OnDestroy {
   faPencil = faPencil;
   faTrash = faTrash;
   faEye = faEye;
+  faFolderOpen = faFolderOpen;
   mask: string = '';
 
 
@@ -135,6 +137,19 @@ export class ListagemPartesComponent implements OnInit, OnDestroy {
       modal.afterClose.subscribe(() => {
         this.getPartes();
       });
+  }
+
+  openProcessosParte(parte: Parte) {
+    this.modalService.create({
+      nzTitle: `Processos de ${parte.nome}`,
+      nzContent: ModalProcessosParteComponent,
+      nzWidth: '900px',
+      nzFooter: null,
+      nzData: {
+        parteId: parte.id,
+        parteNome: parte.nome
+      }
+    });
   }
 
   onInputChange(): void {

@@ -60,6 +60,11 @@
                         <fa-icon [icon]="faEye"></fa-icon>
                     </button>
 
+                    <button class="me-1" nz-button nzType="default" nzSize="small" hasRole="LISTAR_PROCESSO"
+                        nz-tooltip="Visualizar processos" (click)="openProcessosParte(parte)">
+                        <fa-icon [icon]="faFolderOpen"></fa-icon>
+                    </button>
+
                     <btn-auditoria [auditoria]="parte"></btn-auditoria>
                     <button class="me-1" nz-button nzType="default" nzDanger nzSize="small" hasRole="EXCLUIR_PARTE"
                         nz-tooltip="Excluir" (click)="deleteParte(parte.id)">
