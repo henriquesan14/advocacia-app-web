@@ -37,6 +37,7 @@ export class FormPartesComponent implements OnInit, OnDestroy {
   formPartes!: FormGroup;
   estados: Estado[] = [];
   cidades: Cidade[] = [];
+  enderecoObrigatorio = false;
 
   enderecoId!: number;
 
@@ -66,10 +67,34 @@ export class FormPartesComponent implements OnInit, OnDestroy {
         complemento: [null],
       }, { validators: enderecoValidator() }),
     });
+    this.configureEnderecoValidation();
     this.getEstados();
     if(this.data && this.data.parteId){
       this.getParte();
     }
+  }
+
+  private configureEnderecoValidation(): void {
+    const enderecoGroup = this.formPartes.get('endereco') as FormGroup;
+    const requiredFields = ['cep', 'logradouro', 'numero', 'bairro', 'estado', 'cidade'];
+
+    enderecoGroup.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(endereco => {
+        this.enderecoObrigatorio = Object.values(endereco).some(value =>
+          typeof value === 'string' ? value.trim().length > 0 : value !== null && value !== undefined
+        );
+
+        requiredFields.forEach(fieldName => {
+          const control = enderecoGroup.get(fieldName);
+          if (this.enderecoObrigatorio) {
+            control?.addValidators(Validators.required);
+          } else {
+            control?.removeValidators(Validators.required);
+          }
+          control?.updateValueAndValidity({ emitEvent: false });
+        });
+      });
   }
 
   ngOnDestroy(): void {

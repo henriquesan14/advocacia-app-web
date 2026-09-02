@@ -7,15 +7,26 @@
   @if(showNotifications){
   <div class="notifications-dropdown" (scroll)="onScroll($event)"
     [ngClass]="{'no-scroll': responsePageNotificacoes.items.length === 0}">
-    @if(notificationCount > 0){
-      <div class="mark-all-read-button">
-        <span (click)="marcarTodasComoLidas(); $event.stopPropagation()">
-          Marcar todas como lidas
-        </span>
+    @if(notificationCount > 0 || hasReadNotifications){
+      <div class="notification-actions">
+        @if(notificationCount > 0){
+        <button type="button" class="notification-action mark-read"
+          (click)="marcarTodasComoLidas(); $event.stopPropagation()">
+          <fa-icon [icon]="faCheckDouble"></fa-icon>
+          <span>Marcar todas</span>
+        </button>
+        }
+        @if(hasReadNotifications){
+        <button type="button" class="notification-action clear-read" [disabled]="clearingRead"
+          (click)="limparNotificacoesLidas(); $event.stopPropagation()">
+          <fa-icon [icon]="faTrash"></fa-icon>
+          <span>{{ clearingRead ? 'Limpando...' : 'Limpar lidas' }}</span>
+        </button>
+        }
       </div>
     }
     @for(notification of responsePageNotificacoes.items; track notification.id){
-    <div class="notification-item" (click)="redirect(notification.urlRedirect)">
+    <div class="notification-item" (click)="redirect(notification.urlRedirect, $event)">
       <div class="left">
         @if(notification.grauNotificacao == 'DANGER'){
         <fa-icon class="icon-grau text-danger me-2" [icon]="faExclamationTriangle"></fa-icon>

@@ -3,7 +3,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { EventosService } from '../../../shared/services/eventos.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { NzModalModule, NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
@@ -23,6 +23,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { CardEventoComponent } from '../card-evento/card-evento.component';
 import { FormEventoComponent } from '../form-evento/form-evento.component';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
   selector: 'app-listagem-eventos',
@@ -36,8 +37,8 @@ import { HasRoleDirective } from '../../../shared/directives/has-role.directive'
 })
 export class ListagemEventosComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
-  constructor(private eventoService: EventosService, private formBuilder: FormBuilder, private datePipe: DatePipe, private router: Router, private toastr: ToastrService,
-  private spinner: NgxSpinnerService){}
+  constructor(private eventoService: EventosService, private formBuilder: FormBuilder, private datePipe: DatePipe, private router: Router, private route: ActivatedRoute, private toastr: ToastrService,
+  private spinner: NgxSpinnerService, private notificationService: NotificationService){}
   formAgenda!: FormGroup;
 
   private modalService = inject(NzModalService);
@@ -62,6 +63,24 @@ export class ListagemEventosComponent implements OnInit, OnDestroy {
       dataEvento: [null],
       tipo: ['']
     });
+
+    this.route.queryParamMap
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(params => {
+        const eventoId = params.get('eventoId');
+
+        if (!eventoId) {
+          return;
+        }
+
+        this.openModalFormEvento(eventoId);
+        void this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { eventoId: null },
+          queryParamsHandling: 'merge',
+          replaceUrl: true
+        });
+      });
     
     this.getEventos();
   }
@@ -109,6 +128,7 @@ export class ListagemEventosComponent implements OnInit, OnDestroy {
           next: () => {
             this.toastr.success('Agenda removida!', 'Sucesso');
             this.getEventos();
+            this.notificationService.refreshNotifications();
           }
         })
     });

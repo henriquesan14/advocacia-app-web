@@ -43,6 +43,7 @@ import { ConfigFieldProcessosComponent } from '../config-field-processos/config-
 import { CardProcessoComponent } from '../card-processo/card-processo.component';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { DataJudService } from '../../../shared/services/data-jud.service';
+import { NotificationService } from '../../../shared/services/notification.service';
 import { MovimentacoesProcessoComponent } from '../movimentacoes-processo/movimentacoes-processo.component';
 import { BtnAuditoriaComponent } from '../../../shared/components/btn-auditoria/btn-auditoria.component';
 import { ModalSituacaoProcessoComponent } from '../modal-situacao-processo/modal-situacao-processo.component';
@@ -98,7 +99,7 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
     private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService, private competenciaService: CompetenciaService,
     private processoFieldConfigService: ProcessoFieldConfigService, private comarcaService: ComarcaService, private usuarioService: UsuariosService,
     private localStorageService: LocalstorageService, private donoService: DonoService, private activatedRoute: ActivatedRoute, private filterProcessoService: FilterProcessoService,
-    private dataJudService: DataJudService){
+    private dataJudService: DataJudService, private notificationService: NotificationService){
   }
 
   initForm(){
@@ -377,6 +378,7 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
           next: () => {
             this.toastr.success('Processo removido!', 'Sucesso');
             this.getProcessos();
+            this.notificationService.refreshNotifications();
           }
         })
     });
