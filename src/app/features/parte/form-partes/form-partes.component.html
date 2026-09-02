@@ -105,7 +105,7 @@
     <nz-row [nzGutter]="16">
       <nz-col [nzSpan]="12">
         <nz-form-item>
-          <nz-form-label nzFor="cep">CEP</nz-form-label>
+          <nz-form-label [nzRequired]="enderecoObrigatorio" nzFor="cep">CEP</nz-form-label>
           <nz-form-control [nzErrorTip]="cepErrorTpl">
             <input nz-input formControlName="cep" id="cep" mask="00000-000" (blur)="getCep()" />
             <ng-template #cepErrorTpl let-control>
@@ -119,7 +119,7 @@
 
       <nz-col [nzSpan]="12">
         <nz-form-item>
-          <nz-form-label nzFor="logradouro">Logradouro</nz-form-label>
+          <nz-form-label [nzRequired]="enderecoObrigatorio" nzFor="logradouro">Logradouro</nz-form-label>
           <nz-form-control [nzErrorTip]="logradouroErrorTpl">
             <input nz-input formControlName="logradouro" id="logradouro" maxlength="100" />
             <ng-template #logradouroErrorTpl let-control>
@@ -133,7 +133,7 @@
 
       <nz-col [nzSpan]="12">
         <nz-form-item>
-          <nz-form-label nzFor="numero">Número</nz-form-label>
+          <nz-form-label [nzRequired]="enderecoObrigatorio" nzFor="numero">Número</nz-form-label>
           <nz-form-control [nzErrorTip]="numeroErrorTpl">
             <input nz-input formControlName="numero" id="numero" maxlength="10" />
             <ng-template #numeroErrorTpl let-control>
@@ -156,7 +156,7 @@
 
       <nz-col [nzSpan]="12">
         <nz-form-item>
-          <nz-form-label nzFor="bairro">Bairro</nz-form-label>
+          <nz-form-label [nzRequired]="enderecoObrigatorio" nzFor="bairro">Bairro</nz-form-label>
           <nz-form-control [nzErrorTip]="bairroErrorTpl">
             <input nz-input formControlName="bairro" id="bairro" maxlength="100" />
             <ng-template #bairroErrorTpl let-control>
@@ -170,7 +170,7 @@
 
       <nz-col [nzSpan]="6">
         <nz-form-item>
-          <nz-form-label nzFor="estado">Estado</nz-form-label>
+          <nz-form-label [nzRequired]="enderecoObrigatorio" nzFor="estado">Estado</nz-form-label>
           <nz-form-control [nzErrorTip]="estadoErrorTpl">
             <nz-select nzShowSearch formControlName="estado" id="estado" (ngModelChange)="getCidades()"
               placeholder="Selecione">
@@ -190,7 +190,7 @@
 
       <nz-col [nzSpan]="6">
         <nz-form-item>
-          <nz-form-label nzFor="cidade">Cidade</nz-form-label>
+          <nz-form-label [nzRequired]="enderecoObrigatorio" nzFor="cidade">Cidade</nz-form-label>
           <nz-form-control [nzErrorTip]="cidadeErrorTpl">
             <nz-select nzShowSearch formControlName="cidade" id="cidade" placeholder="Selecione">
               <nz-option nzDisabled [nzLabel]="'Selecione uma cidade'" [nzValue]="''"></nz-option>
