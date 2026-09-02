@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import * as signalR from '@microsoft/signalr';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Notification } from '../../core/models/notification.interface';
 import { ResponsePage } from '../../core/models/response-page.interface';
@@ -14,6 +14,8 @@ export class NotificationService {
   private hubConnection!: signalR.HubConnection;
   private notificationSubject = new BehaviorSubject<any>(null);
   notification$ = this.notificationSubject.asObservable();
+  private notificationsChangedSubject = new Subject<void>();
+  notificationsChanged$ = this.notificationsChangedSubject.asObservable();
 
   constructor(private http: HttpClient) {
   }
@@ -64,6 +66,10 @@ export class NotificationService {
 
   marcarTodasComoLidas(){
     return this.http.put(`${environment.apiUrlBase}/notificacao/mark-as-read`, {});
+  }
+
+  refreshNotifications(): void {
+    this.notificationsChangedSubject.next();
   }
 
   limparNotificacoesLidas(): Observable<void> {

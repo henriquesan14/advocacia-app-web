@@ -10,21 +10,23 @@
     @if(notificationCount > 0 || hasReadNotifications){
       <div class="notification-actions">
         @if(notificationCount > 0){
-        <span (click)="marcarTodasComoLidas(); $event.stopPropagation()">
-          Marcar todas como lidas
-        </span>
+        <button type="button" class="notification-action mark-read"
+          (click)="marcarTodasComoLidas(); $event.stopPropagation()">
+          <fa-icon [icon]="faCheckDouble"></fa-icon>
+          <span>Marcar todas</span>
+        </button>
         }
         @if(hasReadNotifications){
-        <span class="clear-read" [class.disabled]="clearingRead"
+        <button type="button" class="notification-action clear-read" [disabled]="clearingRead"
           (click)="limparNotificacoesLidas(); $event.stopPropagation()">
           <fa-icon [icon]="faTrash"></fa-icon>
-          {{ clearingRead ? 'Limpando...' : 'Limpar lidas' }}
-        </span>
+          <span>{{ clearingRead ? 'Limpando...' : 'Limpar lidas' }}</span>
+        </button>
         }
       </div>
     }
     @for(notification of responsePageNotificacoes.items; track notification.id){
-    <div class="notification-item" (click)="redirect(notification.urlRedirect)">
+    <div class="notification-item" (click)="redirect(notification.urlRedirect, $event)">
       <div class="left">
         @if(notification.grauNotificacao == 'DANGER'){
         <fa-icon class="icon-grau text-danger me-2" [icon]="faExclamationTriangle"></fa-icon>

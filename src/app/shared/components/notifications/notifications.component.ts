@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faBell, faEnvelope, faEnvelopeOpen, faExclamationCircle, faExclamationTriangle, faInfoCircle, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faCheckDouble, faEnvelope, faEnvelopeOpen, faExclamationCircle, faExclamationTriangle, faInfoCircle, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { finalize, Subject, takeUntil } from 'rxjs';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { Notification } from '../../../core/models/notification.interface';
@@ -29,6 +29,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   faExclamationCircle = faExclamationCircle;
   faExclamationTriangle = faExclamationTriangle;
   faTrash = faTrash;
+  faCheckDouble = faCheckDouble;
 
   responsePageNotificacoes: ResponsePage<Notification> = {
     currentPage: 1,
@@ -44,6 +45,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   loadingMore = false;
   clearingRead = false;
   notificacoesCarregada = false;
+  private notificationsRequestVersion = 0;
 
   private readonly audio: HTMLAudioElement;
   private userInteracted = false;
@@ -58,6 +60,13 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.notificationService.notificationsChanged$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.getCountNaoLidas();
+        this.recarregarNotificacoes();
+      });
+
     this.notificationService.notification$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
@@ -98,6 +107,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   getNotifications(): void {
     const requestedPage = this.responsePageNotificacoes.currentPage;
+    const requestVersion = ++this.notificationsRequestVersion;
 
     this.notificationService
       .getNotifications({
@@ -112,6 +122,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: res => {
+          if (requestVersion !== this.notificationsRequestVersion) {
+            return;
+          }
+
           if (requestedPage === 1) {
             this.responsePageNotificacoes.items = res.items;
           } else {
@@ -165,6 +179,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   toggleNotifications(): void {
     this.showNotifications = !this.showNotifications;
+
+    if (this.showNotifications) {
+      this.recarregarNotificacoes();
+    }
   }
 
   marcarComoLida(
@@ -252,9 +270,23 @@ export class NotificationsComponent implements OnInit, OnDestroy {
       : null;
   }
 
-  redirect(path: string): void {
+  redirect(path: string, event: MouseEvent): void {
+    event.stopPropagation();
+
+    if (!path) {
+      return;
+    }
+
     this.showNotifications = false;
-    this.router.navigateByUrl(`/app/${path}`);
+    const normalizedPath = path
+      .replace(/^\//, '')
+      .replace(/^app\//, '');
+    const legacyAgendaPath = normalizedPath.match(/^agenda\/([0-9a-f-]+)$/i);
+    const destination = legacyAgendaPath
+      ? `eventos/list?eventoId=${legacyAgendaPath[1]}`
+      : normalizedPath;
+
+    void this.router.navigateByUrl(`/${destination}`);
   }
 
   onScroll(event: Event): void {
