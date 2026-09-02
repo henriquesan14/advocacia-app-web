@@ -51,6 +51,10 @@ export class ProcessosService {
   updateProcesso(processo: Processo): Observable<Processo>{
     return this.http.put<Processo>(`${this.API}/processo`, processo);
   }
+
+  atualizarSituacao(processoId: string, situacaoProcessoId: string): Observable<void> {
+    return this.http.patch<void>(`${this.API}/processo/${processoId}/situacao`, { situacaoProcessoId });
+  }
   
   addReuProcesso(reuProcesso: ReuProcesso): Observable<void>{
     return this.http.put<void>(`${this.API}/processo/reus`, reuProcesso);

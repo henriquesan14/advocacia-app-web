@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IconClienteComponent } from '../../../shared/components/icon-cliente/icon-cliente.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faEye, faList, faRefresh, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faList, faRefresh, faRightLeft, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NroProcessoPipe } from '../../../shared/pipes/nro-processo.pipe';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
@@ -20,11 +20,13 @@ export class CardProcessoComponent {
   faTrash = faTrash;
   faEye = faEye;
   faList = faList;
+  faRightLeft = faRightLeft;
   @Input() processo: any;
 
   @Output() visualizar = new EventEmitter<string>();
   @Output() reiniciar = new EventEmitter<string>();
   @Output() excluir = new EventEmitter<string>();
+  @Output() alterarSituacao = new EventEmitter<void>();
   @Output() visualizarMovimentacoes = new EventEmitter<string>();
 
   onVisualizar() {
@@ -37,6 +39,10 @@ export class CardProcessoComponent {
 
   onExcluir() {
     this.excluir.emit(this.processo.id);
+  }
+
+  onAlterarSituacao() {
+    this.alterarSituacao.emit();
   }
 
   onVisualizarMovimentacoes() {

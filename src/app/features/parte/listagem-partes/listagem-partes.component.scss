@@ -1,0 +1,17 @@
+.cliente-filter {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+:host ::ng-deep .cliente-filter .ant-checkbox-inner {
+  width: 18px;
+  height: 18px;
+}
+
+:host ::ng-deep .cliente-filter .ant-checkbox-checked .ant-checkbox-inner::after {
+  width: 6px;
+  height: 10px;
+}
