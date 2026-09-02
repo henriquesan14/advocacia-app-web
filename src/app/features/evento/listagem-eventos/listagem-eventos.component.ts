@@ -163,13 +163,38 @@ export class ListagemEventosComponent implements OnInit, OnDestroy {
     }
 
   captureScreen() {
-    
-    const content = this.content.nativeElement;
-    const originalDisplay = content.style.display;
-    content.style.display = 'block';
+    const content = this.content.nativeElement as HTMLElement;
+    const captureContainer = document.createElement('div');
+    const captureContent = content.cloneNode(true) as HTMLElement;
+    const captureWidth = content.getBoundingClientRect().width;
 
-    html2canvas(content).then(canvas => {
-      content.style.display = originalDisplay;
+    captureContainer.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: ${captureWidth}px;
+      background: #ffffff;
+      pointer-events: none;
+    `;
+    captureContent.style.display = 'block';
+    captureContent.style.width = '100%';
+    captureContent.style.setProperty('background-color', '#ffffff', 'important');
+    captureContent.querySelectorAll<HTMLElement>('.card-evento').forEach(card => {
+      card.style.setProperty('background-color', '#ffffff', 'important');
+    });
+    captureContainer.appendChild(captureContent);
+    document.body.appendChild(captureContainer);
+
+    html2canvas(captureContent, {
+      backgroundColor: '#ffffff',
+      width: captureContent.scrollWidth,
+      height: captureContent.scrollHeight,
+      windowWidth: captureContent.scrollWidth,
+      windowHeight: captureContent.scrollHeight,
+      scrollX: 0,
+      scrollY: 0
+    }).then(canvas => {
       // Converta o canvas em uma imagem base64
       const imageData = canvas.toDataURL('image/png');
 
@@ -183,6 +208,8 @@ export class ListagemEventosComponent implements OnInit, OnDestroy {
       
       // Clique no link para iniciar o download
       link.click();
+    }).finally(() => {
+      captureContainer.remove();
     });
   }
 

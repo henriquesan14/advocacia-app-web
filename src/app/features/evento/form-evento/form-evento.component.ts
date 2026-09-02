@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Optional, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
+import { Component, ElementRef, EventEmitter, Inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { catchError, distinctUntilChanged, of, Subject, switchMap, takeUntil, timer } from 'rxjs';
 import { NewEvento } from '../../../core/models/new-evento.interface';
 import { UsuariosService } from '../../../shared/services/usuarios.service';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
@@ -19,18 +19,27 @@ import { ToastrService } from 'ngx-toastr';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { SelectAutocompleteComponent } from '../../../shared/components/select-autocomplete/select-autocomplete.component';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
-import { NgxMaskDirective } from 'ngx-mask';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { NzAutocompleteOptionComponent } from 'ng-zorro-antd/auto-complete';
+import { NzAutocompleteTriggerDirective } from 'ng-zorro-antd/auto-complete';
+import { ProcessosService } from '../../../shared/services/processos.service';
+import { NroProcessoPipe } from '../../../shared/pipes/nro-processo.pipe';
+import { ProcessoAutocomplete } from '../../../core/models/processo-autocomplete.interface';
 
 @Component({
   selector: 'app-form-evento',
   standalone: true,
   imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, BtnCadastrarComponent, NgxSpinnerModule, ToggleButtonComponent,
-    IconClienteComponent, SelectAutocompleteComponent, HasRoleDirective, NgxMaskDirective
+    IconClienteComponent, SelectAutocompleteComponent, HasRoleDirective, NzAutocompleteModule,
+    NroProcessoPipe
   ],
   templateUrl: './form-evento.component.html',
   styleUrl: './form-evento.component.scss'
 })
 export class FormEventoComponent implements OnInit, OnDestroy {
+  @ViewChild('processoInput') processoInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('processoAutocompleteTrigger') processoAutocompleteTrigger!: NzAutocompleteTriggerDirective;
+
   private destroy$ = new Subject<void>();
   formEvento!: FormGroup;
   @Input() isModal: boolean = false;
@@ -40,6 +49,9 @@ export class FormEventoComponent implements OnInit, OnDestroy {
 
   responsaveis: Usuario[] = [];
   filteredResponsaveis: Usuario[] = [];
+  processosSugeridos: ProcessoAutocomplete[] = [];
+  private processoSearch$ = new Subject<string>();
+  private selectedProcessNumber: string | null = null;
 
   faTimes = faTimes;
   
@@ -48,6 +60,7 @@ export class FormEventoComponent implements OnInit, OnDestroy {
 
   constructor(private modalRef: NzModalRef, @Inject(NZ_MODAL_DATA) public data: { eventoId: string }, private formBuilder: FormBuilder, private usuarioService: UsuariosService, private spinner: NgxSpinnerService,
     private eventoService: EventosService, private toastr: ToastrService, 
+    private processoService: ProcessosService
   ){
 
   }
@@ -60,16 +73,91 @@ export class FormEventoComponent implements OnInit, OnDestroy {
       dataEvento: [null, Validators.required],
       horaEvento: [null, [Validators.required, !this.diaInteiro ? Validators.required : null]],
       local: [null, Validators.required],
-      nroProcesso:[null],
+      nroProcesso: [null, this.processNumberValidator],
       linkAudiencia: [null],
       responsavelId: [null, Validators.required],
       responsavelNome: [null, Validators.required],
     });
 
     this.getResponsaveis(null);
+    this.configureProcessoAutocomplete();
     if(this.data.eventoId){
       this.getEvento();
     }
+  }
+
+  onProcessoSearch(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = this.formatProcessNumber(input.value);
+    input.value = value;
+    this.formEvento.get('nroProcesso')?.setValue(value, { emitEvent: false });
+    const search = value.replace(/\D/g, '');
+    if (search !== this.selectedProcessNumber) {
+      this.selectedProcessNumber = null;
+      this.nroProcessoControl.updateValueAndValidity({ emitEvent: false });
+    }
+
+    if (search.length < 3) {
+      this.processosSugeridos = [];
+      this.processoSearch$.next(search);
+      return;
+    }
+
+    this.processoSearch$.next(search);
+  }
+
+  onProcessoSelected(option: NzAutocompleteOptionComponent): void {
+    this.selectedProcessNumber = String(option.nzValue).replace(/\D/g, '');
+    this.formEvento.get('nroProcesso')?.setValue(option.nzValue);
+    this.nroProcessoControl.updateValueAndValidity({ emitEvent: false });
+  }
+
+  formatProcessNumber(value: string): string {
+    const digits = String(value ?? '').replace(/\D/g, '').slice(0, 20);
+    const groupSizes = [7, 2, 4, 1, 2, 4];
+    const groups: string[] = [];
+    let position = 0;
+
+    for (const size of groupSizes) {
+      const group = digits.slice(position, position + size);
+      if (!group) break;
+
+      groups.push(group);
+      position += group.length;
+      if (group.length < size) break;
+    }
+
+    return groups.join('.');
+  }
+
+  private processNumberValidator = (control: AbstractControl): ValidationErrors | null => {
+    const value = String(control.value ?? '');
+    if (!value) return null;
+
+    const number = value.replace(/\D/g, '');
+    if (number.length < 3) return { minimumProcessDigits: true };
+
+    return number === this.selectedProcessNumber ? null : { processNotSelected: true };
+  };
+
+  private configureProcessoAutocomplete(): void {
+    this.processoSearch$.pipe(
+      distinctUntilChanged(),
+      switchMap(nroProcesso => nroProcesso.length < 3
+        ? of([] as ProcessoAutocomplete[])
+        : timer(300).pipe(
+            switchMap(() => this.processoService.buscarAutocomplete(nroProcesso).pipe(
+              catchError(() => of([] as ProcessoAutocomplete[]))
+            ))
+          )),
+      takeUntil(this.destroy$)
+    ).subscribe(processos => {
+      this.processosSugeridos = processos;
+
+      if (processos.length > 0 && document.activeElement === this.processoInput?.nativeElement) {
+        setTimeout(() => this.processoAutocompleteTrigger?.openPanel());
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -79,6 +167,10 @@ export class FormEventoComponent implements OnInit, OnDestroy {
 
   get responsavelControl(): FormControl {
     return this.formEvento.get('responsavelId') as FormControl;
+  }
+
+  get nroProcessoControl(): FormControl {
+    return this.formEvento.get('nroProcesso') as FormControl;
   }
 
   onChangeResponsavel(event: any) {
@@ -127,6 +219,7 @@ export class FormEventoComponent implements OnInit, OnDestroy {
         this.formEvento.get('titulo')?.setValue(res.titulo);
         this.formEvento.get('tipo')?.setValue(res.tipo);
         if(res.processo){
+          this.selectedProcessNumber = res.processo.nroProcesso.replace(/\D/g, '');
           this.formEvento.get('nroProcesso')?.setValue(res.processo.nroProcesso);
         }
         
@@ -182,6 +275,9 @@ export class FormEventoComponent implements OnInit, OnDestroy {
       this.formEvento.get('tipo')?.enable();
       const evento = <NewEvento>{
         ...this.formEvento.value,
+        nroProcesso: this.formEvento.value.nroProcesso
+          ? this.formEvento.value.nroProcesso.replace(/\D/g, '')
+          : null,
         dataEvento: this.getDateFormatted(),
         diaInteiro: this.diaInteiro,
         presencial: this.presencial

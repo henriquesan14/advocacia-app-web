@@ -39,7 +39,7 @@
   
   .sidebar-logo img {
     display: inline-block;
-    width: 80px;
+    width: 56px;
     vertical-align: middle;
   }
   
@@ -133,6 +133,15 @@
     margin-right: 16px;
   }
 
+  .collapsed-menu-title {
+    color: rgba(255, 255, 255, 0.85) !important;
+    cursor: default;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
   .impersonation-banner {
     align-items: center;
     background: #fff7e6;
@@ -142,6 +151,16 @@
     gap: 16px;
     justify-content: center;
     padding: 10px 16px;
+  }
+
+  @media (max-width: 1440px) {
+    nz-content {
+      margin: 12px;
+    }
+
+    .inner-content {
+      padding: 16px;
+    }
   }
 
   @media (max-width: 575px) {

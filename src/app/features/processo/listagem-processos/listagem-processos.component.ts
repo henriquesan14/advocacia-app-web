@@ -4,7 +4,7 @@ import { Processo } from '../../../core/models/processo.interface';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCogs, faExclamationCircle, faExclamationTriangle, faEye, faList, faPencil, faRefresh, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCogs, faExclamationCircle, faExclamationTriangle, faEye, faList, faPencil, faRefresh, faRightLeft, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, ParamMap, Router, RouterLink } from '@angular/router';
 import { ResponsePage } from '../../../core/models/response-page.interface';
@@ -45,6 +45,7 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { DataJudService } from '../../../shared/services/data-jud.service';
 import { MovimentacoesProcessoComponent } from '../movimentacoes-processo/movimentacoes-processo.component';
 import { BtnAuditoriaComponent } from '../../../shared/components/btn-auditoria/btn-auditoria.component';
+import { ModalSituacaoProcessoComponent } from '../modal-situacao-processo/modal-situacao-processo.component';
 
 @Component({
   selector: 'app-listagem-processos',
@@ -76,6 +77,7 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
   faCogs = faCogs;
   faRefresh = faRefresh;
   faList = faList;
+  faRightLeft = faRightLeft;
   modalService = inject(NzModalService);
   situacoes: SituacaoProcesso[] = [];
   competencias: Competencia[] = [];
@@ -157,6 +159,20 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
   visualizarProcesso(idProcesso: string) {
 		this.router.navigateByUrl(`/processos/${idProcesso}`);
 	}
+
+  alterarSituacao(processo: Processo): void {
+    const modal = this.modalService.create({
+      nzTitle: 'Alterar situação do processo',
+      nzContent: ModalSituacaoProcessoComponent,
+      nzWidth: '520px',
+      nzFooter: null,
+      nzData: { processo }
+    });
+
+    modal.afterClose.subscribe(updated => {
+      if (updated) this.getProcessos();
+    });
+  }
 
   filter(){
     this.responsePageProcessos.currentPage = 1;
