@@ -11,6 +11,7 @@ import { Historico } from '../../core/models/historico.interface';
 import { Audiencia } from '../../core/models/audiencia.interface';
 import { Parte } from '../../core/models/parte.interface';
 import { Documento } from '../../core/models/documento.interface';
+import { ProcessoAutocomplete } from '../../core/models/processo-autocomplete.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +51,11 @@ export class ProcessosService {
 
   updateProcesso(processo: Processo): Observable<Processo>{
     return this.http.put<Processo>(`${this.API}/processo`, processo);
+  }
+
+  buscarAutocomplete(nroProcesso: string): Observable<ProcessoAutocomplete[]> {
+    const params = new HttpParams().set('nroProcesso', nroProcesso.replace(/\D/g, ''));
+    return this.http.get<ProcessoAutocomplete[]>(`${this.API}/processo/autocomplete`, { params });
   }
 
   atualizarSituacao(processoId: string, situacaoProcessoId: string): Observable<void> {

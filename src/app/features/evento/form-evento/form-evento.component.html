@@ -77,8 +77,26 @@
       <nz-form-item>
         <nz-form-label [nzFor]="'nroProcesso'">Nº Processo</nz-form-label>
         <nz-form-control>
-          <input mask="0000000.00.0000.0.00.0000" nz-input formControlName="nroProcesso" id="nroProcesso" placeholder="Nº Processo"
-            [readonly]="data.eventoId" />
+          <input #processoInput #processoAutocompleteTrigger="nzAutocompleteTrigger"
+            nz-input formControlName="nroProcesso" id="nroProcesso" maxlength="25"
+            placeholder="Digite ao menos 3 números" [readonly]="data.eventoId"
+            [nzAutocomplete]="processoAutocomplete" (input)="onProcessoSearch($event)" />
+          <nz-autocomplete #processoAutocomplete (selectionChange)="onProcessoSelected($event)">
+            @for (processo of processosSugeridos; track processo.id) {
+              <nz-auto-option [nzValue]="formatProcessNumber(processo.nroProcesso)"
+                [nzLabel]="formatProcessNumber(processo.nroProcesso)">
+                <strong>{{ processo.nroProcesso | nroProcesso }}</strong>
+              </nz-auto-option>
+            }
+          </nz-autocomplete>
+          @if (nroProcessoControl.hasError('minimumProcessDigits') &&
+               (nroProcessoControl.dirty || nroProcessoControl.touched)) {
+            <div class="text-danger">Informe ao menos 3 números do processo.</div>
+          }
+          @if (nroProcessoControl.hasError('processNotSelected') &&
+               (nroProcessoControl.dirty || nroProcessoControl.touched)) {
+            <div class="text-danger">Selecione um processo na lista de sugestões.</div>
+          }
         </nz-form-control>
       </nz-form-item>
     </div>
