@@ -65,4 +65,8 @@ export class NotificationService {
   marcarTodasComoLidas(){
     return this.http.put(`${environment.apiUrlBase}/notificacao/mark-as-read`, {});
   }
+
+  limparNotificacoesLidas(): Observable<void> {
+    return this.http.delete<void>(`${environment.apiUrlBase}/notificacao/read`);
+  }
 }

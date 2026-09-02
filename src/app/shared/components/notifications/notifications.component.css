@@ -103,20 +103,33 @@
     overflow-y: hidden; /* Hide scroll when no notifications */
 }
 
-.mark-all-read-button {
+.notification-actions {
+    align-items: center;
     color: #5492d4;
-    text-align: center;
+    display: flex;
     font-size: 16px;
     font-weight: bold;
+    gap: 12px;
+    justify-content: center;
+    padding: 6px 8px;
     cursor: auto;
 }
 
-.mark-all-read-button span{
+.notification-actions span{
     cursor: pointer;
 }
 
-.mark-all-read-button span:hover {
+.notification-actions span:hover {
     color: #024185;
+}
+
+.notification-actions .clear-read {
+    color: #ff4d4f;
+}
+
+.notification-actions .clear-read.disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
 }
 
 @media (max-width: 450px) {

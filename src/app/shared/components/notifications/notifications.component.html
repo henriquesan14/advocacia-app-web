@@ -7,11 +7,20 @@
   @if(showNotifications){
   <div class="notifications-dropdown" (scroll)="onScroll($event)"
     [ngClass]="{'no-scroll': responsePageNotificacoes.items.length === 0}">
-    @if(notificationCount > 0){
-      <div class="mark-all-read-button">
+    @if(notificationCount > 0 || hasReadNotifications){
+      <div class="notification-actions">
+        @if(notificationCount > 0){
         <span (click)="marcarTodasComoLidas(); $event.stopPropagation()">
           Marcar todas como lidas
         </span>
+        }
+        @if(hasReadNotifications){
+        <span class="clear-read" [class.disabled]="clearingRead"
+          (click)="limparNotificacoesLidas(); $event.stopPropagation()">
+          <fa-icon [icon]="faTrash"></fa-icon>
+          {{ clearingRead ? 'Limpando...' : 'Limpar lidas' }}
+        </span>
+        }
       </div>
     }
     @for(notification of responsePageNotificacoes.items; track notification.id){

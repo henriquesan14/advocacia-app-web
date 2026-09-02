@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faBell, faCheck, faEnvelope, faEnvelopeOpen, faExclamationCircle, faExclamationTriangle, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faEnvelope, faEnvelopeOpen, faExclamationCircle, faExclamationTriangle, faInfoCircle, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { finalize, Subject, takeUntil } from 'rxjs';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { Notification } from '../../../core/models/notification.interface';
@@ -28,6 +28,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   faInfoCircle = faInfoCircle;
   faExclamationCircle = faExclamationCircle;
   faExclamationTriangle = faExclamationTriangle;
+  faTrash = faTrash;
 
   responsePageNotificacoes: ResponsePage<Notification> = {
     currentPage: 1,
@@ -41,6 +42,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   notificationCount = 0;
   loadingMore = false;
+  clearingRead = false;
   notificacoesCarregada = false;
 
   private readonly audio: HTMLAudioElement;
@@ -221,6 +223,27 @@ export class NotificationsComponent implements OnInit, OnDestroy {
           );
         }
       });
+  }
+
+  limparNotificacoesLidas(): void {
+    if (this.clearingRead || !this.hasReadNotifications) return;
+    if (!window.confirm('Deseja excluir todas as notificações lidas?')) return;
+
+    this.clearingRead = true;
+    this.notificationService
+      .limparNotificacoesLidas()
+      .pipe(
+        takeUntil(this.destroy$),
+        finalize(() => this.clearingRead = false)
+      )
+      .subscribe({
+        next: () => this.recarregarNotificacoes(),
+        error: err => console.error('Erro ao limpar notificações lidas:', err)
+      });
+  }
+
+  get hasReadNotifications(): boolean {
+    return this.responsePageNotificacoes.totalCount > this.notificationCount;
   }
 
   horaFormatada(data: string): string | null {
