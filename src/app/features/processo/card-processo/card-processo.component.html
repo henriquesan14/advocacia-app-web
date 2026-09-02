@@ -40,12 +40,12 @@
       <!-- <button hasRole="LISTAR_PROCESSO" nz-button class="me-1" nzSize="small" (click)="onVisualizarMovimentacoes()">
           <fa-icon [icon]="faList"></fa-icon>
       </button> -->
-      <button hasRole="EDITAR_PROCESSO" nz-button nzSize="small" (click)="onReiniciar()">
-        <fa-icon [icon]="faRefresh"></fa-icon>
-      </button>
       <button hasRole="EDITAR_PROCESSO" nz-button nzSize="small" (click)="onAlterarSituacao()"
         title="Alterar situação">
         <fa-icon [icon]="faRightLeft"></fa-icon>
+      </button>
+      <button hasRole="EDITAR_PROCESSO" nz-button nzSize="small" (click)="onReiniciar()">
+        <fa-icon [icon]="faRefresh"></fa-icon>
       </button>
       <btn-auditoria [auditoria]="processo"></btn-auditoria>
       <button hasRole="EXCLUIR_PROCESSO" nz-button nzDanger nzSize="small" (click)="onExcluir()">

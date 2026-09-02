@@ -1,8 +1,7 @@
 <nz-layout class="app-layout">
     <nz-sider class="menu-sidebar"
       nzCollapsible
-      nzWidth="256px"
-      nzBreakpoint="md"
+      nzWidth="220px"
       [(nzCollapsed)]="isCollapsed"
       [nzTrigger]="null">
       <div class="sidebar-logo">
@@ -12,8 +11,12 @@
       </div>
       <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
         @for (item of menuItems; track item.title) {
-          <li [hasRole]="item.permission"  nz-submenu [nzTitle]="item.title" [nzIcon]="item.icon">
+          <li [hasRole]="item.permission" nz-submenu [nzTitle]="item.title" [nzIcon]="item.icon"
+              [attr.title]="isCollapsed ? item.title : null">
             <ul>
+              @if (isCollapsed) {
+                <li nz-menu-item class="collapsed-menu-title">{{ item.title }}</li>
+              }
               @for (child of item.children; track child.label) {
                 <li [hasRole]="child.permission"  nz-menu-item nzMatchRouter>
                   @if (child.link) {

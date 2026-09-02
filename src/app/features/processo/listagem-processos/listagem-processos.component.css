@@ -5,3 +5,12 @@
 .icon-text-container{
     display: flex;
 }
+
+.alerta-column {
+    width: 44px;
+    min-width: 44px;
+    max-width: 44px;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    text-align: center;
+}

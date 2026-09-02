@@ -1,5 +1,5 @@
 <h2 class="card-header text-center">Processos</h2>
-<div class="container">
+<div class="container-fluid px-0">
     <btn-novo hasRole="CADASTRAR_PROCESSO" title="Novo Processo" (clickEvent)="novoProcesso()"></btn-novo>
 
     <nz-collapse hasRole="LISTAR_PROCESSO" class="mt-1">
@@ -130,13 +130,13 @@
     </div>
 
     <div class="desktop-only">
-        <nz-table [nzScroll]="{ y: '600px' }" [nzData]="responsePageProcessos.items"
+        <nz-table [nzScroll]="{ x: 'max-content', y: '600px' }" [nzData]="responsePageProcessos.items"
             [nzTotal]="responsePageProcessos.totalCount" [nzPageSize]="responsePageProcessos.pageSize"
             [nzPageIndex]="responsePageProcessos.currentPage" (nzPageIndexChange)="onPageChange($event)"
             [nzShowSizeChanger]="true" (nzPageSizeChange)="onPageSizeChange($event)" [nzFrontPagination]="false">
             <thead>
                 <tr>
-                    <th></th>
+                    <th class="alerta-column" nzWidth="44px"></th>
                     @if(includesField('NroProcesso')){
                     <th>N. Processo</th>
                     }
@@ -191,7 +191,7 @@
             <tbody>
                 @for (processo of responsePageProcessos.items; track processo.id) {
                 <tr>
-                    <td>
+                    <td class="alerta-column">
                         @if(processo.diasSemMovimentacao > diasAvisoSemMovimentacaoMax){
                         <fa-icon nzType="danger" class="text-danger" [icon]="faExclamationTriangle"></fa-icon>
                         }
@@ -200,9 +200,11 @@
                             class="text-warning" [icon]="faExclamationCircle"></fa-icon>
                             }
                     </td>
+                    @if(includesField('NroProcesso')){
                     <td>
                         {{ processo.nroProcesso | nroProcesso }}
                     </td>
+                    }
                     @if(includesField('Autores')){
                     <td [ngClass]="{'font-weight-bold': processo.autores[0].isCliente}">
                         <span class="icon-text-container">
@@ -311,13 +313,13 @@
                         <!-- <button (click)="visualizarMovimentacoes(processo.nroProcesso)" hasRole="LISTAR_PROCESSO" nz-tooltip="movimentações" nz-button class="me-1" nzSize="small">
                             <fa-icon [icon]="faList"></fa-icon>
                         </button> -->
-                        <button (click)="resetarDataHistorico(processo.id)" hasRole="EDITAR_PROCESSO" nz-tooltip="Reiniciar contador" class="me-1" nz-button
-                            nzType="default" nzSize="small">
-                            <fa-icon [icon]="faRefresh"></fa-icon>
-                        </button>
                         <button (click)="alterarSituacao(processo)" hasRole="EDITAR_PROCESSO"
                             nz-tooltip="Alterar situação" class="me-1" nz-button nzType="default" nzSize="small">
                             <fa-icon [icon]="faRightLeft"></fa-icon>
+                        </button>
+                        <button (click)="resetarDataHistorico(processo.id)" hasRole="EDITAR_PROCESSO" nz-tooltip="Reiniciar contador" class="me-1" nz-button
+                            nzType="default" nzSize="small">
+                            <fa-icon [icon]="faRefresh"></fa-icon>
                         </button>
                         <btn-auditoria [auditoria]="processo"></btn-auditoria>
                         <button (click)="deleteProcesso(processo.id)" hasRole="EXCLUIR_PROCESSO" nz-tooltip="Excluir" nz-button nzDanger nzSize="small">
