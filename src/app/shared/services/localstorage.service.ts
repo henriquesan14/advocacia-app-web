@@ -36,4 +36,13 @@ export class LocalstorageService {
   clearImpersonation(): void {
     localStorage.removeItem('impersonation');
   }
+
+  setSidebarCollapsed(collapsed: boolean): void {
+    localStorage.setItem('sidebar-collapsed', String(collapsed));
+  }
+
+  getSidebarCollapsed(): boolean {
+    const collapsed = localStorage.getItem('sidebar-collapsed');
+    return collapsed === null ? true : collapsed === 'true';
+  }
 }

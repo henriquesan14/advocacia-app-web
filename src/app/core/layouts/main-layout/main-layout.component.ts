@@ -33,8 +33,21 @@ export class MainLayoutComponent {
   private authService = inject(AuthService);
   private notificationService = inject(NotificationService);
 
+  constructor() {
+    this.isCollapsed = this.localStorageService.getSidebarCollapsed();
+  }
+
   isLoggingOut = false;
   isStoppingImpersonation = false;
+
+  toggleSidebar(): void {
+    this.isCollapsed = !this.isCollapsed;
+    this.localStorageService.setSidebarCollapsed(this.isCollapsed);
+
+    // O sider altera a largura com transição. Após ela terminar, avisamos os
+    // componentes responsivos (como nz-table) para recalcularem o espaço útil.
+    window.setTimeout(() => window.dispatchEvent(new Event('resize')), 350);
+  }
 
   menuItems = [
     {

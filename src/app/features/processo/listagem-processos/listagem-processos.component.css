@@ -3,7 +3,36 @@
 }
 
 .icon-text-container{
-    display: flex;
+    display: inline;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+.parte-column {
+    min-width: 190px;
+    max-width: 190px;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+.numero-processo-column {
+    min-width: 190px;
+    max-width: 190px;
+    white-space: nowrap;
+}
+
+.tipo-acao-column {
+    min-width: 190px;
+    max-width: 190px;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+.text-column-190 {
+    min-width: 190px;
+    max-width: 190px;
+    overflow-wrap: anywhere;
+    white-space: normal;
 }
 
 .alerta-column {
@@ -13,4 +42,14 @@
     padding-left: 8px !important;
     padding-right: 8px !important;
     text-align: center;
+}
+
+.dias-column {
+    width: 64px;
+    min-width: 64px;
+    max-width: 64px;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    text-align: center;
+    white-space: nowrap;
 }
