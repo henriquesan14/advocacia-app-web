@@ -53,3 +53,10 @@
     text-align: center;
     white-space: nowrap;
 }
+
+.fit-available-width .parte-column,
+.fit-available-width .numero-processo-column,
+.fit-available-width .tipo-acao-column,
+.fit-available-width .text-column-190 {
+    min-width: 0;
+}

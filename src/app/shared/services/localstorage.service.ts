@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Usuario } from '../../core/models/usuario.interface';
 import { ImpersonationSession } from '../../core/models/impersonation.interface';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocalstorageService {
+
+  private readonly sidebarCollapsedSubject = new BehaviorSubject<boolean>(this.getSidebarCollapsed());
+  readonly sidebarCollapsed$ = this.sidebarCollapsedSubject.asObservable();
 
   constructor() { }
 
@@ -39,6 +43,7 @@ export class LocalstorageService {
 
   setSidebarCollapsed(collapsed: boolean): void {
     localStorage.setItem('sidebar-collapsed', String(collapsed));
+    this.sidebarCollapsedSubject.next(collapsed);
   }
 
   getSidebarCollapsed(): boolean {

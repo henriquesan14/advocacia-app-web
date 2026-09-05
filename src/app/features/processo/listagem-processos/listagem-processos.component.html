@@ -130,7 +130,9 @@
     </div>
 
     <div class="desktop-only">
-        <nz-table nzTableLayout="fixed" [nzScroll]="{ x: 'max-content', y: '600px' }" [nzData]="responsePageProcessos.items"
+        <nz-table nzTableLayout="fixed" [class.fit-available-width]="isSidebarCollapsed"
+            [nzScroll]="isSidebarCollapsed ? { y: '600px' } : { x: 'max-content', y: '600px' }"
+            [nzData]="responsePageProcessos.items"
             [nzTotal]="responsePageProcessos.totalCount" [nzPageSize]="responsePageProcessos.pageSize"
             [nzPageIndex]="responsePageProcessos.currentPage" (nzPageIndexChange)="onPageChange($event)"
             [nzShowSizeChanger]="true" (nzPageSizeChange)="onPageSizeChange($event)" [nzFrontPagination]="false">
@@ -138,31 +140,31 @@
                 <tr>
                     <th class="alerta-column" nzWidth="44px"></th>
                     @if(includesField('NroProcesso')){
-                    <th class="numero-processo-column" nzWidth="190px">N. Processo</th>
+                    <th class="numero-processo-column" [nzWidth]="isSidebarCollapsed ? null : '190px'">N. Processo</th>
                     }
                     @if(includesField('Autores')){
-                    <th class="parte-column" nzWidth="190px">Autores</th>
+                    <th class="parte-column" [nzWidth]="isSidebarCollapsed ? null : '190px'">Autores</th>
                     }
                     @if(includesField('Reus')){
-                    <th class="parte-column" nzWidth="190px">Réus</th>
+                    <th class="parte-column" [nzWidth]="isSidebarCollapsed ? null : '190px'">Réus</th>
                     }
                     @if(includesField('TipoAcao')){
-                    <th class="tipo-acao-column" nzWidth="190px">Tipo Ação</th>
+                    <th class="tipo-acao-column" [nzWidth]="isSidebarCollapsed ? null : '190px'">Tipo Ação</th>
                     }
                     @if(includesField('Vara')){
                     <th>Vara</th>
                     }
                     @if(includesField('Comarca')){
-                    <th class="text-column-190" nzWidth="190px">Comarca</th>
+                    <th class="text-column-190" [nzWidth]="isSidebarCollapsed ? null : '190px'">Comarca</th>
                     }
                     @if(includesField('Competencia')){
-                    <th class="text-column-190" nzWidth="190px">Competência</th>
+                    <th class="text-column-190" [nzWidth]="isSidebarCollapsed ? null : '190px'">Competência</th>
                     }
                     @if(includesField('Situacao')){
-                    <th class="text-column-190" nzWidth="190px">Situação</th>
+                    <th class="text-column-190" [nzWidth]="isSidebarCollapsed ? null : '190px'">Situação</th>
                     }
                     @if(includesField('Dono')){
-                    <th class="text-column-190" nzWidth="190px">Dono</th>
+                    <th class="text-column-190" [nzWidth]="isSidebarCollapsed ? null : '190px'">Dono</th>
                     }
                     @if(includesField('Sistema')){
                     <th>Sistema</th>

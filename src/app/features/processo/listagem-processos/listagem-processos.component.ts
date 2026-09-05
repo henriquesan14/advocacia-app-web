@@ -94,6 +94,7 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
   confirmModal?: NzModalRef;
   diasAvisoSemMovimentacao = 5;
   diasAvisoSemMovimentacaoMax = 10;
+  isSidebarCollapsed = true;
 
   constructor(private processoService: ProcessosService, private formBuilder: FormBuilder, private situacaoService: SituacaoProcessoService,
     private router: Router, private toastr: ToastrService, private spinner: NgxSpinnerService, private competenciaService: CompetenciaService,
@@ -122,6 +123,10 @@ export class ListagemProcessosComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.localStorageService.sidebarCollapsed$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(collapsed => this.isSidebarCollapsed = collapsed);
+
     const userRoles = this.localStorageService.getUserStorage().grupo.permissoes.map(p => p.nome);
     this.hasPermissionAllProcessos = userRoles.includes('LISTAR_PROCESSO');
 
