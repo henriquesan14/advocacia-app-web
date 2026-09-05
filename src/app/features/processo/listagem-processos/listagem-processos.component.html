@@ -130,7 +130,9 @@
     </div>
 
     <div class="desktop-only">
-        <nz-table [nzScroll]="{ x: 'max-content', y: '600px' }" [nzData]="responsePageProcessos.items"
+        <nz-table nzTableLayout="fixed" [class.fit-available-width]="isSidebarCollapsed"
+            [nzScroll]="isSidebarCollapsed ? { y: '600px' } : { x: 'max-content', y: '600px' }"
+            [nzData]="responsePageProcessos.items"
             [nzTotal]="responsePageProcessos.totalCount" [nzPageSize]="responsePageProcessos.pageSize"
             [nzPageIndex]="responsePageProcessos.currentPage" (nzPageIndexChange)="onPageChange($event)"
             [nzShowSizeChanger]="true" (nzPageSizeChange)="onPageSizeChange($event)" [nzFrontPagination]="false">
@@ -138,31 +140,31 @@
                 <tr>
                     <th class="alerta-column" nzWidth="44px"></th>
                     @if(includesField('NroProcesso')){
-                    <th>N. Processo</th>
+                    <th class="numero-processo-column" [nzWidth]="isSidebarCollapsed ? null : '190px'">N. Processo</th>
                     }
                     @if(includesField('Autores')){
-                    <th>Autores</th>
+                    <th class="parte-column" [nzWidth]="isSidebarCollapsed ? null : '190px'">Autores</th>
                     }
                     @if(includesField('Reus')){
-                    <th>Réus</th>
+                    <th class="parte-column" [nzWidth]="isSidebarCollapsed ? null : '190px'">Réus</th>
                     }
                     @if(includesField('TipoAcao')){
-                    <th>Tipo Ação</th>
+                    <th class="tipo-acao-column" [nzWidth]="isSidebarCollapsed ? null : '190px'">Tipo Ação</th>
                     }
                     @if(includesField('Vara')){
                     <th>Vara</th>
                     }
                     @if(includesField('Comarca')){
-                    <th>Comarca</th>
+                    <th class="text-column-190" [nzWidth]="isSidebarCollapsed ? null : '190px'">Comarca</th>
                     }
                     @if(includesField('Competencia')){
-                    <th>Competência</th>
+                    <th class="text-column-190" [nzWidth]="isSidebarCollapsed ? null : '190px'">Competência</th>
                     }
                     @if(includesField('Situacao')){
-                    <th>Situação</th>
+                    <th class="text-column-190" [nzWidth]="isSidebarCollapsed ? null : '190px'">Situação</th>
                     }
                     @if(includesField('Dono')){
-                    <th>Dono</th>
+                    <th class="text-column-190" [nzWidth]="isSidebarCollapsed ? null : '190px'">Dono</th>
                     }
                     @if(includesField('Sistema')){
                     <th>Sistema</th>
@@ -180,7 +182,7 @@
                     <th>Última data</th>
                     }
 
-                    <th>Dias</th>
+                    <th class="dias-column" nzWidth="64px">Dias</th>
 
                     @if(includesField('Observacao')){
                     <th>Obs.</th>
@@ -201,12 +203,12 @@
                             }
                     </td>
                     @if(includesField('NroProcesso')){
-                    <td>
+                    <td class="numero-processo-column">
                         {{ processo.nroProcesso | nroProcesso }}
                     </td>
                     }
                     @if(includesField('Autores')){
-                    <td [ngClass]="{'font-weight-bold': processo.autores[0].isCliente}">
+                    <td class="parte-column" [ngClass]="{'font-weight-bold': processo.autores[0].isCliente}">
                         <span class="icon-text-container">
                             @if(processo.autores[0].isCliente){
                             <icon-cliente></icon-cliente>
@@ -220,7 +222,7 @@
                     }
 
                     @if(includesField('Reus')){
-                    <td [ngClass]="{'font-weight-bold': processo.reus[0].isCliente}">
+                    <td class="parte-column" [ngClass]="{'font-weight-bold': processo.reus[0].isCliente}">
                         <span class="icon-text-container">
                             @if(processo.reus[0].isCliente){
                             <icon-cliente></icon-cliente>
@@ -234,7 +236,7 @@
                     }
 
                     @if(includesField('TipoAcao')){
-                    <td>
+                    <td class="tipo-acao-column">
                         {{ processo.tipoAcao }}
                     </td>
                     }
@@ -246,24 +248,24 @@
                     }
 
                     @if(includesField('Comarca')){
-                    <td>
+                    <td class="text-column-190">
                         {{ processo.comarca.nome }}
                     </td>
                     }
 
                     @if(includesField('Competencia')){
-                    <td>
+                    <td class="text-column-190">
                         {{ processo.competencia.nome }}
                     </td>
                     }
                     @if(includesField('Situacao')){
-                    <td>
+                    <td class="text-column-190">
                         {{ processo.situacao.descricao }}
                     </td>
                     }
 
                     @if(includesField('Dono')){
-                    <td>
+                    <td class="text-column-190">
                         {{ processo.dono.nome }}
                     </td>
                     }
@@ -297,7 +299,7 @@
                         {{ processo.updatedAt || processo.createdAt| date: 'dd/MM/yyyy' }}
                     </td>
                     }
-                    <td>
+                    <td class="dias-column">
                         {{ processo.diasSemMovimentacao }}
                     </td>
 
