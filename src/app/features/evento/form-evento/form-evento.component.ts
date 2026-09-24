@@ -25,6 +25,7 @@ import { NzAutocompleteTriggerDirective } from 'ng-zorro-antd/auto-complete';
 import { ProcessosService } from '../../../shared/services/processos.service';
 import { NroProcessoPipe } from '../../../shared/pipes/nro-processo.pipe';
 import { ProcessoAutocomplete } from '../../../core/models/processo-autocomplete.interface';
+import { normalizeSearchText } from '../../../shared/utils/text-search.utils';
 
 @Component({
   selector: 'app-form-evento',
@@ -175,8 +176,9 @@ export class FormEventoComponent implements OnInit, OnDestroy {
 
   onChangeResponsavel(event: any) {
     const nome = typeof event === 'string' ? event : event?.target?.value || '';
+    const nomeNormalizado = normalizeSearchText(nome);
     this.filteredResponsaveis = this.responsaveis.filter(u =>
-      u.nome.toLowerCase().includes(nome.toLowerCase())
+      normalizeSearchText(u.nome).includes(nomeNormalizado)
     );
   }
 
