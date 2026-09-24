@@ -17,12 +17,13 @@ import { ProcessosService } from '../../../../../shared/services/processos.servi
 import { SelectAutocompleteComponent } from '../../../../../shared/components/select-autocomplete/select-autocomplete.component';
 import { IconClienteComponent } from '../../../../../shared/components/icon-cliente/icon-cliente.component';
 import { HasRoleDirective } from '../../../../../shared/directives/has-role.directive';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 @Component({
   selector: 'tab-autores',
   standalone: true,
   imports: [BtnNovoComponent, NzFormModule, NzInputModule, NzTableModule, ReactiveFormsModule, NzButtonModule, FontAwesomeModule, SelectAutocompleteComponent,
-     IconClienteComponent, HasRoleDirective],
+     IconClienteComponent, HasRoleDirective, NzCheckboxModule],
   templateUrl: './tab-autores.component.html',
   styleUrl: './tab-autores.component.scss'
 })
@@ -119,6 +120,17 @@ export class TabAutoresComponent implements OnInit, OnDestroy {
       this.autoresSelecionados.splice(index, 1);
       this.autoresChange.emit(this.autoresSelecionados);
     }
+  }
+
+  corrigirCliente(autor: Parte, isCliente: boolean) {
+    if (!this.processoId) return;
+
+    const valorAnterior = autor.isCliente;
+    autor.isCliente = isCliente;
+    this.processoService.corrigirClienteParte(this.processoId, autor.id, isCliente).subscribe({
+      next: () => this.toastr.success('Informação de cliente corrigida!', 'Sucesso'),
+      error: () => autor.isCliente = valorAnterior
+    });
   }
 
   openModalFormParte() {

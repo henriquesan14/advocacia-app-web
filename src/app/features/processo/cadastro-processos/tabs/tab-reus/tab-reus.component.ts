@@ -17,12 +17,13 @@ import { ToastrService } from 'ngx-toastr';
 import { SelectAutocompleteComponent } from '../../../../../shared/components/select-autocomplete/select-autocomplete.component';
 import { IconClienteComponent } from '../../../../../shared/components/icon-cliente/icon-cliente.component';
 import { HasRoleDirective } from '../../../../../shared/directives/has-role.directive';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 @Component({
   selector: 'tab-reus',
   standalone: true,
   imports: [BtnNovoComponent, ReactiveFormsModule, NzFormModule, NzInputModule, NzTableModule, NzButtonModule, FontAwesomeModule, SelectAutocompleteComponent,
-     IconClienteComponent, HasRoleDirective],
+     IconClienteComponent, HasRoleDirective, NzCheckboxModule],
   templateUrl: './tab-reus.component.html',
   styleUrl: './tab-reus.component.scss'
 })
@@ -119,6 +120,17 @@ export class TabReusComponent implements OnInit, OnDestroy {
       this.reusSelecionados.splice(index, 1);
       this.reusChange.emit(this.reusSelecionados);
     }
+  }
+
+  corrigirCliente(reu: Parte, isCliente: boolean) {
+    if (!this.processoId) return;
+
+    const valorAnterior = reu.isCliente;
+    reu.isCliente = isCliente;
+    this.processoService.corrigirClienteParte(this.processoId, reu.id, isCliente).subscribe({
+      next: () => this.toastr.success('Informação de cliente corrigida!', 'Sucesso'),
+      error: () => reu.isCliente = valorAnterior
+    });
   }
 
   openModalFormParte() {

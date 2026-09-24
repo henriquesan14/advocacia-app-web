@@ -16,6 +16,9 @@
       <thead>
         <tr>
           <th nzWidth="50%">Nome</th>
+          @if(processoId){
+            <th nzWidth="120px">Cliente</th>
+          }
           <th>Ações</th>
         </tr>
       </thead>
@@ -28,6 +31,13 @@
             }
             {{ autor.nome }}
           </td>
+          @if(processoId){
+            <td>
+              <label nz-checkbox [nzChecked]="autor.isCliente" (nzCheckedChange)="corrigirCliente(autor, $event)">
+                Cliente
+              </label>
+            </td>
+          }
           <td>
             <button nz-button nzType="default" nzDanger nzSize="small" (click)="deleteAutor(autor, $index)"
               nz-tooltip="Excluir">
