@@ -17,6 +17,9 @@
         <thead>
           <tr>
             <th nzWidth="50%">Nome</th>
+            @if(processoId){
+              <th nzWidth="120px">Cliente</th>
+            }
             <th >Ações</th>
           </tr>
         </thead>
@@ -29,6 +32,13 @@
               }
               {{ reu.nome }}
             </td>
+            @if(processoId){
+              <td>
+                <label nz-checkbox [nzChecked]="reu.isCliente" (nzCheckedChange)="corrigirCliente(reu, $event)">
+                  Cliente
+                </label>
+              </td>
+            }
             <td>
               <button nz-button nzType="default" nzDanger nzSize="small" (click)="deleteReu(reu, $index)"
                 nz-tooltip="Excluir">
