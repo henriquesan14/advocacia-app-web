@@ -18,6 +18,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { SelectAutocompleteComponent } from '../../../shared/components/select-autocomplete/select-autocomplete.component';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
+import { normalizeSearchText } from '../../../shared/utils/text-search.utils';
 
 @Component({
   selector: 'app-modal-form-diligencia',
@@ -71,8 +72,9 @@ export class ModalFormDiligenciaComponent implements OnInit, OnDestroy {
 
   onChangeResponsavel(event: any) {
     const nome = typeof event === 'string' ? event : event?.target?.value || '';
+    const nomeNormalizado = normalizeSearchText(nome);
     this.filteredResponsaveis = this.responsaveis.filter(u =>
-      u.nome.toLowerCase().includes(nome.toLowerCase())
+      normalizeSearchText(u.nome).includes(nomeNormalizado)
     );
   }
 

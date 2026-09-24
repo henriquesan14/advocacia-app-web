@@ -14,10 +14,7 @@ export class AvatarUsuarioComponent {
 
   get avatar(){
     const response = this.localStorageService.getUserStorage();
-    if(response.avatar){
-      return response.avatar.url;
-    }
-    return '/images/avatar.webp';
+    return response?.avatar?.url || '/images/avatar.webp';
   }
 
 }

@@ -16,6 +16,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { SelectAutocompleteComponent } from '../../../shared/components/select-autocomplete/select-autocomplete.component';
 import { HasRoleDirective } from '../../../shared/directives/has-role.directive';
+import { normalizeSearchText } from '../../../shared/utils/text-search.utils';
 
 @Component({
   selector: 'app-modal-form-audiencia',
@@ -85,8 +86,9 @@ export class ModalFormAudienciaComponent implements OnInit, OnDestroy {
 
   onChangeResponsavel(event: any) {
     const nome = typeof event === 'string' ? event : event?.target?.value || '';
+    const nomeNormalizado = normalizeSearchText(nome);
     this.filteredResponsaveis = this.responsaveis.filter(u =>
-      u.nome.toLowerCase().includes(nome.toLowerCase())
+      normalizeSearchText(u.nome).includes(nomeNormalizado)
     );
   }
 
