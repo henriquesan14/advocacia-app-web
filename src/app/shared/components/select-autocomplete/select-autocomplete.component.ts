@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTimesCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { normalizeSearchText } from '../../utils/text-search.utils';
 
 @Component({
   selector: 'select-autocomplete',
@@ -48,8 +49,10 @@ export class SelectAutocompleteComponent {
     if(this.query == ''){
         return this.items;
     }
-    let a = this.items.filter((item) => item[this.filterBy].toLowerCase().includes(this.query.toLowerCase()));
-    return a;
+    const normalizedQuery = normalizeSearchText(this.query);
+    return this.items.filter((item) =>
+      normalizeSearchText(String(item[this.filterBy] ?? '')).includes(normalizedQuery)
+    );
   };
 
   toggleVisible() {
