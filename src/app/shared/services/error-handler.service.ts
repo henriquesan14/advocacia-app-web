@@ -28,14 +28,14 @@ export class ErrorHandlerService {
       }
     }
     else if (res?.error && res.error?.detail) {
-      if(environment.production){
+      if(environment.production && res.status >= 500){
         this.toastr.error(`Houve um erro, tente novamente mais tarde`, 'Erro!');
         return;
       }
       this.toastr.error(`${res.error.detail}`, 'Erro!');
     }
     else if (res?.error?.message) {
-      if(environment.production){
+      if(environment.production && res.status >= 500){
         this.toastr.error(`Houve um erro, tente novamente mais tarde`, 'Erro!');
         return;
       }
